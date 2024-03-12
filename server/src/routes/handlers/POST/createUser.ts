@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from '../../database/models/User';
+import User from '../../../database/models/User';
 
 const createUser = async (req: Request, res: Response) => {
     try {
@@ -16,7 +16,7 @@ const createUser = async (req: Request, res: Response) => {
 
         return res.status(200).json(newUser);
     } catch (error) {
-        console.error('Error creating user:', error);
+
         return res.status(500).send('Error creating user');
     }
 };

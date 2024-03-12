@@ -18,8 +18,9 @@ const CardSchema = new mongoose_1.Schema({
     },
     label: {
         type: String,
-        required: true,
+        required: false,
         unique: false,
+        enum: ["Urgent", "High priority", "Critical"],
     },
     dueDate: {
         type: String,

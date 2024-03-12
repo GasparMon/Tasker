@@ -1,12 +1,20 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const validator_1 = __importDefault(require("validator"));
 const UserSchema = new mongoose_1.Schema({
     email: {
         type: String,
         required: true,
         unique: true,
         lowercase: true,
+        validate: {
+            validator: (value) => validator_1.default.isEmail(value),
+            message: `Please, Insert a valid Email`,
+        },
     },
     name: {
         type: String,
@@ -28,14 +36,14 @@ const UserSchema = new mongoose_1.Schema({
     user_Tables: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: "Tables",
+            ref: "Table",
             require: true,
         },
     ],
     user_Teams: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: "Teams",
+            ref: "Team",
             require: true,
         },
     ],

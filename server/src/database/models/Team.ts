@@ -8,11 +8,16 @@ const TeamSchema = new Schema({
     minlength: 3,
     maxlength: 25,
   },
+  team_main:{
+    type: Schema.Types.ObjectId,
+    ref:"User",
+    required: true,
+  },
   team_users: [
     {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
   ],
 });

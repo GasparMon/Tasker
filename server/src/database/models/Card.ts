@@ -20,8 +20,9 @@ const CardSchema = new Schema(
 
     label: {
       type: String,
-      required: true,
+      required: false,
       unique: false,
+      enum: ["Urgent", "High priority", "Critical"],
     },
 
     dueDate: {

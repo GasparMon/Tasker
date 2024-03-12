@@ -5,7 +5,7 @@ const TableSchema = new Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
+      unique: false,
       minlength: 3,
       maxlength: 30,
     },
@@ -19,13 +19,13 @@ const TableSchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "List",
-        required: true,
+        required: false,
       },
     ],
     table_Team: {
       type: Schema.Types.ObjectId,
       ref: "Team",
-      required: true,
+      required: false,
     },
   },
   {

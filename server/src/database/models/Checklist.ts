@@ -11,6 +11,7 @@ const ChecklistSchema = new Schema(
     status: {
       type: String,
       required: true,
+      default: "Not-Done",
       enum: ["Not-Done", "Done"],
     },
     user: {

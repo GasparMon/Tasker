@@ -5,7 +5,7 @@ const TableSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
         minlength: 3,
         maxlength: 30,
     },
@@ -18,13 +18,13 @@ const TableSchema = new mongoose_1.Schema({
         {
             type: mongoose_1.Schema.Types.ObjectId,
             ref: "List",
-            required: true,
+            required: false,
         },
     ],
     table_Team: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "Team",
-        required: true,
+        required: false,
     },
 }, {
     timestamps: true,

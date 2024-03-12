@@ -9,11 +9,16 @@ const TeamSchema = new mongoose_1.Schema({
         minlength: 3,
         maxlength: 25,
     },
+    team_main: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     team_users: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
             ref: "User",
-            required: true,
+            required: false,
         },
     ],
 });

@@ -11,6 +11,7 @@ const ChecklistSchema = new mongoose_1.Schema({
     status: {
         type: String,
         required: true,
+        default: "Not-Done",
         enum: ["Not-Done", "Done"],
     },
     user: {
