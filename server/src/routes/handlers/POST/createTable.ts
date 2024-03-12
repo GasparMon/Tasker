@@ -6,7 +6,7 @@ const createTable = async (req: Request, res: Response) => {
   try {
     const { name, user_id } = req.body;
 
-    const newTable = new Table({ name });
+    const newTable = new Table({ name, table_Team: [user_id] });
 
     await newTable.save();
 

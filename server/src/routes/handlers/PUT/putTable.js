@@ -13,23 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Table_1 = __importDefault(require("../../../database/models/Table"));
-const User_1 = __importDefault(require("../../../database/models/User"));
-const createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const putTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, user_id } = req.body;
-        const newTable = new Table_1.default({ name, table_Team: [user_id] });
-        yield newTable.save();
-        if (newTable.name) {
-            const userTable = yield User_1.default.findById(user_id);
-            if (userTable) {
-                userTable.user_Tables.push(newTable._id);
-                yield userTable.save();
-            }
+        const { name, image, table_id } = req.body;
+        const table = yield Table_1.default.findById(table_id);
+        if (!table) {
+            return res.status(404).send("Table doesn't exist");
         }
-        return res.status(200).send(newTable);
+        if (name) {
+            table.name = name;
+        }
+        yield table.save();
+        return res.status(200).json(table);
     }
     catch (error) {
-        return res.status(500).send("Error to create Table.");
+        return res.status(500).send("Internal Error");
     }
 });
-exports.default = createTable;
+exports.default = putTable;

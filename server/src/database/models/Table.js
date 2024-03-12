@@ -21,11 +21,11 @@ const TableSchema = new mongoose_1.Schema({
             required: false,
         },
     ],
-    table_Team: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: "Team",
-        required: false,
-    },
+    table_Team: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: "Team",
+            required: false,
+        }],
 }, {
     timestamps: true,
 });

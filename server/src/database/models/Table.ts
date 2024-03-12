@@ -22,11 +22,11 @@ const TableSchema = new Schema(
         required: false,
       },
     ],
-    table_Team: {
+    table_Team: [{
       type: Schema.Types.ObjectId,
       ref: "Team",
       required: false,
-    },
+    }],
   },
   {
     timestamps: true,

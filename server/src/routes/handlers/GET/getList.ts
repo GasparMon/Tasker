@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import List from "../../../database/models/List";
 import Table from "../../../database/models/Table";
 
 const getList = async (req: Request, res: Response) => {

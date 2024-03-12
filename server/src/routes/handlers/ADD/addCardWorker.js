@@ -12,24 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Table_1 = __importDefault(require("../../../database/models/Table"));
-const User_1 = __importDefault(require("../../../database/models/User"));
-const createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const Card_1 = __importDefault(require("../../../database/models/Card"));
+const addCardWorker = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, user_id } = req.body;
-        const newTable = new Table_1.default({ name, table_Team: [user_id] });
-        yield newTable.save();
-        if (newTable.name) {
-            const userTable = yield User_1.default.findById(user_id);
-            if (userTable) {
-                userTable.user_Tables.push(newTable._id);
-                yield userTable.save();
-            }
+        const { card_id, worker_id } = req.body;
+        const card = yield Card_1.default.findById(card_id);
+        if (!card) {
+            return res.status(400).send("Card doesn't exist");
         }
-        return res.status(200).send(newTable);
+        if (card.card_worker.includes(worker_id)) {
+            return res.status(400).send("Worker already assigned to this card");
+        }
+        card.card_worker.push(worker_id);
+        yield card.save();
+        return res.status(200).json(card);
     }
     catch (error) {
-        return res.status(500).send("Error to create Table.");
+        return res.status(500).send("Internal Error");
     }
 });
-exports.default = createTable;
+exports.default = addCardWorker;
