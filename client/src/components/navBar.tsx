@@ -3,8 +3,11 @@ import { GrTasks } from "react-icons/gr";
 import { RiSendBackward } from "react-icons/ri";
 import { getUser } from "../assets/controller/controller";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../assets/localStorage";
 
 const NavBar: React.FC = () => {
+ 
+  const {setItem} = useLocalStorage("value")
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(null);
 
@@ -21,10 +24,17 @@ const NavBar: React.FC = () => {
       const data = await getUser(email) 
 
       if(data._id){
+        setItem({
+          id: data._id,
+          email: data.email
+        })
+
         navigate("/home")
       }
     }
   };
+
+
 
   return (
     <div className="w-full h-[50px] flex fixed items-center justify-between bg-white backdrop-blur-sm">
