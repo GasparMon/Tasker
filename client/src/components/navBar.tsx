@@ -1,8 +1,11 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { GrTasks } from "react-icons/gr";
 import { RiSendBackward } from "react-icons/ri";
+import { getUser } from "../assets/controller/controller";
+import { useNavigate } from "react-router-dom";
 
 const NavBar: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -10,9 +13,17 @@ const NavBar: React.FC = () => {
     setEmail(value);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Hola");
+    
+    if(email !== null){
+
+      const data = await getUser(email) 
+
+      if(data._id){
+        navigate("/home")
+      }
+    }
   };
 
   return (
