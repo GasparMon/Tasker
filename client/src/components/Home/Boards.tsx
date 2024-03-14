@@ -33,7 +33,7 @@ const Boards: React.FC = () => {
         <FaFlipboard className="text-[50px] mr-[20px] text-teal-700" />
         <h1 className="text-[40px] text-gray-600">My Boards</h1>
       </div>
-      <div className="pl-[40px] w-full h-[150px] flex flex-row items-center bg-white ">
+      <div className=" w-full h-[150px] flex flex-row items-center bg-white ">
         <div
           className="group relative h-[120px] w-[250px] rounded-[10px] bg-gradient-to-r from-indigo-500 via-in-300 to-sky-400 cursor-pointer flex items-center justify-center shadow-lg shadow-black/20 hover:shadow-black/30 ease-in duration-200"
           onClick={() => setModal()}

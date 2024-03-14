@@ -7,11 +7,11 @@ const CardSchema = new mongoose_1.Schema({
         required: true,
         unique: false,
         minlength: 3,
-        maxlength: 20,
+        maxlength: 40,
     },
     description: {
         type: String,
-        required: true,
+        required: false,
         unique: false,
         minlength: 3,
         maxlength: 50,
@@ -24,18 +24,18 @@ const CardSchema = new mongoose_1.Schema({
     },
     dueDate: {
         type: String,
-        required: true,
+        required: false,
         unique: false,
     },
     type: {
         type: String,
-        required: true,
+        required: false,
         unique: false,
         enum: ["Task", "Idea", "Bug", "Story"],
     },
     status: {
         type: String,
-        required: true,
+        required: false,
         unique: false,
         enum: [
             "ToDo",

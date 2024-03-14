@@ -12,15 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const List_1 = __importDefault(require("../../../database/models/List"));
-const getCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const Table_1 = __importDefault(require("../../../database/models/Table"));
+const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const card_List = yield List_1.default.findById(id).populate("list_Cards");
-        return res.status(200).json(card_List === null || card_List === void 0 ? void 0 : card_List.list_Cards);
+        const table = yield Table_1.default.findById(id)
+            .populate("table_Lists")
+            .populate("table_Team");
+        return res.status(200).json(table);
     }
     catch (error) {
         return res.status(500).send("Internal Error");
     }
 });
-exports.default = getCard;
+exports.default = getTable;

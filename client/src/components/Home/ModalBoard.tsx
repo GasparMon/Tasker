@@ -115,7 +115,7 @@ const ModalBoard: React.FC = () => {
             </h1>
             <div className="w-[500px] h-[80px] ml-[60px] grid grid-cols-5 gap-[20px] items-center justify-center">
               <div
-                className="w-full h-[70px] flex items-center justify-center rounded-[10px] bg-gradient-to-r from-red-500 via-in-400 to-orange-400 shadow-lg shadow-black/20 hover:shadow-black/30 ease-in duration-200 cursor-pointer"
+                className="w-full h-[70px] flex items-center justify-center rounded-[10px] shadow-lg shadow-black/20 hover:shadow-black/30 ease-in duration-200 cursor-pointer"
                 style={{ background: 'var(--modelone)'}}
                 onClick={() => handleBoardImage("modelone")}
               >
@@ -124,7 +124,8 @@ const ModalBoard: React.FC = () => {
                 ) : null}
               </div>
               <div
-                className="w-full h-[70px] flex items-center justify-center rounded-[10px] bg-gradient-to-r from-purple-900 via-in-400 to-violet-400 shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                className="w-full h-[70px] flex items-center justify-center rounded-[10px]  shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                style={{ background: 'var(--modeltwo)'}}
                 onClick={() => handleBoardImage("modeltwo")}
               >
                 {board.image === "modeltwo" ? (
@@ -132,7 +133,8 @@ const ModalBoard: React.FC = () => {
                 ) : null}
               </div>
               <div
-                className="w-full h-[70px] flex items-center justify-center rounded-[10px] bg-gradient-to-r from-blue-700 via-in-400 to-sky-400 shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                className="w-full h-[70px] flex items-center justify-center rounded-[10px] shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                style={{ background: 'var(--modelthree)'}}
                 onClick={() => handleBoardImage("modelthree")}
               >
                 {board.image === "modelthree" ? (
@@ -140,7 +142,8 @@ const ModalBoard: React.FC = () => {
                 ) : null}
               </div>
               <div
-                className="w-full h-[70px] flex items-center justify-center rounded-[10px] bg-gradient-to-r from-pink-800 via-in-400 to-pink-500 shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                className="w-full h-[70px] flex items-center justify-center rounded-[10px] shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                style={{ background: 'var(--modelfour)'}}
                 onClick={() => handleBoardImage("modelfour")}
               >
                 {board.image === "modelfour" ? (
@@ -148,7 +151,8 @@ const ModalBoard: React.FC = () => {
                 ) : null}
               </div>
               <div
-                className="w-full h-[70px] flex items-center justify-center rounded-[10px] bg-gradient-to-r from-orange-400 via-in-400 to-yellow-400 shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                className="w-full h-[70px] flex items-center justify-center rounded-[10px] shadow-lg shadow-black/20 cursor-pointer hover:shadow-black/30 ease-in duration-200"
+                style={{ background: 'var(--modelfive)'}}
                 onClick={() => handleBoardImage("modelfive")}
               >
                 {board.image === "modelfive" ? (

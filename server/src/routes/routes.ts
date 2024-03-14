@@ -23,6 +23,7 @@ import addTeam from './handlers/ADD/addTeam';
 import addCardWorker from './handlers/ADD/addCardWorker';
 import addTableTeam from './handlers/ADD/addTableTeam';
 import removeTable from './handlers/DELETE/removeTable';
+import getIdTable from './handlers/GET/getTable';
 
 
 const routes = express.Router();
@@ -41,6 +42,7 @@ routes.get("/getList/:id", getList);
 routes.get("/getCard/:id", getCard);
 routes.get("/getInfoCard/:id", getInfoCard);
 routes.get("/getTeam/:id", getTeam);
+routes.get("/getIdTable/:id", getIdTable);
 
 routes.put("/putUser", putUser);
 routes.put("/putTable", putTable);
