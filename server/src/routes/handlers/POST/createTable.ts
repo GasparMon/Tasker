@@ -4,9 +4,9 @@ import User from "../../../database/models/User";
 
 const createTable = async (req: Request, res: Response) => {
   try {
-    const { name, user_id } = req.body;
+    const { name, image, user_id } = req.body;
 
-    const newTable = new Table({ name, table_Team: [user_id] });
+    const newTable = new Table({ name, image, table_Team: [user_id] });
 
     await newTable.save();
 

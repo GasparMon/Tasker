@@ -7,7 +7,7 @@ const getTable = async (req: Request, res: Response) => {
  
       const user = await User.findById(id).populate('user_Tables')
  
-      return res.status(200).json(user);
+      return res.status(200).json(user?.user_Tables);
     } catch (error) {
       return res.status(500).send("Internal Error");
     }

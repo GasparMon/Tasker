@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
+
+@layer components {
+  .modelone {
+    @apply bg-gradient-to-r from-indigo-400 to-sky-300;
+  }
+}
 
 body {
   margin: 0;
@@ -18,3 +25,26 @@ body {
   padding: 0;
   outline: none;
 }
+
+.styled-input {
+  position: relative;
+  cursor: text;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0 16px;
+  height: 40px;
+  width: 400px;
+  background-color: #fff;
+  border: 1px solid #d6d6e7;
+  border-radius: 3px;
+  color: rgb(0, 0, 0);
+  box-shadow: inset 0 1px 4px 0 rgba(224, 228, 245, 0.645);
+  overflow: hidden;
+  transition: all 100ms ease-in-out;
+}
+
+.styled-input:focus {
+  border-color: #4f84e6;
+  box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
+}
+

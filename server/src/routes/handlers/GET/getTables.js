@@ -17,7 +17,7 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const user = yield User_1.default.findById(id).populate('user_Tables');
-        return res.status(200).json(user);
+        return res.status(200).json(user === null || user === void 0 ? void 0 : user.user_Tables);
     }
     catch (error) {
         return res.status(500).send("Internal Error");

@@ -16,8 +16,8 @@ const Table_1 = __importDefault(require("../../../database/models/Table"));
 const User_1 = __importDefault(require("../../../database/models/User"));
 const createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, user_id } = req.body;
-        const newTable = new Table_1.default({ name, table_Team: [user_id] });
+        const { name, image, user_id } = req.body;
+        const newTable = new Table_1.default({ name, image, table_Team: [user_id] });
         yield newTable.save();
         if (newTable.name) {
             const userTable = yield User_1.default.findById(user_id);

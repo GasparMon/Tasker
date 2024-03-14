@@ -8,6 +8,11 @@ interface OptionsState {
   setOption: (element: keyof OptionsState) => void;
 }
 
+interface CreateBoard {
+  createBoard: boolean,
+  setModal:() => void;
+}
+
 export const useOptionsHome = create<OptionsState>((set) => ({
   board: true,
   bookmark: false,
@@ -22,4 +27,13 @@ export const useOptionsHome = create<OptionsState>((set) => ({
       task: false,
       [element]: true,
     })),
+}));
+
+export const useModalBoard = create<CreateBoard>((set) => ({
+  createBoard: false,
+  setModal: () =>
+    set((state) => ({
+      ...state,
+      createBoard: !state.createBoard 
+    }))
 }));

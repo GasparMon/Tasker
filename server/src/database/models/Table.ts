@@ -14,6 +14,7 @@ const TableSchema = new Schema(
       type: String,
       unique: false,
       required: false,
+      enum:["modelone", "modeltwo", "modelthree", "modelfour", "modelfive"]
     },
     table_Lists: [
       {
