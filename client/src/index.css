@@ -48,3 +48,43 @@ body {
   box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
 }
 
+
+:root {
+
+  --modelone: linear-gradient(
+    90deg,
+    #ea4d22 40%,
+    #e8a215 100%
+  );
+
+  --modeltwo: linear-gradient(
+    43deg,
+    #632c67 0%,
+    #3d3e80 46%,
+    #632c67 100%
+  );
+
+  --modelthree: linear-gradient(
+    43deg,
+    #5e0168 0%,
+    #66468f 46%,
+    #642e49 100%
+  );
+
+  --modelfour: linear-gradient(
+    43deg,
+    #5d6900 0%,
+    #379435 46%,
+    #5d6900 100%
+  );
+
+  --modelfive: linear-gradient(
+    43deg,
+    #5100bc 0%,
+    #2765c1 46%,
+    #5100bc 100%
+  );
+
+
+}
+

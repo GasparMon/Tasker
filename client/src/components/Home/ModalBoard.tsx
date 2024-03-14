@@ -4,6 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { useLocalStorage } from "../../assets/localStorage";
 import { createBoard } from "../../assets/controller/controller";
+import { ToastContainer, toast } from "react-toastify";
 
 interface Board {
   name: string;
@@ -47,19 +48,35 @@ const ModalBoard: React.FC = () => {
   };
 
   const handleCreateBoard = async () => {
-    const response = await createBoard({
-      name: board.name,
-      image: board.image,
-      user_id: board.user_id,
-    });
-
-    if (response) {
-      setModal();
-    }
+    toast
+      .promise(
+        createBoard({
+          name: board.name,
+          image: board.image,
+          user_id: board.user_id,
+        }),
+        {
+          pending: "Creating your Board",
+          success: "Board Created",
+          error: "Error creating your Board",
+          
+        }
+      )
+      .then(() => {
+        setBoard({
+            ...board,
+            name: "",
+            image:""
+        })
+        setTimeout(() => {
+          setModal();
+        }, 2000);
+      });
   };
 
   return (
-    <div className="absolute w-full h-full bg-black/70 flex items-center justify-center ease-in duration-200">
+    <div className="absolute w-full h-full bg-black/70 flex items-center justify-center ease-in duration-200 z-50">
+      <ToastContainer />
       <div className="relative w-[600px] h-[700px] bg-white rounded-[10px] flex flex-col items-center">
         <div
           className="absolute top-[20px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center"
@@ -99,6 +116,7 @@ const ModalBoard: React.FC = () => {
             <div className="w-[500px] h-[80px] ml-[60px] grid grid-cols-5 gap-[20px] items-center justify-center">
               <div
                 className="w-full h-[70px] flex items-center justify-center rounded-[10px] bg-gradient-to-r from-red-500 via-in-400 to-orange-400 shadow-lg shadow-black/20 hover:shadow-black/30 ease-in duration-200 cursor-pointer"
+                style={{ background: 'var(--modelone)'}}
                 onClick={() => handleBoardImage("modelone")}
               >
                 {board.image === "modelone" ? (

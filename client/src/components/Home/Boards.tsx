@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { getBoard } from "../../assets/controller/controller";
 import { useLocalStorage } from "../../assets/localStorage";
 import BoardCard from "./BoardCard";
+import { shallow } from "zustand/shallow";
 
 const Boards: React.FC = () => {
   const { setModal } = useModalBoard();
+  const {createBoard} = useModalBoard((state) => ({createBoard: state.createBoard}), shallow)
   const { getItem } = useLocalStorage("value");
   const [boards, setBoards] = useState<any[]>([]);
 
@@ -23,9 +25,7 @@ const Boards: React.FC = () => {
     };
 
     handleBoards();
-  }, []);
-
-  console.log(boards);
+  }, [createBoard]);
 
   return (
     <div className={`relative w-[95%] h-full flex flex-col pl-[20px]`}>
@@ -42,7 +42,7 @@ const Boards: React.FC = () => {
           <h1 className="text-[25px] text-white">Create Board</h1>{" "}
         </div>
       </div>
-      <div className="w-full mt-[30px] h-[450px] bg-yellow-200 grid grid-rows-3 grid-cols-4 gap-x-[15px] gap-y-[10px]">
+      <div className="w-full mt-[30px] h-[450px] grid grid-rows-3 grid-cols-4 gap-x-[15px] gap-y-[10px]">
         {boards && boards.map((element) => <BoardCard key={element._id} id={element._id} name={element.name} image={element.image}/>)}
       </div>
     </div>
