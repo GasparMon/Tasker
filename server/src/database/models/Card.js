@@ -14,7 +14,7 @@ const CardSchema = new mongoose_1.Schema({
         required: false,
         unique: false,
         minlength: 3,
-        maxlength: 50,
+        maxlength: 100,
     },
     label: {
         type: String,
@@ -45,6 +45,11 @@ const CardSchema = new mongoose_1.Schema({
             "Archived",
             "Cancelled",
         ],
+    },
+    checklist: {
+        type: String,
+        required: false,
+        unique: false,
     },
     card_user: {
         type: mongoose_1.Schema.Types.ObjectId,

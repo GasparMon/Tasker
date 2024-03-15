@@ -2,6 +2,11 @@ import { TbLayoutGridRemove } from "react-icons/tb";
 import { MdLabelImportant } from "react-icons/md";
 import { useState } from "react";
 import CardStatus from "./CardStatus";
+import CardSType from "./CardType";
+import { TbAlertSquareFilled } from "react-icons/tb";
+import CardLabel from "./CardLabel";
+import { LuCalendarClock } from "react-icons/lu";
+import CardDate from "./CardDate";
 
 interface Setting {
   status: boolean;
@@ -11,6 +16,7 @@ interface Setting {
   checklist: boolean;
   date: boolean;
 }
+
 
 const MainSettings: React.FC = () => {
   const [settings, setSettings] = useState<Setting>({
@@ -48,6 +54,9 @@ const MainSettings: React.FC = () => {
       </div>
       <div className="relative w-full h-[420px] grid grid-rows-8 gap-[10px] p-[10px]">
         {settings.status ? <CardStatus handleClose={handleClose} /> : null}
+        {settings.type ? <CardSType handleClose={handleClose} /> : null}
+        {settings.label ? <CardLabel handleClose={handleClose} /> : null}
+        {settings.date ? <CardDate handleClose={handleClose} /> : null}
         <div
           className="text-gray-600 hover:text-slate-900 w-full h-full bg-zinc-200 hover:bg-zinc-300 rounded-[5px] flex flex-row items-center pl-[20px] text-[18px] cursor-pointer font-normal"
           onClick={() => handleSetting("status")}
@@ -55,9 +64,20 @@ const MainSettings: React.FC = () => {
           <TbLayoutGridRemove className="mr-[15px] text-[18px]" />
           <h1>Status</h1>
         </div>
-        <div className="text-gray-600 hover:text-slate-900 w-full h-full bg-zinc-200 hover:bg-zinc-300 rounded-[5px] flex flex-row items-center pl-[20px] text-[18px] cursor-pointer">
+        <div className="text-gray-600 hover:text-slate-900 w-full h-full bg-zinc-200 hover:bg-zinc-300 rounded-[5px] flex flex-row items-center pl-[20px] text-[18px] cursor-pointer"
+        onClick={() => handleSetting("type")}>
           <MdLabelImportant className="mr-[15px] text-[18px]" />
           <h1>Type</h1>
+        </div>
+        <div className="text-gray-600 hover:text-slate-900 w-full h-full bg-zinc-200 hover:bg-zinc-300 rounded-[5px] flex flex-row items-center pl-[20px] text-[18px] cursor-pointer"
+        onClick={() => handleSetting("label")}>
+          <TbAlertSquareFilled className="mr-[15px] text-[18px]" />
+          <h1>Label</h1>
+        </div>
+        <div className="text-gray-600 hover:text-slate-900 w-full h-full bg-zinc-200 hover:bg-zinc-300 rounded-[5px] flex flex-row items-center pl-[20px] text-[18px] cursor-pointer"
+        onClick={() => handleSetting("date")}>
+          <LuCalendarClock className="mr-[15px] text-[18px]" />
+          <h1>Due Date</h1>
         </div>
       </div>
     </div>

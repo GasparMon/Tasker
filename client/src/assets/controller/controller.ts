@@ -46,16 +46,19 @@ export const createCard = async ({
   title,
   user_id,
   list_id,
+  status,
 }: {
   title: string;
   user_id: string;
   list_id: string;
+  status: string;
 }) => {
   try {
     const response = await axios.post(`${URL}/createCard`, {
       title,
       user_id,
       list_id,
+      status
     });
 
     return response.data;
@@ -104,7 +107,7 @@ export const getListCard = async (id: string) => {
   }
 };
 
-export const getCard = async (id:string) => {
+export const getCard = async (id: string) => {
   try {
     const response = await axios.get(`${URL}/getInfoCard/${id}`);
 
@@ -112,5 +115,4 @@ export const getCard = async (id:string) => {
   } catch (error) {
     return error;
   }
-
-}
+};

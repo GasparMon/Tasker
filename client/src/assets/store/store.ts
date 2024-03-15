@@ -19,6 +19,17 @@ interface CreateCard {
   setModal:(id: string) => void;
 }
 
+interface CardSetting {
+  status: string;
+  type: string;
+  label: string;
+  date: string;
+  checklist: string;
+  workers: string[];
+  setModal: (name: string, value: any) => void,
+  addModal:(id:string) => void
+}
+
 export const useOptionsHome = create<OptionsState>((set) => ({
   board: true,
   bookmark: false,
@@ -53,4 +64,28 @@ export const useModalCard = create<CreateCard>((set) => ({
       id: id,
       createCard: !state.createCard
     }))
+}));
+
+export const useSettingCard = create<CardSetting>((set) => ({
+  status: "",
+  type: "",
+  label: "",
+  date: "",
+  checklist: "",
+  workers: [],
+  setModal: (name, value) => set((state) => ({
+    ...state,
+    [name]: value
+  })),
+  addModal: (id) => set((state) => {
+    if (state.workers.includes(id)) {
+      state.workers = state.workers.filter((element) => element !== id);
+    } else {
+      state.workers.push(id);
+    }
+    return {
+      ...state,
+      workers: [...state.workers]
+    };
+  })
 }));

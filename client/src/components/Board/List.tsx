@@ -41,7 +41,7 @@ const List: React.FC<ListProps> = ({ id, name }) => {
             <Card key={element._id} id={element._id} title={element.title} />
           ))}
           </div>
-        <CreateList id={id} handleFetch={handleFetch} />
+        <CreateList id={id} handleFetch={handleFetch} name={name}/>
       </div>
     </div>
   );

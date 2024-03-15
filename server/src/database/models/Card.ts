@@ -51,6 +51,13 @@ const CardSchema = new Schema(
         "Cancelled",
       ],
     },
+
+    checklist: {
+      type: String,
+      required: false,
+      unique: false,
+    },
+
     card_user: {
       type: Schema.Types.ObjectId,
       ref: "User",

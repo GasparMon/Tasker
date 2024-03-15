@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Table_1 = __importDefault(require("../../../database/models/Table"));
-const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getIdTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const table = yield Table_1.default.findById(id)
@@ -25,4 +25,4 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(500).send("Internal Error");
     }
 });
-exports.default = getTable;
+exports.default = getIdTable;

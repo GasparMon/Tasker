@@ -6,6 +6,7 @@ import { useLocalStorage } from "../../assets/localStorage";
 
 interface PropsList {
   id: string;
+  name: string;
   handleFetch: () => void;
 }
 
@@ -15,7 +16,7 @@ interface PropsCard {
   user_id: string;
 }
 
-const CreateList: React.FC<PropsList> = ({ id, handleFetch }) => {
+const CreateList: React.FC<PropsList> = ({ id, name, handleFetch }) => {
   const { getItem } = useLocalStorage("value");
   const user = getItem();
   const [list, setList] = useState(true);
@@ -63,6 +64,7 @@ const CreateList: React.FC<PropsList> = ({ id, handleFetch }) => {
       title: card.title,
       user_id: card.user_id,
       list_id: card.list_id,
+      status: name
     });
 
     if (data) {
@@ -92,7 +94,7 @@ const CreateList: React.FC<PropsList> = ({ id, handleFetch }) => {
             onClick={() => handleList()}
           >
             <LuListPlus className="mr-[15px] text-[20px]" />
-            <h1 className="text-[18px]">Create new List</h1>
+            <h1 className="text-[18px]">Create new Card</h1>
           </div>
         </div>
       ) : (

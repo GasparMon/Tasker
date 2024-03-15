@@ -9,6 +9,7 @@ import { MdOutlineDescription } from "react-icons/md";
 import { LuPlusCircle } from "react-icons/lu";
 import { MdOutlineAutorenew } from "react-icons/md";
 import MainSettings from "../settings/MainSettings";
+import { useSettingCard } from "../../assets/store/store";
 
 interface CardInfo {
   title: string;
@@ -17,6 +18,7 @@ interface CardInfo {
   dueDate: string;
   type: string;
   status: string;
+  checklist: string;
   card_user: any;
   card_worker: any[];
   card_comment: any[];
@@ -33,6 +35,7 @@ const ModalCard: React.FC = () => {
     dueDate: "",
     type: "",
     status: "",
+    checklist:"",
     card_user: {},
     card_worker: [],
     card_comment: [],
@@ -47,18 +50,42 @@ const ModalCard: React.FC = () => {
     shallow
   );
 
+  const {setStatus, setType, setLabel, setDate, setChecklist, workers} = useSettingCard((state) => ({
+    setStatus: state.status, 
+    setType: state.type, 
+    setLabel: state.label, 
+    setDate: state.date, 
+    setChecklist: state.checklist, 
+    workers: state.workers
+  }), shallow)
+
+  useEffect(() => {
+
+    setCardInfo({
+      ...cardInfo,
+      label: setLabel,
+      dueDate: setDate,
+      type: setType,
+      status: setStatus,
+      card_worker: workers,
+      checklist:setChecklist,
+    });
+  }, [setLabel, setDate, setType, setStatus, setChecklist, workers])
+
   useEffect(() => {
     const fetchCard = async () => {
       const data = await getCard(id);
 
       if (data) {
         setCardInfo({
+          ...cardInfo,
           title: data.title,
           description: data.description,
           label: data.label,
           dueDate: data.dueDate,
           type: data.type,
           status: data.status,
+          checklist: data.checklist,
           card_user: data.card_user,
           card_worker: data.card_worker,
           card_comment: data.card_comment,
@@ -96,7 +123,7 @@ const ModalCard: React.FC = () => {
 
   return (
     <div className="absolute w-full h-full bg-black/70 flex items-center justify-center ease-in duration-200 z-50">
-      <div className="relative w-[910px] h-[750px] bg-gray-100 rounded-[10px] flex flex-col items-center">
+      <div className="relative w-[910px] h-[750px] bg-gray-100 rounded-[10px] flex flex-col">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center"
           onClick={() => setModal(id)}
@@ -114,6 +141,53 @@ const ModalCard: React.FC = () => {
             value={cardInfo.title}
             onChange={(event) => handleChangeInput("title", event)}
           ></input>
+        </div>
+        <div className="w-[500px] h-[50px] bg-red-200 ml-[100px] grid grid-cols-4 gap-[10px]">
+          {cardInfo.status ? (
+            <div className="w-full h-full">
+              <div className="w-[90%] h-[20px]">
+                <h1 className="text-[15px] font-medium">Status</h1>
+                <div className={`w-full h-[30px] rounded-[5px] flex items-center justify-center shadow-sm shadow-black/20 
+                ${cardInfo.status === "ToDo" && 'bg-emerald-500'}
+                ${cardInfo.status === "InProgress" && 'bg-yellow-300'}
+                ${cardInfo.status === "Waiting" && 'bg-orange-400'}
+                ${cardInfo.status === "Finished" && 'bg-sky-500 '}
+                ${cardInfo.status === "Archived" && 'bg-slate-400'}`}>
+                  <h1 className="text-slate-800 font-medium">{cardInfo.status}</h1>
+                </div>
+              </div>
+            </div>
+          ) : null}
+          {cardInfo.type ? (
+            <div className="w-full h-full">
+              <div className="w-[90%] h-[20px]">
+                <h1 className="text-[15px] font-medium">Type</h1>
+                <div className={`w-full h-[30px] rounded-[5px] flex items-center justify-center shadow-sm shadow-black/20 
+                ${cardInfo.type === "Task" && 'bg-purple-400'}
+                ${cardInfo.type === "Idea" && 'bg-blue-400'}
+                ${cardInfo.type === "Bug" && 'bg-red-400'}
+                ${cardInfo.type === "Story" && 'bg-green-400 '}
+               `}>
+                  <h1 className="text-slate-800 font-medium">{cardInfo.type}</h1>
+                </div>
+              </div>
+            </div>
+          ) : null}
+          {cardInfo.label ? (
+            <div className="w-full h-full">
+              <div className="w-[90%] h-[20px]">
+                <h1 className="text-[15px] font-medium">Label</h1>
+                <div className={`w-full h-[30px] rounded-[5px] flex items-center justify-center shadow-sm shadow-black/20 
+                ${cardInfo.label === "Urgent" && 'bg-amber-500'}
+                ${cardInfo.label === "Priority" && 'bg-orange-600'}
+                ${cardInfo.label === "Critical" && 'bg-red-600'}
+               `}>
+                  <h1 className="text-slate-800 font-medium">{cardInfo.label}</h1>
+                </div>
+              </div>
+            </div>
+          ) : null}
+          <div className="w-full h-full bg-yellow-300"></div>
         </div>
         <div className="w-full">
           <div className="w-full h-[50px] pl-[40px] flex items-center">
