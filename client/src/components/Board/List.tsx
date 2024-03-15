@@ -35,10 +35,12 @@ const List: React.FC<ListProps> = ({ id, name }) => {
         <div className="w-full h-[50px] pl-[20px] flex items-center text-[18px] font-normal text-slate-900">
           {name}
         </div>
+        <div className="overflow-auto max-h-[550px]">
         {listCard &&
           listCard.map((element) => (
             <Card key={element._id} id={element._id} title={element.title} />
           ))}
+          </div>
         <CreateList id={id} handleFetch={handleFetch} />
       </div>
     </div>

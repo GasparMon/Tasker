@@ -15,7 +15,7 @@ const CardSchema = new Schema(
       required: false,
       unique: false,
       minlength: 3,
-      maxlength: 50,
+      maxlength: 100,
     },
 
     label: {

@@ -48,18 +48,6 @@ body {
   box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
 }
 
-.input {
-  max-width: 400px;
-  padding: 1rem;
-  border-radius: 1rem;
-  border: none;
-  box-shadow: 2px 2px 30px 2px lightgrey;
-}
-
-.styled-input:focus {
-  border-color: #4f84e6;
-  box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
-}
 
 
 

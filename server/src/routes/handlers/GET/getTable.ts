@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Table from "../../../database/models/Table";
 
-const getTable = async (req: Request, res: Response) => {
+const getIdTable = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
@@ -15,4 +15,4 @@ const getTable = async (req: Request, res: Response) => {
   }
 };
 
-export default getTable;
+export default getIdTable;

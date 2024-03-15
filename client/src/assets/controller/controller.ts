@@ -103,3 +103,14 @@ export const getListCard = async (id: string) => {
     return error;
   }
 };
+
+export const getCard = async (id:string) => {
+  try {
+    const response = await axios.get(`${URL}/getInfoCard/${id}`);
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+
+}

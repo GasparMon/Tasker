@@ -13,6 +13,12 @@ interface CreateBoard {
   setModal:() => void;
 }
 
+interface CreateCard {
+  createCard: boolean,
+  id: string,
+  setModal:(id: string) => void;
+}
+
 export const useOptionsHome = create<OptionsState>((set) => ({
   board: true,
   bookmark: false,
@@ -35,5 +41,16 @@ export const useModalBoard = create<CreateBoard>((set) => ({
     set((state) => ({
       ...state,
       createBoard: !state.createBoard 
+    }))
+}));
+
+export const useModalCard = create<CreateCard>((set) => ({
+  createCard: false,
+  id:"",
+  setModal: (id) =>
+    set((state) => ({
+      ...state,
+      id: id,
+      createCard: !state.createCard
     }))
 }));
