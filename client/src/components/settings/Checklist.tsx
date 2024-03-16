@@ -26,12 +26,12 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
   const { getItem } = useLocalStorage("value");
   const { id } = getItem();
 
-  const { checkedList } = useSettingCard(
-    (state) => ({
-      checkedList: state.checklist,
-    }),
-    shallow
-  );
+  // const { checkedList } = useSettingCard(
+  //   (state) => ({
+  //     checkedList: state.checklist,
+  //   }),
+  //   shallow
+  // );
 
   const [checklist, setChecklist] = useState<any[]>([]);
   const [check, setCheck] = useState(true);
@@ -122,25 +122,23 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
       </div>
       {checklist && checklist.length > 0 && (
         <>
-       
           {done === checklist.length ? (
-             <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center">
-             <LuCheckSquare className="text-[15px]  text-green-700 " />
-             <h1 className="text-[15px]  text-green-700 ml-[5px]">Progress</h1>
-            <h1 className="text-[15px]  text-green-700 ml-[5px]">
-              {done}/{checklist.length}
-            </h1>
+            <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center">
+              <LuCheckSquare className="text-[15px]  text-green-700 " />
+              <h1 className="text-[15px]  text-green-700 ml-[5px]">Progress</h1>
+              <h1 className="text-[15px]  text-green-700 ml-[5px]">
+                {done}/{checklist.length}
+              </h1>
             </div>
           ) : (
             <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center">
-            <LuCheckSquare className="text-[15px] text-slate-700 " />
-            <h1 className="text-[15px] text-slate-700 ml-[5px]">Progress</h1>
-           <h1 className="text-[15px] text-slate-700 ml-[5px]">
-             {done}/{checklist.length}
-           </h1>
-           </div>
+              <LuCheckSquare className="text-[15px] text-slate-700 " />
+              <h1 className="text-[15px] text-slate-700 ml-[5px]">Progress</h1>
+              <h1 className="text-[15px] text-slate-700 ml-[5px]">
+                {done}/{checklist.length}
+              </h1>
+            </div>
           )}
-        
         </>
       )}
       {checklist &&

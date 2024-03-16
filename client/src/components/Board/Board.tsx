@@ -61,7 +61,7 @@ const Board: React.FC = () => {
           {board.name}
         </h1>
       </div>
-      <div className="w-full h-[85%] grid grid-cols-5 grid-rows-1  px-[10px]">
+      <div className="w-full h-[85%] grid grid-cols-5 grid-rows-1 px-[10px]">
         {board.table_List &&
           board.table_List.map((element) => (
             <List key={element._id} id={element._id} name={element.name} />
