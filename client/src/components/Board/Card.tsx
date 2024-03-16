@@ -5,9 +5,10 @@ import { shallow } from "zustand/shallow";
 interface PropsCard {
   id: string;
   title: string;
+  list_id: string;
 }
 
-const Card: React.FC<PropsCard> = ({ id, title }) => {
+const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
   const { setModal } = useModalCard();
   
 
@@ -17,7 +18,7 @@ const Card: React.FC<PropsCard> = ({ id, title }) => {
         {title}
         <HiDotsHorizontal
           className="absolute top-2 right-2 cursor-pointer text-slate-600 hover:text-black"
-          onClick={() => setModal(id)}
+          onClick={() => setModal(id, list_id)}
         />
       </h1>
     </div>

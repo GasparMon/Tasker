@@ -9,14 +9,20 @@ interface OptionsState {
 }
 
 interface CreateBoard {
-  createBoard: boolean,
-  setModal:() => void;
+  createBoard: boolean;
+  setModal: () => void;
 }
 
 interface CreateCard {
-  createCard: boolean,
-  id: string,
-  setModal:(id: string) => void;
+  createCard: boolean;
+  id: string;
+  list_id: string;
+  setModal: (id: string, list_id:string) => void;
+}
+
+interface SetBoard {
+  id: string;
+  setBoardFunction: (id: string) => void;
 }
 
 interface CardSetting {
@@ -26,8 +32,24 @@ interface CardSetting {
   date: string;
   checklist: string;
   workers: string[];
-  setModal: (name: string, value: any) => void,
-  addModal:(id:string) => void
+  resetModal: () => void;
+  postModal: ({
+    status,
+    type,
+    label,
+    date,
+    checklist,
+    workers,
+  }: {
+    status: string;
+    type: string;
+    label: string;
+    date: string;
+    checklist: string;
+    workers: string[];
+  }) => void;
+  setModal: (name: string, value: any) => void;
+  addModal: (id: string) => void;
 }
 
 export const useOptionsHome = create<OptionsState>((set) => ({
@@ -51,19 +73,30 @@ export const useModalBoard = create<CreateBoard>((set) => ({
   setModal: () =>
     set((state) => ({
       ...state,
-      createBoard: !state.createBoard 
-    }))
+      createBoard: !state.createBoard,
+    })),
 }));
 
 export const useModalCard = create<CreateCard>((set) => ({
   createCard: false,
-  id:"",
-  setModal: (id) =>
+  id: "",
+  list_id: "",
+  setModal: (id, list_id) =>
     set((state) => ({
       ...state,
       id: id,
-      createCard: !state.createCard
-    }))
+      list_id: list_id,
+      createCard: !state.createCard,
+    })),
+}));
+
+export const useBoardState = create<SetBoard>((set) => ({
+  id: "",
+  setBoardFunction: (id) =>
+    set((state) => ({
+      ...state,
+      id: id,
+    })),
 }));
 
 export const useSettingCard = create<CardSetting>((set) => ({
@@ -73,19 +106,43 @@ export const useSettingCard = create<CardSetting>((set) => ({
   date: "",
   checklist: "",
   workers: [],
-  setModal: (name, value) => set((state) => ({
-    ...state,
-    [name]: value
-  })),
-  addModal: (id) => set((state) => {
-    if (state.workers.includes(id)) {
-      state.workers = state.workers.filter((element) => element !== id);
-    } else {
-      state.workers.push(id);
-    }
-    return {
+  resetModal: () =>
+    set((state) => ({
       ...state,
-      workers: [...state.workers]
-    };
-  })
+      status: "",
+      type: "",
+      label: "",
+      date: "",
+      checklist: "",
+      workers: [],
+    })),
+
+  postModal: ({ status, type, label, date, checklist, workers }) =>
+    set((state) => ({
+      ...state,
+      status: status,
+      label: label,
+      type: type,
+      date: date,
+      checklist: checklist,
+      workers: workers,
+    })),
+
+  setModal: (name, value) =>
+    set((state) => ({
+      ...state,
+      [name]: value,
+    })),
+  addModal: (id) =>
+    set((state) => {
+      if (state.workers.includes(id)) {
+        state.workers = state.workers.filter((element) => element !== id);
+      } else {
+        state.workers.push(id);
+      }
+      return {
+        ...state,
+        workers: [...state.workers],
+      };
+    }),
 }));

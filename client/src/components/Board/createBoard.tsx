@@ -79,7 +79,7 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch }) => {
             >
               <option value="">Select a List Model</option>
               <option value={"ToDo"}>ToDo List</option>
-              <option value={"In-Progress"}>In Progress List</option>
+              <option value={"InProgress"}>InProgress List</option>
               <option value={"Waiting"}>Waiting List</option>
               <option value={"Finished"}>Finished List</option>
             </select>

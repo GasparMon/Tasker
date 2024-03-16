@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BsArrowUpRightSquare } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { useBoardState } from "../../assets/store/store";
 
 interface BoardCardProps {
   id: string;
@@ -12,6 +13,8 @@ const BoardCard: React.FC<BoardCardProps> = ({ id, name, image }) => {
     const navigate = useNavigate();
     const [cardHover, setCardHover] = useState(false);
 
+    const {setBoardFunction} = useBoardState();
+
   const handleHoverIn = () => {
     setCardHover(true);
   };
@@ -21,7 +24,7 @@ const BoardCard: React.FC<BoardCardProps> = ({ id, name, image }) => {
   };
 
   const handleBoard = () => {
-
+    setBoardFunction(id);
     navigate(`/board/${id}`)
 
   }

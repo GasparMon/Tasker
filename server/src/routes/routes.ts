@@ -24,6 +24,9 @@ import addCardWorker from './handlers/ADD/addCardWorker';
 import addTableTeam from './handlers/ADD/addTableTeam';
 import removeTable from './handlers/DELETE/removeTable';
 import getIdTable from './handlers/GET/getTable';
+import getTableLists from './handlers/PUT/getTableLists';
+import putCardNewList from './handlers/PUT/putCardNewList';
+
 
 
 const routes = express.Router();
@@ -43,6 +46,9 @@ routes.get("/getCard/:id", getCard);
 routes.get("/getInfoCard/:id", getInfoCard);
 routes.get("/getTeam/:id", getTeam);
 routes.get("/getIdTable/:id", getIdTable);
+
+routes.get("/getTableLists/:id", getTableLists);
+routes.put("/putCardNewList", putCardNewList)
 
 routes.put("/putUser", putUser);
 routes.put("/putTable", putTable);

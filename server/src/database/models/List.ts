@@ -6,7 +6,7 @@ const ListSchema = new Schema(
       type: String,
       required: true,
       unique: false,
-      enum: ["ToDo", "In-Progress", "Waiting", "Finished", "Archived"],
+      enum: ["ToDo", "InProgress", "Waiting", "Finished", "Archived"],
     },
     list_Cards: [
       {

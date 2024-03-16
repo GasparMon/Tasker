@@ -20,7 +20,7 @@ const CardSchema = new mongoose_1.Schema({
         type: String,
         required: false,
         unique: false,
-        enum: ["Urgent", "High priority", "Critical"],
+        enum: ["Urgent", "Priority", "Critical"],
     },
     dueDate: {
         type: String,
@@ -39,7 +39,7 @@ const CardSchema = new mongoose_1.Schema({
         unique: false,
         enum: [
             "ToDo",
-            "In-Progress",
+            "InProgress",
             "Waiting",
             "Finished",
             "Archived",
@@ -50,6 +50,8 @@ const CardSchema = new mongoose_1.Schema({
         type: String,
         required: false,
         unique: false,
+        minlength: 3,
+        maxlength: 100,
     },
     card_user: {
         type: mongoose_1.Schema.Types.ObjectId,

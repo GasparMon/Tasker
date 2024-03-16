@@ -6,7 +6,7 @@ const ChecklistSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         minlength: 3,
-        maxlength: 25,
+        maxlength: 50,
     },
     status: {
         type: String,

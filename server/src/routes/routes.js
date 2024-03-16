@@ -29,6 +29,8 @@ const addCardWorker_1 = __importDefault(require("./handlers/ADD/addCardWorker"))
 const addTableTeam_1 = __importDefault(require("./handlers/ADD/addTableTeam"));
 const removeTable_1 = __importDefault(require("./handlers/DELETE/removeTable"));
 const getTable_1 = __importDefault(require("./handlers/GET/getTable"));
+const getTableLists_1 = __importDefault(require("./handlers/PUT/getTableLists"));
+const putCardNewList_1 = __importDefault(require("./handlers/PUT/putCardNewList"));
 const routes = express_1.default.Router();
 routes.post("/createUser", createUser_1.default);
 routes.post("/createTable", createTable_1.default);
@@ -44,6 +46,8 @@ routes.get("/getCard/:id", getCard_1.default);
 routes.get("/getInfoCard/:id", getInfoCard_1.default);
 routes.get("/getTeam/:id", getTeam_1.default);
 routes.get("/getIdTable/:id", getTable_1.default);
+routes.get("/getTableLists/:id", getTableLists_1.default);
+routes.put("/putCardNewList", putCardNewList_1.default);
 routes.put("/putUser", putUser_1.default);
 routes.put("/putTable", putTable_1.default);
 routes.put("/putList", putList_1.default);

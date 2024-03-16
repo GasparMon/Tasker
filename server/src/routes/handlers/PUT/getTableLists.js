@@ -12,40 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Card_1 = __importDefault(require("../../../database/models/Card"));
-const putCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const Table_1 = __importDefault(require("../../../database/models/Table"));
+const getTableLists = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, description, label, dueDate, type, status, card_id, checklist } = req.body;
-        const card = yield Card_1.default.findById(card_id);
-        if (!card) {
-            return res.status(404).send("Card doesn't exist");
-        }
-        if (title) {
-            card.title = title;
-        }
-        if (description) {
-            card.description = description;
-        }
-        if (label) {
-            card.label = label;
-        }
-        if (dueDate) {
-            card.dueDate = dueDate;
-        }
-        if (type) {
-            card.type = type;
-        }
-        if (status) {
-            card.status = status;
-        }
-        if (checklist) {
-            card.checklist = checklist;
-        }
-        yield card.save();
-        return res.status(200).json(card);
+        const { id } = req.params;
+        const table = yield Table_1.default.findById(id).populate("table_Lists");
+        return res.status(200).json(table === null || table === void 0 ? void 0 : table.table_Lists);
     }
     catch (error) {
+        console.error(error);
         return res.status(500).send("Internal Error");
     }
 });
-exports.default = putCard;
+exports.default = getTableLists;

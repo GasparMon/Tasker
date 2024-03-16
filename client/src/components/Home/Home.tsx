@@ -32,6 +32,7 @@ const Home: React.FC = () => {
     shallow
   );
 
+
   useEffect(() => {
     if (user.email) {
       notify();

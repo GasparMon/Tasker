@@ -57,7 +57,7 @@ const ModalBoard: React.FC = () => {
         }),
         {
           pending: "Creating your Board",
-          success: "Board Created",
+          success: "Board Created 🎉",
           error: "Error creating your Board",
           
         }
@@ -76,7 +76,9 @@ const ModalBoard: React.FC = () => {
 
   return (
     <div className="absolute w-full h-full bg-black/70 flex items-center justify-center ease-in duration-200 z-50">
-      <ToastContainer />
+      <ToastContainer 
+      autoClose={2000}
+      />
       <div className="relative w-[600px] h-[700px] bg-white rounded-[10px] flex flex-col items-center">
         <div
           className="absolute top-[20px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center"

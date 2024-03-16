@@ -3,6 +3,7 @@ interface User {
   email: string;
 }
 
+
 export const useLocalStorage = (key: string) => {
   const setItem = (value: User) => {
     window.localStorage.setItem(key, JSON.stringify(value));

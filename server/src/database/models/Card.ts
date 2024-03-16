@@ -22,7 +22,7 @@ const CardSchema = new Schema(
       type: String,
       required: false,
       unique: false,
-      enum: ["Urgent", "High priority", "Critical"],
+      enum: ["Urgent", "Priority", "Critical"],
     },
 
     dueDate: {
@@ -44,7 +44,7 @@ const CardSchema = new Schema(
       unique: false,
       enum: [
         "ToDo",
-        "In-Progress",
+        "InProgress",
         "Waiting",
         "Finished",
         "Archived",
@@ -56,6 +56,8 @@ const CardSchema = new Schema(
       type: String,
       required: false,
       unique: false,
+      minlength: 3,
+      maxlength: 100,
     },
 
     card_user: {

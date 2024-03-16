@@ -45,7 +45,7 @@ const CardSType: React.FC<PropsStatus> = ({ handleClose }) => {
   };
 
   return (
-    <div className="absolute w-[300px] h-[240px] bg-white top-[105px] right-[-95px] rounded-[10px] border-[1px] shadow-sm shadow-black/10">
+    <div className="absolute w-[300px] h-[240px] bg-white top-[120px] right-[-92px] border-gray-100 rounded-[10px] border-[1px] shadow-sm shadow-black/10">
       <div className="w-full h-[35px] flex items-center justify-center text-slate-800 text-[19px] font-semibold">
         <h1>Type</h1>
         <div
