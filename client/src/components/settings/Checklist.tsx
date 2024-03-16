@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   createChecklist,
   getChecklist,
+  removeCheck,
 } from "../../assets/controller/controller";
 import { useLocalStorage } from "../../assets/localStorage";
 import { CgClose } from "react-icons/cg";
@@ -32,11 +33,9 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
     shallow
   );
 
-  console.log(checkedList)
-
   const [checklist, setChecklist] = useState<any[]>([]);
   const [check, setCheck] = useState(true);
-  const [done, setDone] = useState(0)
+  const [done, setDone] = useState(0);
   const [task, setTask] = useState<Task>({
     task: "",
   });
@@ -48,10 +47,6 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
       setChecklist(data);
     }
   };
-
-  useEffect(() => {
-    setChecklist([...checkedList]);
-}, [checkedList]);
 
   useEffect(() => {
     fetchData();
@@ -94,16 +89,28 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
   };
 
   const updateSetting = () => {
-
     fetchData();
-  }
+  };
 
   useEffect(() => {
-    const count = checklist.filter(item => item.status === 'Done').length;
+    const count = checklist.filter((item) => item.status === "Done").length;
 
-    setDone(count)
-    
-}, [checklist]);
+    setDone(count);
+  }, [checklist]);
+
+  const handleDeleteTask = async ({
+    card_id,
+    check_id,
+  }: {
+    card_id: string;
+    check_id: string;
+  }) => {
+    const data = await removeCheck({ card_id, check_id });
+
+    if (data) {
+      fetchData();
+    }
+  };
 
   return (
     <div className="w-full">
@@ -114,13 +121,27 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
         </h1>
       </div>
       {checklist && checklist.length > 0 && (
-        <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center">
-          <LuCheckSquare className="text-[15px] text-slate-700 " />
-          <h1 className="text-[15px] text-slate-700 ml-[5px]">Progress</h1>
-          <h1 className="text-[15px] text-slate-700 ml-[5px]">
-            {done}/{checklist.length}
-          </h1>
-        </div>
+        <>
+       
+          {done === checklist.length ? (
+             <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center">
+             <LuCheckSquare className="text-[15px]  text-green-700 " />
+             <h1 className="text-[15px]  text-green-700 ml-[5px]">Progress</h1>
+            <h1 className="text-[15px]  text-green-700 ml-[5px]">
+              {done}/{checklist.length}
+            </h1>
+            </div>
+          ) : (
+            <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center">
+            <LuCheckSquare className="text-[15px] text-slate-700 " />
+            <h1 className="text-[15px] text-slate-700 ml-[5px]">Progress</h1>
+           <h1 className="text-[15px] text-slate-700 ml-[5px]">
+             {done}/{checklist.length}
+           </h1>
+           </div>
+          )}
+        
+        </>
       )}
       {checklist &&
         checklist.length > 0 &&
@@ -131,12 +152,14 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
             status={element.status}
             task={element.task}
             updateSetting={updateSetting}
+            card_id={card_id}
+            handleDeleteTask={handleDeleteTask}
           />
         ))}
       <>
         {check ? (
           <div
-            className="w-[170px] h-[30px] ml-[75px] mt-[10px] rounded-[5px] flex items-center justify-evenly cursor-pointer hover:bg-gray-300 hover:text-slate-800 text-slate-700 text-[16px] px-[10px]"
+            className="w-[170px] h-[30px] ml-[75px] mt-[10px] rounded-[5px] flex items-center justify-evenly cursor-pointer bg-gray-200 hover:bg-gray-300 hover:text-slate-800 text-slate-700 text-[16px] px-[10px]"
             onClick={() => handleTask()}
           >
             <MdOutlineAddTask />
@@ -148,7 +171,7 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
               <textarea
                 className="text-slate-800 ml-[90px] h-[50px]  w-[550px] p-[10px] rounded-[7px] border-[2px] border-slate-400 focus:border-blue-700"
                 style={{ resize: "none" }}
-                placeholder="Task max 50 chars"
+                placeholder="Task max 60 chars"
                 value={task.task}
                 onChange={(event) => handleChange(event)}
               ></textarea>

@@ -82,6 +82,7 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch }) => {
               <option value={"InProgress"}>InProgress List</option>
               <option value={"Waiting"}>Waiting List</option>
               <option value={"Finished"}>Finished List</option>
+              <option value={"Archived"}>Archived List</option>
             </select>
           </div>
           <div className="w-full h-[40px] flex items-center pl-[30px]">

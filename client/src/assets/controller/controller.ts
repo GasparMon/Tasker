@@ -159,9 +159,21 @@ export const getTableList = async (id: string) => {
   }
 };
 
-export const putCardNewList = async ({ card_id, current_List, new_List }: { card_id: string; current_List: string; new_List: string; }) => {
+export const putCardNewList = async ({
+  card_id,
+  current_List,
+  new_List,
+}: {
+  card_id: string;
+  current_List: string;
+  new_List: string;
+}) => {
   try {
-    const response = await axios.put(`${URL}/putCardNewList`, { card_id, current_List, new_List });
+    const response = await axios.put(`${URL}/putCardNewList`, {
+      card_id,
+      current_List,
+      new_List,
+    });
     return response.data;
   } catch (error) {
     return error;
@@ -178,6 +190,25 @@ export const putChecklist = async ({
   try {
     const response = await axios.put(`${URL}/putChecklist`, {
       status,
+      checklist_id,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const putChecklistInfo = async ({
+  task,
+  checklist_id,
+}: {
+  task: string;
+  checklist_id: string;
+}) => {
+  try {
+    const response = await axios.put(`${URL}/putChecklist`, {
+      task,
       checklist_id,
     });
 
@@ -232,6 +263,42 @@ export const putCard = async ({
       dueDate,
       type,
       status,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const removeCheck = async ({
+  card_id,
+  check_id,
+}: {
+  card_id: string;
+  check_id: string;
+}) => {
+  try {
+    const response = await axios.delete(`${URL}/removeCheck`, {
+      data: { card_id, check_id },
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const removeCard = async ({
+  card_id,
+  list_id,
+}: {
+  card_id: string;
+  list_id: string;
+}) => {
+  try {
+    const response = await axios.delete(`${URL}/removeCard`, {
+      data: { card_id, list_id },
     });
 
     return response.data;

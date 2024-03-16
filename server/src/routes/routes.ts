@@ -26,6 +26,8 @@ import removeTable from './handlers/DELETE/removeTable';
 import getIdTable from './handlers/GET/getTable';
 import getTableLists from './handlers/PUT/getTableLists';
 import putCardNewList from './handlers/PUT/putCardNewList';
+import removeCheck from './handlers/DELETE/revomeChecklist';
+import removeCard from './handlers/DELETE/removeCard';
 
 
 
@@ -63,5 +65,7 @@ routes.put("/addCardWorker", addCardWorker);
 routes.put("/addTableTeam", addTableTeam);
 
 routes.delete("/removeTable", removeTable);
+routes.delete("/removeCheck", removeCheck)
+routes.delete("/removeCard", removeCard)
 
 export default routes

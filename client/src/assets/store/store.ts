@@ -16,13 +16,17 @@ interface CreateBoard {
 interface CreateCard {
   createCard: boolean;
   id: string;
-  list_id: string;
-  setModal: (id: string, list_id:string) => void;
+  setModal: (id: string) => void;
 }
 
 interface SetBoard {
   id: string;
   setBoardFunction: (id: string) => void;
+}
+
+interface List{
+  list_id: string,
+  setList: (list_id: string) => void
 }
 
 interface CardSetting {
@@ -80,15 +84,21 @@ export const useModalBoard = create<CreateBoard>((set) => ({
 export const useModalCard = create<CreateCard>((set) => ({
   createCard: false,
   id: "",
-  list_id: "",
-  setModal: (id, list_id) =>
+  setModal: (id) =>
     set((state) => ({
       ...state,
       id: id,
-      list_id: list_id,
       createCard: !state.createCard,
     })),
 }));
+
+export const ListCard = create <List> ((set) => ({
+  list_id: "",
+  setList:(id) => set((state) =>({
+    ...state,
+    list_id: id
+  })),
+}))
 
 export const useBoardState = create<SetBoard>((set) => ({
   id: "",

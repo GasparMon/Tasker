@@ -1,13 +1,13 @@
 import { shallow } from "zustand/shallow";
 import { useModalCard } from "../../assets/store/store";
 import { CgClose } from "react-icons/cg";
-import { BsCardChecklist } from "react-icons/bs";
+import { MdOutlineDisplaySettings } from "react-icons/md";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getCard, putCard } from "../../assets/controller/controller";
 import { MdOutlineSubtitles } from "react-icons/md";
 import { MdOutlineDescription } from "react-icons/md";
 import { LuPlusCircle } from "react-icons/lu";
-import { LuNewspaper } from "react-icons/lu";
+import { TbTextPlus } from "react-icons/tb";
 import MainSettings from "../settings/MainSettings";
 import { useSettingCard } from "../../assets/store/store";
 import Checklist from "../settings/Checklist";
@@ -150,7 +150,7 @@ const ModalCard: React.FC = () => {
 
   const handleClose = () => {
     const id = "";
-    setModal(id, "");
+    setModal(id);
     resetModal();
   };
 
@@ -175,16 +175,16 @@ const ModalCard: React.FC = () => {
 
   return (
     <div className="absolute w-full h-full bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-x-hidden overflow-y-auto">
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={1000} />
       <div className="relative w-[910px] h-[auto] bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px]">
         <div
-          className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center"
+          className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"
           onClick={() => handleClose()}
         >
           <CgClose className="text-[30px] text-gray-500 cursor-pointer" />
         </div>
-        <div className="relative w-[500px] h-[50px] flex items-center justify-center">
-          <BsCardChecklist className="text-[25px] text-gray-700 mr-[20px]" />
+        <div className="relative w-full h-[50px] flex items-center justify-center">
+          <MdOutlineDisplaySettings className="text-[25px] text-gray-700 mr-[20px]" />
           <h1 className="text-[25px] text-gray-700">Card Settings</h1>
         </div>
         <div className="w-full h-[50px] flex items-center pl-[40px]">
@@ -276,7 +276,7 @@ const ModalCard: React.FC = () => {
           </div>
           {!addDescription && !cardHeader.description && (
             <div
-              className="w-[220px] h-[30px] ml-[75px] rounded-[5px] flex items-center justify-evenly cursor-pointer hover:bg-gray-300 hover:text-slate-800 text-slate-700 text-[16px] px-[10px]"
+              className="w-[220px] h-[30px] ml-[75px] rounded-[5px] flex items-center justify-evenly cursor-pointer hover:bg-gray-300 hover:text-slate-800 text-slate-700 text-[16px] px-[10px] bg-gray-200"
               onClick={() => handleDescription()}
             >
               <LuPlusCircle />
@@ -296,7 +296,7 @@ const ModalCard: React.FC = () => {
                 className="bg-blue-600 h-[30px] w-[70px] rounded-[3px] text-white ml-[110px] mt-[10px]"
                 onClick={() => handleDescription()}
               >
-                Save
+                Close
               </button>
             </div>
           )}
@@ -304,17 +304,17 @@ const ModalCard: React.FC = () => {
             <div className=" ml-[75px] w-[500px]">
               <h1 className="ml-[25px]">{cardHeader.description}</h1>
               <div
-                className="w-[220px] h-[30px] mt-[7px] rounded-[5px] flex items-center justify-evenly cursor-pointer hover:bg-gray-300 hover:text-slate-800 text-slate-700 text-[16px] px-[10px]"
+                className="w-[220px] h-[30px] mt-[7px] rounded-[5px] flex items-center justify-evenly cursor-pointer hover:bg-gray-300 bg-gray-200 hover:text-slate-800 text-slate-700 text-[16px] px-[10px]"
                 onClick={() => handleDescription()}
               >
-                <LuNewspaper />
+                <TbTextPlus />
                 <h1>Change Description</h1>
               </div>
             </div>
           )}
         </div>
-        <div className="absolute w-[220px] h-[500px] border-[2px] border-slate-400 top-[70px] right-[20px] rounded-[10px]">
-          <MainSettings card_id={cardHeader.id} handleSave={handleSave} />
+        <div className="absolute w-[220px] h-[550px] border-[2px] border-slate-400 top-[70px] right-[20px] rounded-[10px]">
+          <MainSettings card_id={cardHeader.id} handleSave={handleSave} handleCloseModal={handleClose}/>
         </div>
         {cardInfo.checklist && (
           <div>

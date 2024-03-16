@@ -44,8 +44,6 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
       card_id: card_id,
     });
 
-    console.log(data)
-
     if (data) {
       setModal("checklist", checklist.checklist);
       handleClose("checklist");

@@ -3,6 +3,7 @@ import { GetIdBoard } from "../../assets/controller/controller";
 import { useParams } from "react-router-dom";
 import CreateBoard from "./createBoard";
 import List from "./List";
+import { useBoardState } from "../../assets/store/store";
 
 interface Board {
   id: string;
@@ -13,6 +14,7 @@ interface Board {
 }
 
 const Board: React.FC = () => {
+  const { setBoardFunction } = useBoardState();
   const { id } = useParams();
   const [board, setBoard] = useState<Board>({
     id: "",
@@ -39,7 +41,10 @@ const Board: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchBoard();
+    if (id) {
+      setBoardFunction(id);
+      fetchBoard();
+    }
   }, [id]);
 
   const handleFetch = () => {
@@ -48,7 +53,7 @@ const Board: React.FC = () => {
 
   return (
     <div
-      className="w-full h-full bg-blue-300 flex flex-col"
+      className="w-full h-full flex flex-col"
       style={{ background: `var(--${board.image})` }}
     >
       <div className="w-full pt-[50px] h-[120px] flex items-center backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">

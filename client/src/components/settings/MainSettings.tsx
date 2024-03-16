@@ -10,6 +10,8 @@ import CardDate from "./CardDate";
 import { MdOutlineCheckBox } from "react-icons/md";
 import CardChecklist from "./CardChecklist";
 import { TbUserShare } from "react-icons/tb";
+import { ListCard } from "../../assets/store/store";
+import { removeCard } from "../../assets/controller/controller";
 
 interface Setting {
   status: boolean;
@@ -23,9 +25,10 @@ interface Setting {
 interface MainProps{
   card_id: string
   handleSave: () => void
+  handleCloseModal: () => void
 }
 
-const MainSettings: React.FC <MainProps> = ({card_id, handleSave}) => {
+const MainSettings: React.FC <MainProps> = ({card_id, handleSave, handleCloseModal}) => {
   const [settings, setSettings] = useState<Setting>({
     status: false,
     type: false,
@@ -56,12 +59,24 @@ const MainSettings: React.FC <MainProps> = ({card_id, handleSave}) => {
     });
   };
 
+  const {list_id} = ListCard();
+
+  const handleDelete = async () => {
+
+    const data = await removeCard({card_id, list_id})
+
+    if(data){
+      handleCloseModal()
+    }
+
+  }
+
   return (
     <div className="w-full h-full">
       <div className="w-full h-[40px] flex items-center pl-[20px]">
         <h1 className="text-slate-800 font-semibold">Add to card</h1>
       </div>
-      <div className="relative w-full h-[420px] grid grid-rows-7 gap-[10px] p-[10px]">
+      <div className="relative w-full h-[480px] grid grid-rows-7 gap-[10px] p-[10px]">
         {settings.status ? <CardStatus handleClose={handleClose} /> : null}
         {settings.type ? <CardSType handleClose={handleClose} /> : null}
         {settings.label ? <CardLabel handleClose={handleClose} /> : null}
@@ -115,6 +130,11 @@ const MainSettings: React.FC <MainProps> = ({card_id, handleSave}) => {
         onClick={()=> handleSave()}
         >
           <h1>Save Card</h1>
+        </div>
+        <div className="mt-[20px]  bg-red-500 hover:bg-red-600  text-white w-full h-full  rounded-[5px] flex flex-row items-center justify-center text-[18px] cursor-pointer"
+        onClick={()=> handleDelete ()}
+        >
+          <h1>Delete Card</h1>
         </div>
       </div>
     </div>
