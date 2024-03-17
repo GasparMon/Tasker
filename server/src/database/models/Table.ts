@@ -28,6 +28,13 @@ const TableSchema = new Schema(
       ref: "User",
       required: false,
     }],
+    card_worker_pending: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+    ],
   },
   {
     timestamps: true,

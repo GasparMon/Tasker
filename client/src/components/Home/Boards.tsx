@@ -28,7 +28,7 @@ const Boards: React.FC = () => {
   }, [createBoard]);
 
   return (
-    <div className={`relative w-[95%] h-full flex flex-col pl-[20px]`}>
+    <div className={`relative w-full h-full flex flex-col pl-[20px]`}>
       <div className="w-full h-[90px] flex flex-row items-center border-b-[2px] border-gray-300 bg-white">
         <FaFlipboard className="text-[50px] mr-[20px] text-teal-700" />
         <h1 className="text-[40px] text-gray-600">My Boards</h1>
@@ -42,7 +42,7 @@ const Boards: React.FC = () => {
           <h1 className="text-[25px] text-white">Create Board</h1>{" "}
         </div>
       </div>
-      <div className="w-full mt-[30px] h-[450px] grid grid-rows-3 grid-cols-4 gap-x-[15px] gap-y-[10px]">
+      <div className="w-full mt-[30px] h-[450px] grid grid-rows-3 grid-cols-5 gap-x-[15px] gap-y-[10px]">
         {boards && boards.map((element) => <BoardCard key={element._id} id={element._id} name={element.name} image={element.image}/>)}
       </div>
     </div>

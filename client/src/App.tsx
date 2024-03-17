@@ -32,7 +32,7 @@ function App() {
   return (
     <div className="relative w-screen h-screen flex flex-col items-center overflow-hidden">
       {location.pathname === "/" ? <NavBar /> : <NavHome />}
-      {location.pathname === "/home" ? <Sidebar /> : null}
+      {/* {location.pathname === "/home" ? <Sidebar /> : null} */}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />

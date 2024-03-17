@@ -16,6 +16,8 @@ const ModalUser: React.FC = () => {
 
   const [inputValue, setInputValue] = useState("");
   const [userTeam, setUserTeam] = useState<any[]>([]);
+  const [isEmail, setIsEmail] = useState(false);
+
 
   const { setModalUser, id } = useModalUser(
     (state) => ({
@@ -28,6 +30,9 @@ const ModalUser: React.FC = () => {
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmail(emailRegex.test(value));
   };
 
   useEffect(() => {
@@ -96,6 +101,7 @@ const ModalUser: React.FC = () => {
             <button
               className="w-[200px] h-[40px] bg-blue-600 hover:bg-blue-700 ease-in duration-200 rounded-[10px] text-white text-[20px] disabled:opacity-30 disabled:cursor-not-allowed"
               onClick={() => handleAddTeam()}
+              disabled={!isEmail}
             >
               Add Member
             </button>

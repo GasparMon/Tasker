@@ -22,15 +22,15 @@ const Home: React.FC = () => {
     transition: Slide,
     });
 
-  const { board, bookmark, team, task } = useOptionsHome(
-    (state) => ({
-      board: state.board,
-      bookmark: state.bookmark,
-      team: state.team,
-      task: state.task,
-    }),
-    shallow
-  );
+  // const { board, bookmark, team, task } = useOptionsHome(
+  //   (state) => ({
+  //     board: state.board,
+  //     bookmark: state.bookmark,
+  //     team: state.team,
+  //     task: state.task,
+  //   }),
+  //   shallow
+  // );
 
 
   useEffect(() => {
@@ -40,9 +40,9 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="ml-[300px] mt-[50px] w-[78%] h-[90%]  items-center overflow-x-hidden ">
+    <div className=" mt-[50px] w-[95%] h-[90%]  items-center overflow-x-hidden ">
       <ToastContainer />
-      {board ? <Boards /> : null}
+      <Boards />
     </div>
   );
 };

@@ -27,6 +27,13 @@ const TableSchema = new mongoose_1.Schema({
             ref: "User",
             required: false,
         }],
+    card_worker_pending: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+    ],
 }, {
     timestamps: true,
 });

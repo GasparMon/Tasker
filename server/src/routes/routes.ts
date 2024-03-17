@@ -31,6 +31,10 @@ import removeCard from './handlers/DELETE/removeCard';
 import addUserTeam from './handlers/PUT/addUserTeam';
 import getTableTeam from './handlers/GET/getTeamTable';
 import removeUserTeam from './handlers/DELETE/removeUserTeam';
+import createNotification from './handlers/POST/createNotification';
+import addUserPending from './handlers/PUT/addUserPending';
+import putNotification from './handlers/PUT/putNotification';
+import viewNotification from './handlers/PUT/viewNotification';
 
 
 
@@ -43,6 +47,7 @@ routes.post("/createCard", createCard);
 routes.post("/createComment", createComment);
 routes.post("/createChecklist", createChecklist);
 routes.post("/createTeam", createTeam);
+routes.post("/creatNotification", createNotification)
 
 routes.get("/getUser/:email", getUser);
 routes.get("/getTable/:id", getTable);
@@ -64,6 +69,9 @@ routes.put("/putCard", putCard);
 routes.put("/putChecklist", putChecklist);
 routes.put("/putComment", putComment);
 routes.put("/addUser", addUserTeam);
+routes.put("/addUserPending", addUserPending);
+routes.put("/putNotification", putNotification);
+routes.put("/viewNotifications", viewNotification);
 
 routes.put("/addTeam", addTeam);
 routes.put("/addCardWorker", addCardWorker);
