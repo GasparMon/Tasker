@@ -5,6 +5,7 @@ import { createList } from "../../assets/controller/controller";
 
 interface Board {
   id: string;
+  table_list: any[];
   handleFetch: () => void;
 }
 
@@ -13,8 +14,9 @@ interface List {
   table_id: string;
 }
 
-const CreateBoard: React.FC<Board> = ({ id, handleFetch }) => {
+const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
   const [option, setOption] = useState(true);
+  const [listOption, setListOptions] = useState<any[]>([]);
   const [list, setList] = useState<List>({
     name: "",
     table_id: "",
@@ -41,7 +43,11 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch }) => {
   };
 
   const isDiseable = () => {
-    if (list.name.length < 3 || list.table_id.length < 3) {
+    if (
+      list.name.length < 3 ||
+      list.table_id.length < 3 ||
+      listOption.includes(list.name)
+    ) {
       return true;
     }
 
@@ -59,6 +65,14 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch }) => {
       handleOption();
     }
   };
+
+  useEffect(() => {
+    if (table_list) {
+      const namesArray: string[] = table_list.map((item) => item.name);
+
+      setListOptions(namesArray);
+    }
+  }, [table_list]);
 
   return (
     <>
@@ -78,11 +92,33 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch }) => {
               onChange={(event) => handleChange(event)}
             >
               <option value="">Select a List Model</option>
-              <option value={"ToDo"}>ToDo List</option>
-              <option value={"InProgress"}>InProgress List</option>
-              <option value={"Waiting"}>Waiting List</option>
-              <option value={"Finished"}>Finished List</option>
-              <option value={"Archived"}>Archived List</option>
+              <option value={"ToDo"} disabled={listOption.includes("ToDo")}>
+                ToDo List
+              </option>
+              <option
+                value={"InProgress"}
+                disabled={listOption.includes("InProgress")}
+              >
+                InProgress List
+              </option>
+              <option
+                value={"Waiting"}
+                disabled={listOption.includes("Waiting")}
+              >
+                Waiting List
+              </option>
+              <option
+                value={"Finished"}
+                disabled={listOption.includes("Finished")}
+              >
+                Finished List
+              </option>
+              <option
+                value={"Archived"}
+                disabled={listOption.includes("Archived")}
+              >
+                Archived List
+              </option>
             </select>
           </div>
           <div className="w-full h-[40px] flex items-center pl-[30px]">

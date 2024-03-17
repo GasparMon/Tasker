@@ -3,6 +3,7 @@ import { CgClose } from "react-icons/cg";
 import { useSettingCard } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 
+
 interface PropsStatus {
   handleClose: (name: string) => void;
 }
@@ -36,6 +37,7 @@ const CardDate: React.FC<PropsStatus> = ({ handleClose }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setDate({ date: value });
+
   };
 
   return (

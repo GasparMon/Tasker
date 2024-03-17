@@ -56,6 +56,11 @@ interface CardSetting {
   addModal: (id: string) => void;
 }
 
+interface CheckBox{
+  status: boolean;
+  setBox: () => void
+}
+
 export const useOptionsHome = create<OptionsState>((set) => ({
   board: true,
   bookmark: false,
@@ -80,6 +85,14 @@ export const useModalBoard = create<CreateBoard>((set) => ({
       createBoard: !state.createBoard,
     })),
 }));
+
+export const useCheckBox = create <CheckBox>((set) => ({
+  status: true,
+  setBox: () => set((state) => ({
+    ...state,
+    status: !state.status
+  }))
+}))
 
 export const useModalCard = create<CreateCard>((set) => ({
   createCard: false,
@@ -156,3 +169,5 @@ export const useSettingCard = create<CardSetting>((set) => ({
       };
     }),
 }));
+
+

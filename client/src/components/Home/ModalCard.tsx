@@ -12,6 +12,7 @@ import MainSettings from "../settings/MainSettings";
 import { useSettingCard } from "../../assets/store/store";
 import Checklist from "../settings/Checklist";
 import { ToastContainer, toast } from "react-toastify";
+import { useCheckBox } from "../../assets/store/store";
 
 interface CardInfo {
   label: string;
@@ -154,6 +155,8 @@ const ModalCard: React.FC = () => {
     resetModal();
   };
 
+  const { setBox } = useCheckBox();
+
   const handleSave = async () => {
     toast.promise(
       putCard({
@@ -170,13 +173,16 @@ const ModalCard: React.FC = () => {
         success: "Card has been Updated 👍",
         error: "Error creating your Board",
       }
-    );
+    ).then(() => {
+      setBox();
+    });
   };
+  
 
   return (
-    <div className="absolute w-full h-full bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-x-hidden overflow-y-auto">
+    <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
       <ToastContainer autoClose={1000} />
-      <div className="relative w-[910px] h-[auto] bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px]">
+      <div className="relative w-[920px] min-h-[90vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] overflow-y-auto">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"
           onClick={() => handleClose()}
@@ -195,10 +201,10 @@ const ModalCard: React.FC = () => {
             onChange={(event) => handleChangeInput("title", event)}
           ></input>
         </div>
-        <div className="w-[500px] h-[50px] ml-[100px] grid grid-cols-4 gap-[10px]">
+        <div className="w-[500px] h-[60px] ml-[100px] grid grid-cols-4 gap-[10px]">
           {cardInfo.status ? (
-            <div className="w-full h-full">
-              <div className="w-[90%] h-[20px]">
+            <div className="w-full h-full ">
+              <div className="w-[90%] h-[20px] ">
                 <h1 className="text-[15px] font-medium">Status</h1>
                 <div
                   className={`w-full h-[30px] rounded-[5px] flex items-center justify-center shadow-sm shadow-black/20 
@@ -267,7 +273,7 @@ const ModalCard: React.FC = () => {
             </div>
           ) : null}
         </div>
-        <div className="w-full mt-[10px]">
+        <div className="w-full mt-[10px] min-h-[120px]">
           <div className="w-full h-[50px] pl-[40px] flex items-center">
             <MdOutlineDescription className="text-slate-800 text-[30px] mr-[20px] " />
             <h1 className="ml-[10px] text-[18px] text-slate-800 font-semibold">
@@ -301,7 +307,7 @@ const ModalCard: React.FC = () => {
             </div>
           )}
           {!addDescription && cardHeader.description && (
-            <div className=" ml-[75px] w-[500px]">
+            <div className=" ml-[75px] w-[500px] min-h-[70px]">
               <h1 className="ml-[25px]">{cardHeader.description}</h1>
               <div
                 className="w-[220px] h-[30px] mt-[7px] rounded-[5px] flex items-center justify-evenly cursor-pointer hover:bg-gray-300 bg-gray-200 hover:text-slate-800 text-slate-700 text-[16px] px-[10px]"
@@ -314,10 +320,14 @@ const ModalCard: React.FC = () => {
           )}
         </div>
         <div className="absolute w-[220px] h-[550px] border-[2px] border-slate-400 top-[70px] right-[20px] rounded-[10px]">
-          <MainSettings card_id={cardHeader.id} handleSave={handleSave} handleCloseModal={handleClose}/>
+          <MainSettings
+            card_id={cardHeader.id}
+            handleSave={handleSave}
+            handleCloseModal={handleClose}
+          />
         </div>
         {cardInfo.checklist && (
-          <div>
+          <div className="mb-[25px]">
             <Checklist title={cardInfo.checklist} card_id={cardHeader.id} />
           </div>
         )}

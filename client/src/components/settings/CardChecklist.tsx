@@ -50,6 +50,16 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
     }
   };
 
+  const isDisable = () => {
+
+    if(checklist.checklist?.length < 3 || checklist.checklist === undefined) {
+
+      return true
+    }
+
+    return false
+  }
+
   return (
     <div className="absolute w-[300px] h-[150px] bg-white top-[298px] right-[-92px] border-gray-100 rounded-[10px] border-[1px] shadow-sm shadow-black/10">
       <div className="w-full h-[35px] flex items-center justify-center text-slate-800 text-[19px] font-semibold">
@@ -71,6 +81,7 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
         <button
           className="w-[80px] h-[35px] bg-blue-600 hover:bg-blue-700 ease-in duration-200 rounded-[5px] text-white text-[17px] disabled:opacity-30 disabled:cursor-not-allowed"
           onClick={() => handleChecklist()}
+          disabled={isDisable()}
         >
           Save
         </button>

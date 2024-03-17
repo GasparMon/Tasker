@@ -6,6 +6,8 @@ import { getCard } from "../../assets/controller/controller";
 import { TbAlertSquareFilled } from "react-icons/tb";
 import { LuCalendarClock } from "react-icons/lu";
 import { LuCheckSquare } from "react-icons/lu";
+import { useCheckBox } from "../../assets/store/store";
+import { shallow } from "zustand/shallow";
 
 interface PropsCard {
   id: string;
@@ -52,6 +54,10 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
     updatedAt: "",
   });
 
+  const {status} = useCheckBox((state) => ({
+    status: state.status
+  }), shallow);
+
   const [done, setDone] = useState(0);
 
   const { setModal } = useModalCard();
@@ -74,7 +80,7 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
     };
 
     fetchData();
-  }, []);
+  }, [status]);
 
   useEffect(() => {
     const count = cardInfo.card_checklist.filter((item) => item.status === "Done").length;
@@ -92,17 +98,17 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
         />
         <div className="w-[80%] flex mt-[3px] ">
           {cardInfo && cardInfo?.label ? (
-            <div className="mt-[5px] justify-center px-[2px] h-full w-[35px] mr-[5px] text-slate-500  flex items-center">
+            <div className="mt-[5px] justify-center px-[2px] h-full w-[35px] mr-[5px] text-gray-400  flex items-center">
               <TbAlertSquareFilled className="text-[22px]" />
             </div>
           ) : null}
           {cardInfo && cardInfo?.dueDate ? (
-            <div className="mt-[5px]  justify-center px-[2px] h-full w-[35px] mr-[5px] text-slate-500 flex items-center">
+            <div className="mt-[5px]  justify-center px-[2px] h-full w-[35px] mr-[5px] text-gray-400 flex items-center">
               <LuCalendarClock className="text-[22px]" />
             </div>
           ) : null}
           {cardInfo && cardInfo?.card_checklist.length ? (
-            <div className="mt-[5px]  justify-between px-[2px] h-full w-[54px] text-slate-500  flex items-center">
+            <div className="mt-[5px]  justify-between px-[2px] h-full w-[54px] text-gray-400  flex items-center">
               <LuCheckSquare className="text-[21px]"/>
               <h1 className="text-[15px]">
               {done}/{cardInfo?.card_checklist.length}

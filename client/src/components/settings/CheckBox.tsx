@@ -5,6 +5,7 @@ import {
 } from "../../assets/controller/controller";
 import { HiTrash } from "react-icons/hi";
 import { FaCheckCircle } from "react-icons/fa";
+import { useCheckBox } from "../../assets/store/store";
 
 interface PropsCheck {
   id: string;
@@ -43,6 +44,8 @@ const Checkbox: React.FC<PropsCheck> = ({
     Checktask: "",
   });
 
+  const {setBox} = useCheckBox();
+
   useEffect(() => {
     if (task) {
       setCheckTask({
@@ -71,6 +74,7 @@ const Checkbox: React.FC<PropsCheck> = ({
         status: newStatus,
       });
 
+      setBox();
       updateSetting();
     }
   };
@@ -107,7 +111,7 @@ const Checkbox: React.FC<PropsCheck> = ({
 
   return (
     <div className="w-[560px] h-[40px] ml-[100px] flex flex-row items-center my-[5px]">
-      <div className="w-[20px] h-[20px] flex items-center justify-center">
+      <div className="w-[20px] h-[20px] flex items-center justify-center mr-[5px]">
         <label className="container">
           <input
             type="checkbox"
@@ -118,7 +122,7 @@ const Checkbox: React.FC<PropsCheck> = ({
         </label>
       </div>
       <div
-        className="w-full hover:bg-gray-200 ml-[5px] h-[45px] flex items-center rounded-[10px] group ease-in duration-100"
+        className="w-[95%] hover:bg-gray-200 ml-[5px] h-[45px] flex items-center rounded-[10px] group ease-in duration-100"
         onMouseEnter={() => handleinfo()}
         onMouseLeave={() => handleinfo()}
       >

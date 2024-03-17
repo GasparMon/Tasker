@@ -10,8 +10,9 @@ import { useLocalStorage } from "../../assets/localStorage";
 import { CgClose } from "react-icons/cg";
 import { MdOutlineAddTask } from "react-icons/md";
 import Checkbox from "./CheckBox";
-import { useSettingCard } from "../../assets/store/store";
-import { shallow } from "zustand/shallow";
+import { useCheckBox } from "../../assets/store/store";
+// import { useSettingCard } from "../../assets/store/store";
+// import { shallow } from "zustand/shallow";
 
 interface Propschecklist {
   title: string;
@@ -40,11 +41,15 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
     task: "",
   });
 
+  const { setBox } = useCheckBox();
+
   const fetchData = async () => {
     const data = await getChecklist(card_id);
 
     if (data) {
       setChecklist(data);
+
+      setBox();
     }
   };
 
@@ -141,6 +146,7 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
           )}
         </>
       )}
+
       {checklist &&
         checklist.length > 0 &&
         checklist.map((element) => (
@@ -154,6 +160,7 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
             handleDeleteTask={handleDeleteTask}
           />
         ))}
+
       <>
         {check ? (
           <div

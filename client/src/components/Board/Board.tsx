@@ -68,7 +68,7 @@ const Board: React.FC = () => {
           ))}
         {board.table_List.length < 5 ? (
           <div className="w-full h-full flex flex-col items-center pt-[10px]">
-            <CreateBoard id={board.id} handleFetch={handleFetch} />
+            <CreateBoard id={board.id} handleFetch={handleFetch} table_list = {board.table_List}/>
           </div>
         ) : null}
       </div>
