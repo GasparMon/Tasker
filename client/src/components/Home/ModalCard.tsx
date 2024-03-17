@@ -13,6 +13,8 @@ import { useSettingCard } from "../../assets/store/store";
 import Checklist from "../settings/Checklist";
 import { ToastContainer, toast } from "react-toastify";
 import { useCheckBox } from "../../assets/store/store";
+import { TbUserStar } from "react-icons/tb";
+import CardWorkingOn from "../settings/CardWorkinOn";
 
 interface CardInfo {
   label: string;
@@ -89,7 +91,6 @@ const ModalCard: React.FC = () => {
   useEffect(() => {
     const fetchCard = async () => {
       const data = await getCard(id);
-      console.log(data);
 
       if (data) {
         setHeader({
@@ -106,7 +107,7 @@ const ModalCard: React.FC = () => {
           status: data.status,
           checklist: data.checklist,
           card_user: data.card_user,
-          card_worker: data.card_worker,
+          // card_worker: data.card_worker,
           card_comment: data.card_comment,
           card_checklist: data.card_checklist,
           createdAt: data.createdAt,
@@ -158,31 +159,35 @@ const ModalCard: React.FC = () => {
   const { setBox } = useCheckBox();
 
   const handleSave = async () => {
-    toast.promise(
-      putCard({
-        card_id: cardHeader.id,
-        title: cardHeader.title,
-        description: cardHeader.description,
-        label: cardInfo.label,
-        dueDate: cardInfo.dueDate,
-        type: cardInfo.type,
-        status: cardInfo.status,
-      }),
-      {
-        pending: "Saving your Card",
-        success: "Card has been Updated 👍",
-        error: "Error creating your Board",
-      }
-    ).then(() => {
-      setBox();
-    });
+    toast
+      .promise(
+        putCard({
+          card_id: cardHeader.id,
+          title: cardHeader.title,
+          description: cardHeader.description,
+          label: cardInfo.label,
+          dueDate: cardInfo.dueDate,
+          type: cardInfo.type,
+          status: cardInfo.status,
+          workers: workers,
+        }),
+        {
+          pending: "Saving your Card",
+          success: "Card has been Updated 👍",
+          error: "Error creating your Board",
+        }
+      )
+      .then(() => {
+        setBox();
+      });
   };
-  
+
+  console.log(workers);
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
       <ToastContainer autoClose={1000} />
-      <div className="relative w-[920px] min-h-[90vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] overflow-y-auto">
+      <div className="relative w-[920px] min-h-[87vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"
           onClick={() => handleClose()}
@@ -273,6 +278,23 @@ const ModalCard: React.FC = () => {
             </div>
           ) : null}
         </div>
+        {workers.length > 0 ? (
+          <div className="w-full h-[50px] mb-[15px] flex flex-col mt-[10px]">
+            <div className="w-full h-[50px] pl-[40px] flex items-center">
+              <TbUserStar className="text-slate-800 text-[30px] mr-[20px] " />
+              <h1 className="ml-[10px] text-[18px] text-slate-800 font-semibold">
+                Working On
+              </h1>
+            </div>
+            <div className="w-[500px] h-[50px] ml-[100px] grid grid-cols-8 gap-[10px">
+              {workers &&
+                workers.map((element) => (
+                  <CardWorkingOn key={element._id} email={element.email} />
+                ))}
+            </div>
+          </div>
+        ) : null}
+
         <div className="w-full mt-[10px] min-h-[120px]">
           <div className="w-full h-[50px] pl-[40px] flex items-center">
             <MdOutlineDescription className="text-slate-800 text-[30px] mr-[20px] " />

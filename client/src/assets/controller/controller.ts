@@ -109,6 +109,16 @@ export const getBoard = async (id: string) => {
   }
 };
 
+export const getTeamBoard = async (id: string) => {
+  try {
+    const response = await axios.get(`${URL}/getTableTeam/${id}`);
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const GetIdBoard = async (id: string) => {
   try {
     const response = await axios.get(`${URL}/getIdTable/${id}`);
@@ -245,6 +255,7 @@ export const putCard = async ({
   dueDate,
   type,
   status,
+  workers
 }: {
   card_id: string;
   title: string;
@@ -253,6 +264,7 @@ export const putCard = async ({
   dueDate: string;
   type: string;
   status: string;
+  workers: any[];
 }) => {
   try {
     const response = await axios.put(`${URL}/putCard`, {
@@ -263,6 +275,26 @@ export const putCard = async ({
       dueDate,
       type,
       status,
+      workers
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const addUserTeam = async ({
+  email,
+  table_id,
+}: {
+  email: string;
+  table_id: string;
+}) => {
+  try {
+    const response = await axios.put(`${URL}/addUser`, {
+      email,
+      table_id,
     });
 
     return response.data;
@@ -299,6 +331,24 @@ export const removeCard = async ({
   try {
     const response = await axios.delete(`${URL}/removeCard`, {
       data: { card_id, list_id },
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const removeUserTeam = async ({
+  table_id,
+  user_id,
+}: {
+  table_id: string;
+  user_id: string;
+}) => {
+  try {
+    const response = await axios.delete(`${URL}/removeUserTeam`, {
+      data: { table_id, user_id },
     });
 
     return response.data;

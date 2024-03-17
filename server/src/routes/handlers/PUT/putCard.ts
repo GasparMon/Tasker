@@ -3,7 +3,7 @@ import Card from "../../../database/models/Card";
 
 const putCard = async (req: Request, res: Response) => {
   try {
-    const { title, description, label, dueDate, type, status, card_id, checklist } =
+    const { title, description, label, dueDate, type, status, card_id, checklist, workers } =
       req.body;
 
     const card = await Card.findById(card_id);
@@ -38,6 +38,10 @@ const putCard = async (req: Request, res: Response) => {
 
     if (checklist) {
       card.checklist = checklist;
+    }
+
+    if(workers) {
+      card.card_worker = workers
     }
 
     await card.save();

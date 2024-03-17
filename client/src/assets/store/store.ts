@@ -19,6 +19,12 @@ interface CreateCard {
   setModal: (id: string) => void;
 }
 
+interface CreateUser {
+  createUser: boolean;
+  id: string;
+  setModalUser: (id: string) => void;
+}
+
 interface SetBoard {
   id: string;
   setBoardFunction: (id: string) => void;
@@ -35,7 +41,7 @@ interface CardSetting {
   label: string;
   date: string;
   checklist: string;
-  workers: string[];
+  workers: any[];
   resetModal: () => void;
   postModal: ({
     status,
@@ -50,7 +56,7 @@ interface CardSetting {
     label: string;
     date: string;
     checklist: string;
-    workers: string[];
+    workers: any[];
   }) => void;
   setModal: (name: string, value: any) => void;
   addModal: (id: string) => void;
@@ -85,6 +91,18 @@ export const useModalBoard = create<CreateBoard>((set) => ({
       createBoard: !state.createBoard,
     })),
 }));
+
+export const useModalUser = create<CreateUser>((set) => ({
+  createUser: false,
+  id: "",
+  setModalUser: (id) =>
+    set((state) => ({
+      ...state,
+      id: id,
+      createUser: !state.createUser,
+    })),
+}));
+
 
 export const useCheckBox = create <CheckBox>((set) => ({
   status: true,

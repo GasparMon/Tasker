@@ -28,6 +28,9 @@ import getTableLists from './handlers/PUT/getTableLists';
 import putCardNewList from './handlers/PUT/putCardNewList';
 import removeCheck from './handlers/DELETE/revomeChecklist';
 import removeCard from './handlers/DELETE/removeCard';
+import addUserTeam from './handlers/PUT/addUserTeam';
+import getTableTeam from './handlers/GET/getTeamTable';
+import removeUserTeam from './handlers/DELETE/removeUserTeam';
 
 
 
@@ -48,6 +51,7 @@ routes.get("/getCard/:id", getCard);
 routes.get("/getInfoCard/:id", getInfoCard);
 routes.get("/getTeam/:id", getTeam);
 routes.get("/getIdTable/:id", getIdTable);
+routes.get("/getTableTeam/:id", getTableTeam)
 
 routes.get("/getTableLists/:id", getTableLists);
 routes.put("/putCardNewList", putCardNewList)
@@ -59,6 +63,7 @@ routes.put("/putTeam", putTeam);
 routes.put("/putCard", putCard);
 routes.put("/putChecklist", putChecklist);
 routes.put("/putComment", putComment);
+routes.put("/addUser", addUserTeam);
 
 routes.put("/addTeam", addTeam);
 routes.put("/addCardWorker", addCardWorker);
@@ -67,5 +72,6 @@ routes.put("/addTableTeam", addTableTeam);
 routes.delete("/removeTable", removeTable);
 routes.delete("/removeCheck", removeCheck)
 routes.delete("/removeCard", removeCard)
+routes.delete("/removeUserTeam", removeUserTeam)
 
 export default routes

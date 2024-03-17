@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Card_1 = __importDefault(require("../../../database/models/Card"));
 const putCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, description, label, dueDate, type, status, card_id, checklist } = req.body;
+        const { title, description, label, dueDate, type, status, card_id, checklist, workers } = req.body;
         const card = yield Card_1.default.findById(card_id);
         if (!card) {
             return res.status(404).send("Card doesn't exist");
@@ -40,6 +40,9 @@ const putCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         if (checklist) {
             card.checklist = checklist;
+        }
+        if (workers) {
+            card.card_worker = workers;
         }
         yield card.save();
         return res.status(200).json(card);

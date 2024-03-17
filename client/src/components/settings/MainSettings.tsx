@@ -12,6 +12,7 @@ import CardChecklist from "./CardChecklist";
 import { TbUserShare } from "react-icons/tb";
 import { ListCard } from "../../assets/store/store";
 import { removeCard } from "../../assets/controller/controller";
+import CardUserTeam from "./CardTeamUser";
 
 interface Setting {
   status: boolean;
@@ -84,6 +85,7 @@ const MainSettings: React.FC <MainProps> = ({card_id, handleSave, handleCloseMod
         {settings.checklist ? (
           <CardChecklist handleClose={handleClose} card_id={card_id} />
         ) : null}
+        {settings.users ? <CardUserTeam handleClose={handleClose} /> : null}
         <div
           className="text-gray-600 hover:text-slate-900 w-full h-full bg-zinc-200 hover:bg-zinc-300 rounded-[5px] flex flex-row items-center pl-[20px] text-[18px] cursor-pointer font-normal"
           onClick={() => handleSetting("status")}

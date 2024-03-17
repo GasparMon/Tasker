@@ -17,7 +17,7 @@ body {
   width: 100vw;
   min-width: 320px;
   min-height: 100vh;
-  font-family:"IBM Plex Sans" ;
+  font-family: "IBM Plex Sans";
 }
 
 * {
@@ -48,42 +48,32 @@ body {
   box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
 }
 
-
-
-
 :root {
+  --modelone: linear-gradient(90deg, #15803d 10%, #34d399 100%);
 
-  --modelone: linear-gradient(
-    90deg,
-    #15803d 10%,
-    #34d399 100%
-  );
+  --modeltwo: linear-gradient(90deg, #581c87 10%, #a78bfa 100%);
 
-  --modeltwo: linear-gradient(
-    90deg,
-    #581c87 10%,
-    #a78bfa 100%
-  );
+  --modelthree: linear-gradient(90deg, #1d4ed8 10%, #38bdf8 100%);
 
-  --modelthree: linear-gradient(
-    90deg,
-    #1d4ed8 10%,
-    #38bdf8 100%
-  );
+  --modelfour: linear-gradient(90deg, #9d174d 10%, #ec4899 100%);
 
-  --modelfour: linear-gradient(
-    90deg,
-    #9d174d 10%,
-    #ec4899 100%
-  );
+  --modelfive: linear-gradient(90deg, #fb923c 10%, #facc15 100%);
 
-  --modelfive: linear-gradient(
-    90deg,
-    #fb923c 10%,
-    #facc15 100%
-  );
+  --gradiante-1: linear-gradient(90deg, #ff991c 10%, #ed8936 100%);
 
+  --gradiante-2: linear-gradient(90deg, #1f9aff 10%, #3182ce 100%);
 
+  --gradiante-3: linear-gradient(90deg, #ff4949 10%, #e53e3e 100%);
+
+  --gradiante-4: linear-gradient(90deg, #ff5aaf 10%, #b83280 100%);
+
+  --gradiante-5: linear-gradient(90deg, #8a99ad 10%, #718096 100%);
+
+  --gradiante-6: linear-gradient(90deg, #dcc128 10%, #fbbf24 100%);
+
+  --gradiante-7: linear-gradient(90deg, #23b962 10%, #38a169 100%);
+
+  --gradiante-8: linear-gradient(90deg, #632fdd 10%, #805ad5 100%);
 }
 
 /* Hide the default checkbox */
@@ -107,7 +97,7 @@ body {
   left: 0;
   height: 1.3em;
   width: 1.3em;
-  background-color: #2196F300;
+  background-color: #2196f300;
   border-radius: 0.25em;
   transition: all 0.25s;
 }
@@ -142,5 +132,3 @@ body {
   border-radius: 0em;
   transform: rotate(45deg);
 }
-
-

@@ -10,6 +10,8 @@ import Board from "./components/Board/Board";
 import { useModalCard } from "./assets/store/store";
 import { shallow } from "zustand/shallow";
 import ModalCard from "./components/Home/ModalCard";
+import { useModalUser } from "./assets/store/store";
+import ModalUser from "./components/Home/ModalUser";
 
 function App() {
   const location = useLocation();
@@ -21,6 +23,10 @@ function App() {
   const { createCard} = useModalCard((state) => ({
     createCard: state.createCard,
   }), shallow);
+
+  const {createUser} = useModalUser((state) => ({
+    createUser: state.createUser
+  }), shallow)
 
 
   return (
@@ -35,6 +41,7 @@ function App() {
 
       {createBoard ? <ModalBoard /> : null}
       {createCard ? <ModalCard/> : null}
+      {createUser ? <ModalUser/> : null}
     </div>
   );
 }

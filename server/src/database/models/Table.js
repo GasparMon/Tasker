@@ -24,7 +24,7 @@ const TableSchema = new mongoose_1.Schema({
     ],
     table_Team: [{
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: "Team",
+            ref: "User",
             required: false,
         }],
 }, {

@@ -25,7 +25,7 @@ const TableSchema = new Schema(
     ],
     table_Team: [{
       type: Schema.Types.ObjectId,
-      ref: "Team",
+      ref: "User",
       required: false,
     }],
   },

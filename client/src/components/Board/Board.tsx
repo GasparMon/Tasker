@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import CreateBoard from "./createBoard";
 import List from "./List";
 import { useBoardState } from "../../assets/store/store";
+import { RiUserSearchLine } from "react-icons/ri";
+import { useModalUser } from "../../assets/store/store";
 
 interface Board {
   id: string;
@@ -15,6 +17,7 @@ interface Board {
 
 const Board: React.FC = () => {
   const { setBoardFunction } = useBoardState();
+  const { setModalUser } = useModalUser();
   const { id } = useParams();
   const [board, setBoard] = useState<Board>({
     id: "",
@@ -44,6 +47,7 @@ const Board: React.FC = () => {
     if (id) {
       setBoardFunction(id);
       fetchBoard();
+      setModalUser(id)
     }
   }, [id]);
 
@@ -56,10 +60,19 @@ const Board: React.FC = () => {
       className="w-full h-full flex flex-col"
       style={{ background: `var(--${board.image})` }}
     >
-      <div className="w-full pt-[50px] h-[120px] flex items-center backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
+      <div className="w-full pt-[50px] h-[120px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
         <h1 className="text-white text-[25px] font-extralight ml-[80px]">
           {board.name}
         </h1>
+        <div className="w-[270px] h-full mr-[50px] grid grid-cols-3 gap-[10px]">
+          <div className="w-full h-full items-center justify-center flex">
+            <RiUserSearchLine className="text-[35px] text-white cursor-pointer hover:text-[37px]" 
+            onClick={() => setModalUser(board.id)}
+            />
+          </div>
+          <div className="w-full h-full bg-yellow-100"></div>
+          <div className="w-full h-full bg-yellow-100"></div>
+        </div>
       </div>
       <div className="w-full h-[85%] grid grid-cols-5 grid-rows-1 px-[10px]">
         {board.table_List &&
@@ -68,7 +81,11 @@ const Board: React.FC = () => {
           ))}
         {board.table_List.length < 5 ? (
           <div className="w-full h-full flex flex-col items-center pt-[10px]">
-            <CreateBoard id={board.id} handleFetch={handleFetch} table_list = {board.table_List}/>
+            <CreateBoard
+              id={board.id}
+              handleFetch={handleFetch}
+              table_list={board.table_List}
+            />
           </div>
         ) : null}
       </div>
