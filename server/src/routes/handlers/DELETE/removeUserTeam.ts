@@ -15,11 +15,13 @@ const removeUserTeam = async (req: Request, res: Response) => {
 
         table.table_Team = table.table_Team.filter ((id) => !id.equals(userIdObjectId))
 
+        table.card_worker_pending = table.card_worker_pending.filter ((id) => !id.equals(userIdObjectId))
+
         await table.save();
 
-        const infoTable = await Table.findById(table_id).populate("table_Team")
+        const infoTable = await Table.findById(table_id).populate("table_Team").populate("card_worker_pending")
 
-        return res.status(200).json(infoTable?.table_Team)
+        return res.status(200).json(infoTable)
     }
 
     return res.status(400).send("Table doesn't exist")

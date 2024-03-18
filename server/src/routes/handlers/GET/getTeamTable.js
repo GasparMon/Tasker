@@ -17,8 +17,8 @@ const getTableTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { id } = req.params;
         const table = yield Table_1.default.findById(id)
-            .populate("table_Team");
-        return res.status(200).json(table === null || table === void 0 ? void 0 : table.table_Team);
+            .populate("table_Team").populate("card_worker_pending");
+        return res.status(200).json(table);
     }
     catch (error) {
         return res.status(500).send("Internal Error");

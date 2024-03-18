@@ -6,9 +6,9 @@ const getTableTeam = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const table = await Table.findById(id)
-      .populate("table_Team");
+      .populate("table_Team").populate("card_worker_pending");
 
-    return res.status(200).json(table?.table_Team);
+    return res.status(200).json(table);
   } catch (error) {
     return res.status(500).send("Internal Error");
   }

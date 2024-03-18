@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GrTasks } from "react-icons/gr";
 import { useLocalStorage } from "../../assets/localStorage";
 import { IoNotifications } from "react-icons/io5";
+import { getNotifications } from "../../assets/controller/controller";
+import { useModalNotification } from "../../assets/store/store";
 
 const NavHome: React.FC = () => {
   const { getItem } = useLocalStorage("value");
   const user = getItem();
+
+  const {setModalNotification} = useModalNotification();
+
+  const [notifications, setNotifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getNotifications(user.id);
+
+      if (data) {
+        setNotifications(data);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const total = notifications.filter(
+    (notification) => !notification.view
+  ).length;
 
   return (
     <div className="w-full h-[50px] flex fixed items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50">
@@ -15,8 +37,15 @@ const NavHome: React.FC = () => {
       </div>
 
       <div className="h-full w-[120px] mr-[50px] grid grid-cols-2">
-      <div className="w-full h-full flex items-center justify-center">
-        <IoNotifications className="text-[30px] text-slate-700 cursor-pointer" />
+        <div className="relative w-full h-full flex items-center justify-center"
+        onClick={()=> setModalNotification()}
+        >
+          <IoNotifications className="text-[40px] text-slate-700 cursor-pointer" />
+          {total > 0 ? (
+            <div className="absolute h-[22px] w-[22px] bg-red-600 rounded-[20px] top-[3px] right-2 items-center justify-center flex">
+              <h1 className="text-white font-semibold text-[14px]">{total}</h1>
+            </div>
+          ) : null}
         </div>
         <div className="w-full h-full flex items-center justify-center">
           <div

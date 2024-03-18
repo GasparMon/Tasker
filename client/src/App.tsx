@@ -5,13 +5,14 @@ import NavHome from "./components/Home/NavHome";
 import Home from "./components/Home/Home";
 import Sidebar from "./components/Home/SideBar";
 import ModalBoard from "./components/Home/ModalBoard";
-import { useModalBoard } from "./assets/store/store";
+import { useModalBoard, useModalNotification } from "./assets/store/store";
 import Board from "./components/Board/Board";
 import { useModalCard } from "./assets/store/store";
 import { shallow } from "zustand/shallow";
 import ModalCard from "./components/Home/ModalCard";
 import { useModalUser } from "./assets/store/store";
 import ModalUser from "./components/Home/ModalUser";
+import ModalNotification from "./components/Home/ModalNotification";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,10 @@ function App() {
     createUser: state.createUser
   }), shallow)
 
+  const {notification} = useModalNotification((state) => ({
+    notification: state.notification
+  }), shallow)
+
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center overflow-hidden">
@@ -42,6 +47,7 @@ function App() {
       {createBoard ? <ModalBoard /> : null}
       {createCard ? <ModalCard/> : null}
       {createUser ? <ModalUser/> : null}
+      {notification ? <ModalNotification/> : null}
     </div>
   );
 }

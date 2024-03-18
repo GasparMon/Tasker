@@ -35,6 +35,7 @@ import createNotification from './handlers/POST/createNotification';
 import addUserPending from './handlers/PUT/addUserPending';
 import putNotification from './handlers/PUT/putNotification';
 import viewNotification from './handlers/PUT/viewNotification';
+import getNotifications from './handlers/GET/getNotifications';
 
 
 
@@ -57,6 +58,7 @@ routes.get("/getInfoCard/:id", getInfoCard);
 routes.get("/getTeam/:id", getTeam);
 routes.get("/getIdTable/:id", getIdTable);
 routes.get("/getTableTeam/:id", getTableTeam)
+routes.get("/getNotifications/:id", getNotifications)
 
 routes.get("/getTableLists/:id", getTableLists);
 routes.put("/putCardNewList", putCardNewList)

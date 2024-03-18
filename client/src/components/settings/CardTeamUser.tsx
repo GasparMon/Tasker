@@ -27,7 +27,7 @@ const CardUserTeam: React.FC<PropsStatus> = ({ handleClose }) => {
           const data = await getTeamBoard(id);
 
           if (data) {
-            setUserTeam(data);
+            setUserTeam(data.table_Team);
           }
         } catch (error) {
           console.error("Error al obtener el tablero:", error);

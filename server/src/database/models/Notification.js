@@ -34,12 +34,12 @@ const NotificationSchema = new mongoose_1.Schema({
     },
     sender: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "Table",
+        ref: "User",
         required: true,
     },
     reciever: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "Table",
+        ref: "User",
         required: true,
     },
 });

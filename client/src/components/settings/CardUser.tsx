@@ -2,11 +2,13 @@ import { RiUserSettingsLine } from "react-icons/ri";
 import { useLocalStorage } from "../../assets/localStorage";
 import { useState } from "react";
 import { HiTrash } from "react-icons/hi";
+import { FaUserSlash } from "react-icons/fa";
 
 interface PropUser {
   id: string;
   email: string;
   table_id: string;
+  status: string;
   index: number;
   handleDelete: (props: { user_id: string; table_id: string }) => void;
 }
@@ -16,7 +18,8 @@ const CardUser: React.FC<PropUser> = ({
   email,
   table_id,
   handleDelete,
-  index
+  index,
+  status,
 }) => {
   const { getItem } = useLocalStorage("value");
   const user = getItem();
@@ -33,14 +36,22 @@ const CardUser: React.FC<PropUser> = ({
       onMouseEnter={() => handleinfo()}
       onMouseLeave={() => handleinfo()}
     >
-        <div className="absolute h-[40px] w-[40px] mr-[10px] rounded-[50px] flex items-center justify-center text-[18px] font-normal text-white shadow-md shadow-black/20"
-        style={{ background: `var(--gradiante-${index + 1})`}}
-        >
-{`${email[0].toUpperCase() + email[1].toUpperCase()}`}
-        </div>
+      <div
+        className="absolute h-[40px] w-[40px] mr-[10px] rounded-[50px] flex items-center justify-center text-[18px] font-normal text-white shadow-md shadow-black/20"
+        style={{ background: `var(--gradiante-${index + 1})` }}
+      >
+        {`${email[0].toUpperCase() + email[1].toUpperCase()}`}
+      </div>
       <h1 className="ml-[50px] text-[16px] text-slate-800">{email}</h1>
 
       <div className="w-full h-[40px] flex items-center">
+        {status === "pending" ? (
+          <>
+            {" "}
+            <FaUserSlash className="ml-[10px] text-[20px] text-slate-500" />
+            <h1 className="text-[12px] ml-[5px] text-slate-500">{status}</h1>
+          </>
+        ) : null}
         {user.id === id ? (
           <>
             {" "}

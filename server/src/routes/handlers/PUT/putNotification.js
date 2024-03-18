@@ -13,37 +13,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Notification_1 = __importDefault(require("../../../database/models/Notification"));
+const Notification_2 = __importDefault(require("../../../database/models/Notification"));
 const putNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { notification_id, sender_id, reciever_id, response } = req.body;
         const notification = yield Notification_1.default.findById(notification_id);
         if (notification) {
             notification.response = response;
+            notification.status = response;
             yield notification.save();
-            if (response === "Accepted") {
-                const response = yield new Notification_1.default({
+            if (notification.status === "Accepted" ||
+                notification.status === "Rejected") {
+                const newNotification = yield new Notification_2.default({
                     type: "Response",
-                    response: "Accepted",
-                    sender: sender_id,
-                    reciever: reciever_id,
+                    response: notification.status,
+                    sender: reciever_id,
+                    reciever: sender_id,
+                    board: notification.board,
                 });
-                yield response.save();
-                return res.status(200).json(response);
-            }
-            else {
-                const response = yield new Notification_1.default({
-                    type: "Response",
-                    response: "Rejected",
-                    sender: sender_id,
-                    reciever: reciever_id,
-                });
-                yield response.save();
-                return res.status(200).json(response);
+                yield newNotification.save();
+                return res.status(200).json(newNotification);
             }
         }
+        return res.status(404).json({ error: "Notification not found" });
     }
     catch (error) {
-        return res.status(500).send("Error to create List.");
+        console.error(error);
+        return res.status(500).send("Error to update Notification.");
     }
 });
 exports.default = putNotification;

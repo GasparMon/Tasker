@@ -4,20 +4,22 @@ import { shallow } from "zustand/shallow";
 // import { useLocalStorage } from "../../assets/localStorage";
 import { useEffect, useState } from "react";
 import {
-  addUserTeam,
+  addUserPending,
+  createNotification,
   getTeamBoard,
   removeUserTeam,
 } from "../../assets/controller/controller";
 import CardUser from "../settings/CardUser";
+import { useLocalStorage } from "../../assets/localStorage";
 
 const ModalUser: React.FC = () => {
-//   const { getItem } = useLocalStorage("value");
-//   const user = getItem();
+  const { getItem } = useLocalStorage("value");
+  const user = getItem();
 
   const [inputValue, setInputValue] = useState("");
   const [userTeam, setUserTeam] = useState<any[]>([]);
+  const [userPending, setUserPending] = useState<any[]>([]);
   const [isEmail, setIsEmail] = useState(false);
-
 
   const { setModalUser, id } = useModalUser(
     (state) => ({
@@ -42,7 +44,8 @@ const ModalUser: React.FC = () => {
           const data = await getTeamBoard(id);
 
           if (data) {
-            setUserTeam(data);
+            setUserTeam(data.table_Team);
+            setUserPending(data.card_worker_pending);
           }
         } catch (error) {
           console.error("Error al obtener el tablero:", error);
@@ -54,11 +57,20 @@ const ModalUser: React.FC = () => {
   }, [id]);
 
   const handleAddTeam = async () => {
-    const data = await addUserTeam({ email: inputValue, table_id: id });
+    const data = await addUserPending({ email: inputValue, table_id: id });
 
     if (data) {
-      setUserTeam(data);
-      setInputValue("");
+      setUserPending(data);
+
+      const response = await createNotification({
+        board_id: id,
+        sender_id: user.id,
+        email: inputValue,
+      });
+
+      if (response) {
+        setInputValue("");
+      }
     }
   };
 
@@ -72,7 +84,8 @@ const ModalUser: React.FC = () => {
     const data = await removeUserTeam({ user_id, table_id });
 
     if (data) {
-      setUserTeam(data);
+      setUserTeam(data.table_Team);
+      setUserPending(data.card_worker_pending);
     }
   };
 
@@ -122,7 +135,20 @@ const ModalUser: React.FC = () => {
                 email={element.email}
                 table_id={id}
                 handleDelete={handleDelete}
-                index = {index}
+                index={index}
+                status={"user"}
+              />
+            ))}
+          {userPending &&
+            userPending.map((element, index) => (
+              <CardUser
+                key={element._id}
+                id={element._id}
+                email={element.email}
+                table_id={id}
+                handleDelete={handleDelete}
+                index={userTeam.length + index}
+                status={"pending"}
               />
             ))}
         </div>

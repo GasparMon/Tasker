@@ -25,6 +25,11 @@ interface CreateUser {
   setModalUser: (id: string) => void;
 }
 
+interface Notification {
+  notification: boolean;
+  setModalNotification: () => void;
+}
+
 interface SetBoard {
   id: string;
   setBoardFunction: (id: string) => void;
@@ -89,6 +94,15 @@ export const useModalBoard = create<CreateBoard>((set) => ({
     set((state) => ({
       ...state,
       createBoard: !state.createBoard,
+    })),
+}));
+
+export const useModalNotification = create<Notification>((set) => ({
+  notification: false,
+  setModalNotification: () =>
+    set((state) => ({
+      ...state,
+      notification: !state.notification,
     })),
 }));
 

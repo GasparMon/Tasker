@@ -40,6 +40,7 @@ const createNotification_1 = __importDefault(require("./handlers/POST/createNoti
 const addUserPending_1 = __importDefault(require("./handlers/PUT/addUserPending"));
 const putNotification_1 = __importDefault(require("./handlers/PUT/putNotification"));
 const viewNotification_1 = __importDefault(require("./handlers/PUT/viewNotification"));
+const getNotifications_1 = __importDefault(require("./handlers/GET/getNotifications"));
 const routes = express_1.default.Router();
 routes.post("/createUser", createUser_1.default);
 routes.post("/createTable", createTable_1.default);
@@ -57,6 +58,7 @@ routes.get("/getInfoCard/:id", getInfoCard_1.default);
 routes.get("/getTeam/:id", getTeam_1.default);
 routes.get("/getIdTable/:id", getTable_1.default);
 routes.get("/getTableTeam/:id", getTeamTable_1.default);
+routes.get("/getNotifications/:id", getNotifications_1.default);
 routes.get("/getTableLists/:id", getTableLists_1.default);
 routes.put("/putCardNewList", putCardNewList_1.default);
 routes.put("/putUser", putUser_1.default);

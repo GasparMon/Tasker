@@ -38,13 +38,13 @@ const NotificationSchema = new Schema({
 
   sender: {
     type: Schema.Types.ObjectId,
-    ref: "Table",
+    ref: "User",
     required: true,
   },
 
   reciever: {
     type: Schema.Types.ObjectId,
-    ref: "Table",
+    ref: "User",
     required: true,
   },
 });

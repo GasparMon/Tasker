@@ -13,17 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Notification_1 = __importDefault(require("../../../database/models/Notification"));
+const User_1 = __importDefault(require("../../../database/models/User"));
 const createNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { board_id, sender_id, reciever_id } = req.body;
-        const newNotification = yield new Notification_1.default({
-            board: board_id,
-            sender: sender_id,
-            reciever: reciever_id,
-            status: "Pending",
-        });
-        yield newNotification.save();
-        return res.status(200).json(newNotification);
+        const { board_id, sender_id, email } = req.body;
+        const user = yield User_1.default.findOne({ email });
+        if (user) {
+            const newNotification = yield new Notification_1.default({
+                board: board_id,
+                sender: sender_id,
+                reciever: user._id,
+                status: "Pending",
+            });
+            yield newNotification.save();
+            return res.status(200).json(newNotification);
+        }
     }
     catch (error) {
         return res.status(500).send("Error to create List.");

@@ -42,6 +42,28 @@ export const createList = async ({
   }
 };
 
+export const createNotification = async ({
+  board_id,
+  sender_id,
+  email,
+}: {
+  board_id: string;
+  sender_id: string;
+  email: string;
+}) => {
+  try {
+    const response = await axios.post(`${URL}/creatNotification`, {
+      board_id,
+      sender_id,
+      email,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const createCard = async ({
   title,
   user_id,
@@ -169,6 +191,16 @@ export const getTableList = async (id: string) => {
   }
 };
 
+export const getNotifications = async (id: string) => {
+  try {
+    const response = await axios.get(`${URL}/getNotifications/${id}`);
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const putCardNewList = async ({
   card_id,
   current_List,
@@ -247,6 +279,31 @@ export const putCardChecklist = async ({
   }
 };
 
+export const putNotification = async ({
+  notification_id,
+  sender_id,
+  reciever_id,
+  response,
+}: {
+  notification_id: string;
+  sender_id: string;
+  reciever_id: string;
+  response: string;
+}) => {
+  try {
+    const respons = await axios.put(`${URL}/putNotification`, {
+      notification_id,
+      sender_id,
+      reciever_id,
+      response,
+    });
+
+    return respons.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const putCard = async ({
   card_id,
   title,
@@ -255,7 +312,7 @@ export const putCard = async ({
   dueDate,
   type,
   status,
-  workers
+  workers,
 }: {
   card_id: string;
   title: string;
@@ -275,7 +332,7 @@ export const putCard = async ({
       dueDate,
       type,
       status,
-      workers
+      workers,
     });
 
     return response.data;
@@ -293,6 +350,25 @@ export const addUserTeam = async ({
 }) => {
   try {
     const response = await axios.put(`${URL}/addUser`, {
+      email,
+      table_id,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const addUserPending = async ({
+  email,
+  table_id,
+}: {
+  email: string;
+  table_id: string;
+}) => {
+  try {
+    const response = await axios.put(`${URL}/addUserPending`, {
       email,
       table_id,
     });
