@@ -36,6 +36,9 @@ import addUserPending from './handlers/PUT/addUserPending';
 import putNotification from './handlers/PUT/putNotification';
 import viewNotification from './handlers/PUT/viewNotification';
 import getNotifications from './handlers/GET/getNotifications';
+import addNewUserBoard from './handlers/ADD/addNewUserBoard';
+import putUserTeamResponse from './handlers/PUT/putUserTeamResponse';
+import updateNotifications from './handlers/PUT/updateNotification';
 
 
 
@@ -74,10 +77,13 @@ routes.put("/addUser", addUserTeam);
 routes.put("/addUserPending", addUserPending);
 routes.put("/putNotification", putNotification);
 routes.put("/viewNotifications", viewNotification);
+routes.put("/updateNotifications/:id", updateNotifications)
 
 routes.put("/addTeam", addTeam);
 routes.put("/addCardWorker", addCardWorker);
 routes.put("/addTableTeam", addTableTeam);
+routes.put("/addNewUserBoard", addNewUserBoard)
+routes.put("/putUserTeamResponse", putUserTeamResponse)
 
 routes.delete("/removeTable", removeTable);
 routes.delete("/removeCheck", removeCheck)

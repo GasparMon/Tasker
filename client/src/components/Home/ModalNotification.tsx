@@ -2,10 +2,19 @@ import { CgClose } from "react-icons/cg";
 import { useLocalStorage } from "../../assets/localStorage";
 import { useModalNotification } from "../../assets/store/store";
 import { useEffect, useState } from "react";
-import { getNotifications, putNotification } from "../../assets/controller/controller";
+import {
+  addNewUserBoard,
+  getNotifications,
+  putNotification,
+  putUserTeamResponse,
+  updateNotifications,
+} from "../../assets/controller/controller";
 import CardNotification from "../settings/CardNotification";
+import { useUpdate } from "../../assets/store/store";
 
 const ModalNotification: React.FC = () => {
+  const { setUpdate } = useUpdate();
+
   const { getItem } = useLocalStorage("value");
   const user = getItem();
 
@@ -18,19 +27,65 @@ const ModalNotification: React.FC = () => {
 
     if (data) {
       setNotifications(data);
+      const newdata = await updateNotifications(user.id);
+
+      if (newdata) {
+        setUpdate();
+      }
     }
   };
   useEffect(() => {
     fetchData();
   }, []);
 
-  const handleNotification = async ({ notification_id, sender_id, reciever_id, response }: { notification_id: string; sender_id: string; reciever_id: string; response: string }) => {
-    const data = await putNotification({ notification_id, sender_id, reciever_id, response });
+  const handleNotification = async ({
+    notification_id,
+    sender_id,
+    reciever_id,
+    response,
+  }: {
+    notification_id: string;
+    sender_id: string;
+    reciever_id: string;
+    response: string;
+  }) => {
+    const data = await putNotification({
+      notification_id,
+      sender_id,
+      reciever_id,
+      response,
+    });
 
-    if (data) {
+    if (data.response === "Accepted") {
+      const dataBoard = await addNewUserBoard({
+        table_id: data.board,
+        user_id: data.sender,
+      });
+
+      if (dataBoard) {
+        const finaldata = await putUserTeamResponse({
+          board_id: data.board,
+          user_id: data.sender,
+          response: "Accepted",
+        });
+
+        if (finaldata) {
+          fetchData();
+          setUpdate();
+        }
+      }
+    } else {
+      const finaldata = await putUserTeamResponse({
+        board_id: data.board,
+        user_id: data.sender,
+        response: "Rejected",
+      });
+
+      if (finaldata) {
         fetchData();
+      }
     }
-}
+  };
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
@@ -55,7 +110,10 @@ const ModalNotification: React.FC = () => {
                 sender={element.sender.email}
                 senderid={element.sender._id}
                 reciever={element.reciever}
-                handleNotification = {handleNotification}
+                handleNotification={handleNotification}
+                type={element.type}
+                response={element.response}
+                created = {element.createdAt}
               />
             ))}
         </div>

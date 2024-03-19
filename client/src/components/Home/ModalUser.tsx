@@ -20,6 +20,7 @@ const ModalUser: React.FC = () => {
   const [userTeam, setUserTeam] = useState<any[]>([]);
   const [userPending, setUserPending] = useState<any[]>([]);
   const [isEmail, setIsEmail] = useState(false);
+  const [owner, setOwner] = useState("")
 
   const { setModalUser, id } = useModalUser(
     (state) => ({
@@ -44,8 +45,10 @@ const ModalUser: React.FC = () => {
           const data = await getTeamBoard(id);
 
           if (data) {
+            setOwner(data.owner)
             setUserTeam(data.table_Team);
             setUserPending(data.card_worker_pending);
+            
           }
         } catch (error) {
           console.error("Error al obtener el tablero:", error);
@@ -61,7 +64,7 @@ const ModalUser: React.FC = () => {
 
     if (data) {
       setUserPending(data);
-
+      setIsEmail(false)
       const response = await createNotification({
         board_id: id,
         sender_id: user.id,
@@ -86,8 +89,14 @@ const ModalUser: React.FC = () => {
     if (data) {
       setUserTeam(data.table_Team);
       setUserPending(data.card_worker_pending);
+      setIsEmail(false)
     }
   };
+
+  const isEmailAlreadyExists = userTeam.some((member) => member.email === inputValue);
+  const isAllMembers = userPending.length === 7
+
+  console.log(userPending)
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
@@ -114,7 +123,7 @@ const ModalUser: React.FC = () => {
             <button
               className="w-[200px] h-[40px] bg-blue-600 hover:bg-blue-700 ease-in duration-200 rounded-[10px] text-white text-[20px] disabled:opacity-30 disabled:cursor-not-allowed"
               onClick={() => handleAddTeam()}
-              disabled={!isEmail}
+              disabled={!isEmail || isEmailAlreadyExists || isAllMembers}
             >
               Add Member
             </button>
@@ -124,6 +133,9 @@ const ModalUser: React.FC = () => {
           <div className="w-full h-[40px] flex items-center">
             <h1 className=" text-[18px] font-semibold mr-[7px] text-slate-800">
               Current Team{" "}
+            </h1>
+            <h1 className="text-slate-400 font-normal ml-[5px]">
+            {`${userPending.length + 1}/8`}
             </h1>
           </div>
 
@@ -137,6 +149,7 @@ const ModalUser: React.FC = () => {
                 handleDelete={handleDelete}
                 index={index}
                 status={"user"}
+                owner= {owner}
               />
             ))}
           {userPending &&
@@ -149,6 +162,7 @@ const ModalUser: React.FC = () => {
                 handleDelete={handleDelete}
                 index={userTeam.length + index}
                 status={"pending"}
+                owner= {owner}
               />
             ))}
         </div>

@@ -13,23 +13,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Table_1 = __importDefault(require("../../../database/models/Table"));
-const User_1 = __importDefault(require("../../../database/models/User"));
-const createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const mongoose_1 = __importDefault(require("mongoose"));
+const putUserTeamResponse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, image, user_id } = req.body;
-        const newTable = new Table_1.default({ name, image, table_Team: [user_id], owner: user_id });
-        yield newTable.save();
-        if (newTable.name) {
-            const userTable = yield User_1.default.findById(user_id);
-            if (userTable) {
-                userTable.user_Tables.push(newTable._id);
-                yield userTable.save();
+        const { board_id, user_id, response } = req.body;
+        const board = yield Table_1.default.findById(board_id);
+        if (board) {
+            const userIdObjectId = new mongoose_1.default.Types.ObjectId(user_id);
+            board.card_worker_pending = board.card_worker_pending.filter((id) => !id.equals(userIdObjectId));
+            if (response === "Accepted") {
+                board.table_Team.push(user_id);
+                yield board.save();
+                return res.status(200).json(board);
             }
+            yield board.save();
+            return res.status(200).json(board);
         }
-        return res.status(200).send(newTable);
     }
     catch (error) {
-        return res.status(500).send("Error to create Table.");
+        return res.status(500).send("Error to create List.");
     }
 });
-exports.default = createTable;
+exports.default = putUserTeamResponse;

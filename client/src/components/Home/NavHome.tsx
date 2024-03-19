@@ -4,10 +4,17 @@ import { useLocalStorage } from "../../assets/localStorage";
 import { IoNotifications } from "react-icons/io5";
 import { getNotifications } from "../../assets/controller/controller";
 import { useModalNotification } from "../../assets/store/store";
+import { useUpdate } from "../../assets/store/store";
+import { shallow } from "zustand/shallow";
 
 const NavHome: React.FC = () => {
   const { getItem } = useLocalStorage("value");
   const user = getItem();
+
+  const {update} = useUpdate((state) => ({
+    ...state,
+    update: state.update
+  }), shallow)
 
   const {setModalNotification} = useModalNotification();
 
@@ -23,7 +30,7 @@ const NavHome: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [update]);
 
   const total = notifications.filter(
     (notification) => !notification.view

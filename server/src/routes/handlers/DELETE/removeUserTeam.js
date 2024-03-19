@@ -13,7 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Table_1 = __importDefault(require("../../../database/models/Table"));
+const User_1 = __importDefault(require("../../../database/models/User"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const Notification_1 = __importDefault(require("../../../database/models/Notification"));
 const removeUserTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { table_id, user_id } = req.body;
@@ -23,7 +25,21 @@ const removeUserTeam = (req, res) => __awaiter(void 0, void 0, void 0, function*
             table.table_Team = table.table_Team.filter((id) => !id.equals(userIdObjectId));
             table.card_worker_pending = table.card_worker_pending.filter((id) => !id.equals(userIdObjectId));
             yield table.save();
-            const infoTable = yield Table_1.default.findById(table_id).populate("table_Team").populate("card_worker_pending");
+            const user = yield User_1.default.findById(user_id);
+            if (user) {
+                const tableObjectId = new mongoose_1.default.Types.ObjectId(table_id);
+                user.user_Tables = user.user_Tables.filter((id) => !id.equals(tableObjectId));
+                yield user.save();
+                yield Notification_1.default.deleteMany({
+                    type: "Invite",
+                    status: "Pending",
+                    board: table_id,
+                    reciever: user_id,
+                });
+            }
+            const infoTable = yield Table_1.default.findById(table_id)
+                .populate("table_Team")
+                .populate("card_worker_pending");
             return res.status(200).json(infoTable);
         }
         return res.status(400).send("Table doesn't exist");

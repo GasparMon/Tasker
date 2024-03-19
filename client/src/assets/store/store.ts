@@ -72,6 +72,12 @@ interface CheckBox{
   setBox: () => void
 }
 
+interface update{
+  update: boolean;
+  setUpdate: () => void
+}
+
+
 export const useOptionsHome = create<OptionsState>((set) => ({
   board: true,
   bookmark: false,
@@ -123,6 +129,14 @@ export const useCheckBox = create <CheckBox>((set) => ({
   setBox: () => set((state) => ({
     ...state,
     status: !state.status
+  }))
+}))
+
+export const useUpdate= create <update>((set) => ({
+  update: true,
+  setUpdate: () => set((state) => ({
+    ...state,
+    update: !state.update
   }))
 }))
 

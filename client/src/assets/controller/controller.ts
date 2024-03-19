@@ -222,6 +222,17 @@ export const putCardNewList = async ({
   }
 };
 
+export const updateNotifications = async (id: string) => {
+  try {
+    const response = await axios.put(`${URL}/updateNotifications/${id}`);
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+
 export const putChecklist = async ({
   status,
   checklist_id,
@@ -371,6 +382,47 @@ export const addUserPending = async ({
     const response = await axios.put(`${URL}/addUserPending`, {
       email,
       table_id,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const putUserTeamResponse = async ({
+  board_id,
+  user_id,
+  response,
+}: {
+  board_id: string;
+  user_id: string;
+  response: string;
+}) => {
+  try {
+    const respons = await axios.put(`${URL}/putUserTeamResponse`, {
+      board_id,
+      user_id,
+      response,
+    });
+
+    return respons.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const addNewUserBoard = async ({
+  table_id,
+  user_id,
+}: {
+  table_id: string;
+  user_id: string;
+}) => {
+  try {
+    const response = await axios.put(`${URL}/addNewUserBoard`, {
+      table_id,
+      user_id,
     });
 
     return response.data;

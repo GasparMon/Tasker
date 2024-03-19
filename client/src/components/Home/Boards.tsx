@@ -6,16 +6,28 @@ import { getBoard } from "../../assets/controller/controller";
 import { useLocalStorage } from "../../assets/localStorage";
 import BoardCard from "./BoardCard";
 import { shallow } from "zustand/shallow";
+import { useUpdate } from "../../assets/store/store";
 
 const Boards: React.FC = () => {
   const { setModal } = useModalBoard();
-  const {createBoard} = useModalBoard((state) => ({createBoard: state.createBoard}), shallow)
+  const { createBoard } = useModalBoard(
+    (state) => ({ createBoard: state.createBoard }),
+    shallow
+  );
+
+  const {update} = useUpdate((state) => ({
+    ...state,
+    update: state.update
+  }), shallow)
+
+  console.log(update)
+  
   const { getItem } = useLocalStorage("value");
   const [boards, setBoards] = useState<any[]>([]);
 
-  useEffect(() => {
-    const { id } = getItem();
+  const { id } = getItem();
 
+  useEffect(() => {
     const handleBoards = async () => {
       const response = await getBoard(id);
 
@@ -25,7 +37,7 @@ const Boards: React.FC = () => {
     };
 
     handleBoards();
-  }, [createBoard]);
+  }, [createBoard, update]);
 
   return (
     <div className={`relative w-full h-full flex flex-col pl-[20px]`}>
@@ -43,7 +55,17 @@ const Boards: React.FC = () => {
         </div>
       </div>
       <div className="w-full mt-[30px] h-[450px] grid grid-rows-3 grid-cols-5 gap-x-[15px] gap-y-[10px]">
-        {boards && boards.map((element) => <BoardCard key={element._id} id={element._id} name={element.name} image={element.image}/>)}
+        {boards &&
+          boards.map((element) => (
+            <BoardCard
+              key={element._id}
+              id={element._id}
+              name={element.name}
+              image={element.image}
+              userId={id}
+              owner={element.owner}
+            />
+          ))}
       </div>
     </div>
   );

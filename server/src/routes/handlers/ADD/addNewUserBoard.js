@@ -12,17 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Notification_1 = __importDefault(require("../../../database/models/Notification"));
-const getNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const User_1 = __importDefault(require("../../../database/models/User"));
+const addNewUserBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id } = req.params;
-        const notifications = yield Notification_1.default.find({ reciever: id })
-            .populate("board")
-            .populate("sender");
-        return res.status(200).json(notifications);
+        const { table_id, user_id } = req.body;
+        const user = yield User_1.default.findById(user_id);
+        if (!user) {
+            return res.status(400).send("User doesn't exist");
+        }
+        user.user_Tables.push(table_id);
+        yield user.save();
+        return res.status(200).json(user);
     }
     catch (error) {
         return res.status(500).send("Internal Error");
     }
 });
-exports.default = getNotifications;
+exports.default = addNewUserBoard;

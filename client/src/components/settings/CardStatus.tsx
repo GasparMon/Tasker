@@ -68,7 +68,7 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
     shallow
   );
 
-  console.log(list_id);
+
 
   const handleStatus = async (name: string) => {
     setIsDisiable(true);
@@ -98,7 +98,7 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
         }
       }
     } catch (error) {
-      console.error("Error:", error);
+    
     } finally {
       setIsDisiable(false);
     }

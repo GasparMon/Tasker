@@ -10,6 +10,7 @@ interface PropUser {
   table_id: string;
   status: string;
   index: number;
+  owner: string;
   handleDelete: (props: { user_id: string; table_id: string }) => void;
 }
 
@@ -20,6 +21,7 @@ const CardUser: React.FC<PropUser> = ({
   handleDelete,
   index,
   status,
+  owner,
 }) => {
   const { getItem } = useLocalStorage("value");
   const user = getItem();
@@ -43,7 +45,6 @@ const CardUser: React.FC<PropUser> = ({
         {`${email[0].toUpperCase() + email[1].toUpperCase()}`}
       </div>
       <h1 className="ml-[50px] text-[16px] text-slate-800">{email}</h1>
-
       <div className="w-full h-[40px] flex items-center">
         {status === "pending" ? (
           <>
@@ -52,7 +53,7 @@ const CardUser: React.FC<PropUser> = ({
             <h1 className="text-[12px] ml-[5px] text-slate-500">{status}</h1>
           </>
         ) : null}
-        {user.id === id ? (
+        {owner === id ? (
           <>
             {" "}
             <RiUserSettingsLine className="ml-[10px] text-[20px] text-slate-500" />
@@ -60,17 +61,22 @@ const CardUser: React.FC<PropUser> = ({
           </>
         ) : null}
       </div>
-
-      {checkInfo ? null : (
-        <div className="absolute w-[50px] h-full flex items-center justify-center right-[10px]">
-          {user.id !== id && (
-            <HiTrash
-              className="text-[25px] text-slate-800 hover:text-red-500 cursor-pointer"
-              onClick={() => handleDelete({ user_id: id, table_id: table_id })}
-            />
+      {owner === user.id ? (
+        <>
+          {checkInfo ? null : (
+            <div className="absolute w-[50px] h-full flex items-center justify-center right-[10px]">
+              {user.id !== id && owner !== id && (
+                <HiTrash
+                  className="text-[25px] text-slate-800 hover:text-red-500 cursor-pointer"
+                  onClick={() =>
+                    handleDelete({ user_id: id, table_id: table_id })
+                  }
+                />
+              )}
+            </div>
           )}
-        </div>
-      )}
+        </>
+      ) : null}
     </div>
   );
 };

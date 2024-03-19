@@ -14,7 +14,7 @@ const TableSchema = new Schema(
       type: String,
       unique: false,
       required: false,
-      enum:["modelone", "modeltwo", "modelthree", "modelfour", "modelfive"]
+      enum: ["modelone", "modeltwo", "modelthree", "modelfour", "modelfive"],
     },
     table_Lists: [
       {
@@ -23,11 +23,13 @@ const TableSchema = new Schema(
         required: false,
       },
     ],
-    table_Team: [{
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: false,
-    }],
+    table_Team: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: false,
+      },
+    ],
     card_worker_pending: [
       {
         type: Schema.Types.ObjectId,
@@ -35,6 +37,11 @@ const TableSchema = new Schema(
         required: true,
       },
     ],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
   },
   {
     timestamps: true,

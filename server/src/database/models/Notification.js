@@ -42,5 +42,7 @@ const NotificationSchema = new mongoose_1.Schema({
         ref: "User",
         required: true,
     },
+}, {
+    timestamps: true,
 });
 exports.default = (0, mongoose_1.model)("Notification", NotificationSchema);

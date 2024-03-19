@@ -47,6 +47,9 @@ const NotificationSchema = new Schema({
     ref: "User",
     required: true,
   },
+},
+{
+  timestamps: true,
 });
 
 export default model("Notification", NotificationSchema);
