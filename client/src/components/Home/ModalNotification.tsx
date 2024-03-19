@@ -102,13 +102,15 @@ const ModalNotification: React.FC = () => {
           <h1 className="text-[30px] text-gray-700">Notification Center</h1>
         </div>
         {notifications && notifications.length > 0 ? (
-            <div className="w-full h-[40px] flex items-center">
-<TbMessage className="ml-[100px] text-[25px] text-slate-500" />
-<h1 className="ml-[10px] text-[15px] text-slate-500">{`${notifications.length}`} Messages</h1>
-            </div>
-        ) :null}
+          <div className="w-full h-[40px] flex items-center">
+            <TbMessage className="ml-[100px] text-[25px] text-slate-500" />
+            <h1 className="ml-[10px] text-[15px] text-slate-500">
+              {`${notifications.length}`} Messages
+            </h1>
+          </div>
+        ) : null}
         {notifications && notifications.length === 0 ? (
-          <div className="w-full h-[300px] flex flex-col items-center justify-center">
+          <div className="w-full h-[400px] flex flex-col items-center justify-center">
             <TbMessageCircleExclamation className="text-[200px] mb-[25px] text-slate-500" />
             <h1 className="text-[30px] text-slate-500">Your inbox is empty.</h1>
           </div>
@@ -120,7 +122,7 @@ const ModalNotification: React.FC = () => {
                   key={element._id}
                   id={element._id}
                   status={element.status}
-                  board={element.board.name}
+                  board={element.board?.name}
                   sender={element.sender.email}
                   senderid={element.sender._id}
                   reciever={element.reciever}

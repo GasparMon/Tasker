@@ -14,6 +14,7 @@ import ModalUser from "./components/Home/ModalUser";
 import ModalNotification from "./components/Home/ModalNotification";
 import { useModalList } from "./assets/store/store";
 import ModalList from "./components/Home/ModalList";
+import { useModalDeleteBoard } from "./assets/store/store";
 import ModalDeleteBoard from "./components/Home/ModalDeleteBoard";
 
 function App() {
@@ -40,9 +41,14 @@ function App() {
     deleteList: state.deleteList
   }), shallow)
 
+  const {deleteBoard} = useModalDeleteBoard((state) => ({
+    ...state,
+    deleteBoard: state.deleteBoard
+  }), shallow)
+
 
   return (
-    <div className="relative w-screen h-screen flex flex-col items-center overflow-hidden">
+    <div className="relative w-screen h-screen min-w-[1150px] min-h-[600px] flex flex-col items-center overflow-hidden">
       {location.pathname === "/" ? <NavBar /> : <NavHome />}
       {/* {location.pathname === "/home" ? <Sidebar /> : null} */}
       <Routes>
@@ -56,7 +62,7 @@ function App() {
       {createUser ? <ModalUser/> : null}
       {notification ? <ModalNotification/> : null}
       {deleteList ? <ModalList/> : null}
-      {/* {deleteList? <ModalDeleteBoard/> : null} */}
+      {deleteBoard? <ModalDeleteBoard/> : null}
     </div>
   );
 }

@@ -78,6 +78,7 @@ const ModalBoard: React.FC = () => {
     <div className="absolute w-full h-full bg-black/70 flex items-center justify-center ease-in duration-200 z-50">
       <ToastContainer 
       autoClose={1500}
+      theme="dark"
       />
       <div className="relative w-[600px] h-[700px] bg-white rounded-[10px] flex flex-col items-center">
         <div

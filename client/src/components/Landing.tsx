@@ -40,7 +40,7 @@ const Landing: React.FC = () => {
 
   return (
     <div className="mt-[50px] w-full h-full items-center overflow-x-hidden ">
-      <div className="w-full h-[600px]  bg-gradient-to-r from-indigo-500 via-teal-500 to-emerald-600 grid grid-cols-2 overflow-hidden">
+      <div className="w-full h-[620px]  bg-gradient-to-r from-indigo-500 via-teal-500 to-emerald-600 grid grid-cols-2 overflow-hidden">
         <div className="w-full h-full flex items-center justify-center">
           <div className="w-[80%] h-[500px]">
             <h1 className="text-white text-[35px] font-bold my-[10px]">
@@ -120,7 +120,7 @@ const Landing: React.FC = () => {
           Productivity
         </div>
       </div>
-      <div className="w-full h-[680px] ">
+      <div className="w-full h-[660px] ">
         {sliderData &&
           sliderData.map(
             (element) =>

@@ -12,24 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = __importDefault(require("../../../database/models/User"));
 const Table_1 = __importDefault(require("../../../database/models/Table"));
-const Notification_1 = __importDefault(require("../../../database/models/Notification"));
-const removeTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const List_1 = __importDefault(require("../../../database/models/List"));
+const Card_1 = __importDefault(require("../../../database/models/Card"));
+const removeList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { table_id } = req.body;
-        yield Table_1.default.deleteOne({ _id: table_id });
-        yield Notification_1.default.deleteMany({ board: table_id });
-        const users = yield User_1.default.find({ user_Tables: table_id });
-        for (const user of users) {
-            user.user_Tables = user.user_Tables.filter((element) => !element.equals(table_id));
-            yield user.save();
+        const { list_id, table_id } = req.body;
+        const list = yield List_1.default.findById(list_id);
+        yield Card_1.default.deleteMany({ _id: { $in: list === null || list === void 0 ? void 0 : list.list_Cards } });
+        yield List_1.default.deleteOne({ _id: list_id });
+        const table = yield Table_1.default.findById(table_id);
+        if (!table) {
+            return res.status(400).send("Table doesn't exist");
         }
-        return res.status(200).json({ message: "Table removed successfully" });
+        table.table_Lists = table.table_Lists.filter((element) => element.toString() !== list_id);
+        yield table.save();
+        return res.status(200).json(table);
     }
     catch (error) {
         console.error(error);
         return res.status(500).send("Internal Error");
     }
 });
-exports.default = removeTable;
+exports.default = removeList;

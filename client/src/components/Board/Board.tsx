@@ -7,6 +7,8 @@ import { useBoardState } from "../../assets/store/store";
 import { RiUserSearchLine } from "react-icons/ri";
 import { useModalUser } from "../../assets/store/store";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
+import { useUpdate } from "../../assets/store/store";
+import { shallow } from "zustand/shallow";
 
 interface Board {
   id: string;
@@ -20,6 +22,10 @@ const Board: React.FC = () => {
   const { setBoardFunction } = useBoardState();
   const { setModalUser } = useModalUser();
   const { id } = useParams();
+  const {update} = useUpdate((state) => ({
+    ...state,
+    update: state.update
+  }), shallow)
   const [board, setBoard] = useState<Board>({
     id: "",
     name: "",
@@ -50,7 +56,7 @@ const Board: React.FC = () => {
       fetchBoard();
       // setModalUser(id)
     }
-  }, [id]);
+  }, [id, update]);
 
   const handleFetch = () => {
     fetchBoard();
@@ -61,9 +67,9 @@ const Board: React.FC = () => {
       className="w-full h-full flex flex-col"
       style={{ background: `var(--${board.image})` }}
     >
-      <div className="w-full pt-[50px] h-[120px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
-      <div className="w-[200px] h-full flex items-center justify-around ml-[70px]">
-      <MdOutlineSpaceDashboard className="text-[50px] text-white" />
+      <div className="w-full p-[5px] h-[70px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
+      <div className="w-[600px] h-full flex items-center  ml-[70px]">
+      <MdOutlineSpaceDashboard className="text-[50px] text-white mr-[20px]" />
        <h1 className="text-white text-[30px] font-light ">
           {board.name}
         </h1>

@@ -1,7 +1,6 @@
 import { shallow } from "zustand/shallow";
 import { useModalCard } from "../../assets/store/store";
 import { CgClose } from "react-icons/cg";
-import { MdOutlineDisplaySettings } from "react-icons/md";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getCard, putCard } from "../../assets/controller/controller";
 import { MdOutlineSubtitles } from "react-icons/md";
@@ -185,7 +184,9 @@ const ModalCard: React.FC = () => {
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
-      <ToastContainer autoClose={1000} />
+      <ToastContainer autoClose={1000}
+      theme="dark"
+      />
       <div className="relative w-[920px] min-h-[87vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"

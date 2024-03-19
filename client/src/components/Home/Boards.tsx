@@ -39,8 +39,8 @@ const Boards: React.FC = () => {
   }, [createBoard, update]);
 
   return (
-    <div className={`relative w-full h-full flex flex-col pl-[20px]`}>
-      <div className="w-full h-[90px] flex flex-row items-center border-b-[2px] border-gray-300 bg-white">
+    <div className={`relative w-full h-full flex flex-col pl-[20px] `}>
+      <div className="w-full h-[70px] flex flex-row items-center border-b-[2px] border-gray-300 bg-white">
         <FaFlipboard className="text-[50px] mr-[20px] text-teal-700" />
         <h1 className="text-[40px] text-gray-600">My Boards</h1>
       </div>

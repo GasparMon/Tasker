@@ -11,7 +11,7 @@ interface PropsStatus {
 
 const CardUserTeam: React.FC<PropsStatus> = ({ handleClose }) => {
   const [userTeam, setUserTeam] = useState<any[]>([]);
-//   const [newTeam, setnewTeam] = useState<any[]>([]);
+  //   const [newTeam, setnewTeam] = useState<any[]>([]);
 
   const { id } = useModalUser(
     (state) => ({
@@ -50,11 +50,17 @@ const CardUserTeam: React.FC<PropsStatus> = ({ handleClose }) => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center p-[5px] m-[10px]">
-      {userTeam &&
-        userTeam.map((element, index) => (
-          <Team key={element._id} user_id={element._id} index={index} email={element.email} element={element} />
-        ))}
-        </div>
+        {userTeam &&
+          userTeam.map((element, index) => (
+            <Team
+              key={element._id}
+              user_id={element._id}
+              index={index}
+              email={element.email}
+              element={element}
+            />
+          ))}
+      </div>
     </div>
   );
 };

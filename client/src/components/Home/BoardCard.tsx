@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useBoardState } from "../../assets/store/store";
 import { PiUsersThreeBold } from "react-icons/pi";
 import { TbUserStar } from "react-icons/tb";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { useModalDeleteBoard } from "../../assets/store/store";
+import { useLocalStorage } from "../../assets/localStorage";
 
 interface BoardCardProps {
   id: string;
@@ -24,6 +27,10 @@ const BoardCard: React.FC<BoardCardProps> = ({
   const [cardHover, setCardHover] = useState(false);
 
   const { setBoardFunction } = useBoardState();
+  const { setModalBoard } = useModalDeleteBoard();
+  const { getItem } = useLocalStorage("value");
+  const user = getItem();
+
 
   const handleHoverIn = () => {
     setCardHover(true);
@@ -40,7 +47,7 @@ const BoardCard: React.FC<BoardCardProps> = ({
 
   return (
     <div
-      className="relative w-full h-full rounded-[10px] cursor-pointer shadow-lg shadow-black/20 hover:shadow-black/30 ease-in duration-200 overflow-hidden"
+      className="relative w-full h-full rounded-[10px]  shadow-lg shadow-black/20 hover:shadow-black/30 ease-in duration-200 overflow-hidden"
       onMouseEnter={() => handleHoverIn()}
       onMouseLeave={() => handleHoverOff()}
       style={{ background: `var(--${image})` }}
@@ -56,11 +63,17 @@ const BoardCard: React.FC<BoardCardProps> = ({
         </h1>
       </div>
       {cardHover ? (
-        <div
-          className="absolute w-full h-full bg-black/20 z-20 opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-100"
-          onClick={() => handleBoard()}
-        >
-          <BsArrowUpRightSquare className="absolute text-white text-[30px] bottom-3 right-3" />
+        <div className="absolute w-full h-full bg-black/20 z-20 opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-100">
+          <BsArrowUpRightSquare
+            className="absolute text-white text-[30px] bottom-3 right-3 cursor-pointer ease-in duration-200 hover:text-[35px]"
+            onClick={() => handleBoard()}
+          />
+          {user.id === owner ? (
+            <HiDotsHorizontal
+              className="absolute top-2 right-2 cursor-pointer text-white hover:text-black w-[20px] h-[20px] rounded-[20px] hover:bg-gray-200/60 z-60 "
+              onClick={() => setModalBoard(id)}
+            />
+          ) : null}
         </div>
       ) : null}
     </div>

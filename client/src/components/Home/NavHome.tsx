@@ -52,14 +52,14 @@ const NavHome: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-[50px] flex fixed items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50"
+    <div className="w-full min-w-[100px] min-h-[70px] flex absolue items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50"
     
     >
       <div className="h-full w-[250px] flex items-center px-[10px] ml-[70px] cursor-pointer"
       onClick={() => handleNavigate()}
       >
-        <GrTasks className="text-[40px] text-teal-700" />
-        <h1 className="text-[40px] ml-[20px] font-bold">Tasker</h1>
+        <GrTasks className="text-[40px] text-teal-700 cursor-pointer" />
+        <h1 className="text-[40px] ml-[20px] font-bold cursor-pointer">Tasker</h1>
       </div>
 
       <div className="h-full w-[180px] mr-[60px] grid grid-cols-3">
@@ -83,7 +83,7 @@ const NavHome: React.FC = () => {
         </div>
         <div className="w-full h-full flex items-center justify-center">
         
-        <RiLogoutBoxRLine className="text-[40px] text-slate-700 cursor-pointer hover:text-red-700 ml-[20px]" 
+        <RiLogoutBoxRLine className="text-[40px] text-slate-700 cursor-pointer hover:text-red-600 ml-[20px]" 
         onClick={()=> handleLogOut()}
         />
         </div>

@@ -44,6 +44,7 @@ const getNotifications_1 = __importDefault(require("./handlers/GET/getNotificati
 const addNewUserBoard_1 = __importDefault(require("./handlers/ADD/addNewUserBoard"));
 const putUserTeamResponse_1 = __importDefault(require("./handlers/PUT/putUserTeamResponse"));
 const updateNotification_1 = __importDefault(require("./handlers/PUT/updateNotification"));
+const removeList_1 = __importDefault(require("./handlers/DELETE/removeList"));
 const routes = express_1.default.Router();
 routes.post("/createUser", createUser_1.default);
 routes.post("/createTable", createTable_1.default);
@@ -85,4 +86,6 @@ routes.delete("/removeTable", removeTable_1.default);
 routes.delete("/removeCheck", revomeChecklist_1.default);
 routes.delete("/removeCard", removeCard_1.default);
 routes.delete("/removeUserTeam", removeUserTeam_1.default);
+routes.delete("/removeList", removeList_1.default);
+routes.delete("/removeTable", removeTable_1.default);
 exports.default = routes;

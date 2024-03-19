@@ -232,7 +232,6 @@ export const updateNotifications = async (id: string) => {
   }
 };
 
-
 export const putChecklist = async ({
   status,
   checklist_id,
@@ -484,3 +483,38 @@ export const removeUserTeam = async ({
     return error;
   }
 };
+
+export const removeList = async ({
+  table_id,
+  list_id,
+}: {
+  table_id: string;
+  list_id: string;
+}) => {
+  try {
+    const response = await axios.delete(`${URL}/removeList`, {
+      data: { table_id, list_id },
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const removeTable = async ({
+  table_id
+}: {
+  table_id: string;
+}) => {
+  try {
+    const response = await axios.delete(`${URL}/removeTable`, {
+      data: { table_id},
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+

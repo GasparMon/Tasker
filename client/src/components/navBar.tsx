@@ -4,7 +4,6 @@ import { RiSendBackward } from "react-icons/ri";
 import { getUser } from "../assets/controller/controller";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../assets/localStorage";
-import "react-toastify/dist/ReactToastify.css";
 
 const NavBar: React.FC = () => {
   const { setItem } = useLocalStorage("value");
@@ -33,7 +32,7 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-[50px] flex fixed items-center justify-between bg-white backdrop-blur-sm">
+    <div className="w-full h-[70px] flex absolute items-center justify-between bg-white backdrop-blur-sm">
       <div className="h-full w-[250px] flex items-center px-[10px] ml-[70px] ">
         <GrTasks className="text-[40px] text-teal-700" />
         <h1 className="text-[40px] ml-[20px] font-bold">Tasker</h1>

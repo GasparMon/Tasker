@@ -31,6 +31,12 @@ interface DeleteList {
   setModalList: (listId: string) => void;
 }
 
+interface DeleteBoard {
+  deleteBoard: boolean;
+  boardId: string;
+  setModalBoard: (boardId: string) => void;
+}
+
 interface Notification {
   notification: boolean;
   setModalNotification: () => void;
@@ -140,6 +146,17 @@ export const useModalList = create<DeleteList>((set) => ({
     })),
 }));
 
+
+export const useModalDeleteBoard = create<DeleteBoard>((set) => ({
+  deleteBoard: false,
+  boardId: "",
+  setModalBoard: (boardId: string) =>
+    set((state) => ({
+      ...state,
+      boardId: boardId,
+      deleteBoard: !state.deleteBoard,
+    })),
+}));
 
 
 export const useCheckBox = create <CheckBox>((set) => ({

@@ -39,6 +39,7 @@ import getNotifications from './handlers/GET/getNotifications';
 import addNewUserBoard from './handlers/ADD/addNewUserBoard';
 import putUserTeamResponse from './handlers/PUT/putUserTeamResponse';
 import updateNotifications from './handlers/PUT/updateNotification';
+import removeList from './handlers/DELETE/removeList';
 
 
 
@@ -89,5 +90,7 @@ routes.delete("/removeTable", removeTable);
 routes.delete("/removeCheck", removeCheck)
 routes.delete("/removeCard", removeCard)
 routes.delete("/removeUserTeam", removeUserTeam)
+routes.delete("/removeList", removeList)
+routes.delete("/removeTable", removeTable)
 
 export default routes

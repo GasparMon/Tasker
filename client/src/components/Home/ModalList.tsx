@@ -1,9 +1,26 @@
 import { CgClose } from "react-icons/cg";
 import { useModalList } from "../../assets/store/store";
 import { FcDeleteDatabase } from "react-icons/fc";
+import { removeList } from "../../assets/controller/controller";
+import { useBoardState } from "../../assets/store/store";
+import { useUpdate } from "../../assets/store/store";
 
 const ModalList: React.FC = () => {
   const { listId, setModalList } = useModalList();
+  const {id, setBoardFunction} = useBoardState();
+  const {setUpdate} = useUpdate();
+
+
+  const handleRemove = async () => {
+
+    const data = await removeList({table_id: id, list_id: listId})
+
+    if(data){
+      setModalList(listId)
+      setBoardFunction(id)
+      setUpdate();
+    }
+  }
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center items-center ease-in duration-200 z-50 overflow-auto">
@@ -29,7 +46,7 @@ const ModalList: React.FC = () => {
             <h1 className="text-[20px] font-semibold cursor-pointer text-white">Cancel</h1>
           </button>
           <button className="h-[50px] w-[150px] bg-red-500 ml-[20px] rounded-[10px]"
-          
+          onClick={()=> handleRemove()}
           >
             <h1 className="text-[20px] font-semibold cursor-pointer text-white">Delete</h1>
           </button>
