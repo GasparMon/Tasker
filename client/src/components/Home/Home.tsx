@@ -1,5 +1,3 @@
-import { useOptionsHome } from "../../assets/store/store";
-import { shallow } from "zustand/shallow";
 import Boards from "./Boards";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import { useLocalStorage } from "../../assets/localStorage";
@@ -11,14 +9,14 @@ const Home: React.FC = () => {
   const { getItem } = useLocalStorage("value");
   const user = getItem();
   const notify = () => toast(`👋 Welcome ${user.email}!`, {
-    position: "top-right",
+    position: "bottom-left",
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
+    pauseOnHover: false,
     draggable: true,
     progress: undefined,
-    theme: "light",
+    theme: "dark",
     transition: Slide,
     });
 

@@ -182,7 +182,6 @@ const ModalCard: React.FC = () => {
       });
   };
 
-  console.log(workers);
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
@@ -194,14 +193,14 @@ const ModalCard: React.FC = () => {
         >
           <CgClose className="text-[30px] text-gray-500 cursor-pointer" />
         </div>
-        <div className="relative w-full h-[50px] flex items-center justify-center">
-          <MdOutlineDisplaySettings className="text-[25px] text-gray-700 mr-[20px]" />
-          <h1 className="text-[25px] text-gray-700">Card Settings</h1>
+        <div className="relative w-full h-[30px] flex items-center justify-center">
+          {/* <MdOutlineDisplaySettings className="text-[25px] text-gray-700 mr-[20px]" />
+          <h1 className="text-[25px] text-gray-700">Card Settings</h1> */}
         </div>
-        <div className="w-full h-[50px] flex items-center pl-[40px]">
+        <div className="w-full h-[60px] flex items-center pl-[40px] mb-[10px]">
           <MdOutlineSubtitles className="text-slate-800 text-[30px] mr-[20px] " />
           <input
-            className="text-[20px] w-[500px] bg-white h-[40px] border-[2px] border-transparent rounded-[10px] font-semibold pl-[10px] focus:border-blue-700 focus:bg-white"
+            className="text-[30px] w-[500px] bg-white h-[50px] border-[2px] border-transparent rounded-[10px] font-semibold pl-[10px] focus:border-blue-700 focus:bg-white"
             value={cardHeader.title}
             onChange={(event) => handleChangeInput("title", event)}
           ></input>

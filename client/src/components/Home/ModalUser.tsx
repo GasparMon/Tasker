@@ -96,7 +96,6 @@ const ModalUser: React.FC = () => {
   const isEmailAlreadyExists = userTeam.some((member) => member.email === inputValue);
   const isAllMembers = userPending.length === 7
 
-  console.log(userPending)
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">

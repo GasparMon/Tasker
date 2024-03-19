@@ -6,8 +6,6 @@ const addUserTeam = async (req: Request, res: Response) => {
   try {
     const { email, table_id } = req.body;
 
-    console.log(email)
-
     let user = await User.findOne({ email });
 
     if (!user) {

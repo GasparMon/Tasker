@@ -99,7 +99,7 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
       <h1 className=" relative w-[90%] bg-white my-[10px] p-[5px] pl-[10px] pr-[25px] rounded-[10px] shadow-md shadow-black/10">
         {title}
         <HiDotsHorizontal
-          className="absolute top-2 right-2 cursor-pointer text-slate-600 hover:text-black"
+          className="absolute top-2 right-2 cursor-pointer text-slate-600 hover:text-black w-[20px] h-[20px] rounded-[20px] hover:bg-gray-200"
           onClick={() => setModal(id)}
         />
         <div className="w-full grid grid-cols-4 mt-[3px]">

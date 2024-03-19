@@ -6,6 +6,7 @@ import List from "./List";
 import { useBoardState } from "../../assets/store/store";
 import { RiUserSearchLine } from "react-icons/ri";
 import { useModalUser } from "../../assets/store/store";
+import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 interface Board {
   id: string;
@@ -47,7 +48,7 @@ const Board: React.FC = () => {
     if (id) {
       setBoardFunction(id);
       fetchBoard();
-      setModalUser(id)
+      // setModalUser(id)
     }
   }, [id]);
 
@@ -61,9 +62,12 @@ const Board: React.FC = () => {
       style={{ background: `var(--${board.image})` }}
     >
       <div className="w-full pt-[50px] h-[120px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
-        <h1 className="text-white text-[25px] font-extralight ml-[80px]">
+      <div className="w-[200px] h-full flex items-center justify-around ml-[70px]">
+      <MdOutlineSpaceDashboard className="text-[50px] text-white" />
+       <h1 className="text-white text-[30px] font-light ">
           {board.name}
         </h1>
+        </div>
         <div className="w-[270px] h-full mr-[50px] grid grid-cols-3 gap-[10px]">
           <div className="w-full h-full items-center justify-center flex">
             <RiUserSearchLine className="text-[35px] text-white cursor-pointer hover:text-[37px]" 

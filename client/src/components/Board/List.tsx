@@ -4,6 +4,8 @@ import { getListCard } from "../../assets/controller/controller";
 import Card from "./Card";
 import { useSettingCard } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { useModalList } from "../../assets/store/store";
 
 interface ListProps {
   id: string;
@@ -16,6 +18,8 @@ const List: React.FC<ListProps> = ({ id, name }) => {
   const {cardStatus} = useSettingCard((state) => ({
     cardStatus: state.status
   }), shallow)
+
+  const {setModalList} = useModalList();
 
   const fetchData = async () => {
     const data = await getListCard(id);
@@ -36,7 +40,11 @@ const List: React.FC<ListProps> = ({ id, name }) => {
 
   return (
     <div className="w-full h-full pt-[10px]">
-      <div className="w-[95%] h-[auto] bg-gray-200  rounded-[10px] flex flex-col overflow-hidden">
+      <div className=" relative w-[95%] h-[auto] bg-gray-200  rounded-[10px] flex flex-col overflow-hidden">
+      <HiDotsHorizontal
+          className="absolute top-2 right-2 cursor-pointer text-slate-600 hover:text-black w-[20px] h-[20px] rounded-[20px] hover:bg-gray-300"
+          onClick={() => setModalList(id)}
+        />
         <div className=" w-full h-[50px] pl-[20px] flex flex-col justify-center text-[18px] font-normal text-slate-900">
         {name}
         <div className={`w-[120px] mt-[3px] h-[10px] rounded-[10px]

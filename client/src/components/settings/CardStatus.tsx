@@ -58,6 +58,8 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
     Archived: false,
   });
 
+  const [boards, setBoards] = useState<any[]>([]);
+
   const [isDisiable, setIsDisiable] = useState(false);
 
   const { list_id, setList } = ListCard(
@@ -68,7 +70,26 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
     shallow
   );
 
+  useEffect(() => {
+    if (table_id) {
+      const fetchBoards = async () => {
+        const boardData = await getTableList(table_id);
 
+        if (boardData) {
+    
+          setBoards(boardData);
+        }
+      };
+
+      fetchBoards();
+    }
+  }, [table_id]);
+
+  function ListDisable(name: string) {
+    const exists = boards.some((item) => item.name === name);
+
+    return !exists;
+  }
 
   const handleStatus = async (name: string) => {
     setIsDisiable(true);
@@ -98,7 +119,6 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
         }
       }
     } catch (error) {
-    
     } finally {
       setIsDisiable(false);
     }
@@ -118,9 +138,9 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
       </div>
       <div className="w-full h-[230px] grid grid-rows-5 gap-[4px] py-[8px] mt-[5px]">
         <button
-          className="ml-[15px] w-[90%] h-full bg-emerald-500 rounded-[5px] flex items-center cursor-pointer hover:bg-emerald-400 justify-between px-[20px]"
+          className="ml-[15px] w-[90%] h-full bg-emerald-500 rounded-[5px] flex items-center cursor-pointer hover:bg-emerald-400 justify-between px-[20px] disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={() => handleStatus("ToDo")}
-          disabled={isDisiable}
+          disabled={isDisiable || ListDisable("ToDo") }
         >
           <h1 className="ml-[15px] text-slate-800 font-semibold">ToDo</h1>
           {status.ToDo ? (
@@ -128,9 +148,9 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
           ) : null}
         </button>
         <button
-          className="ml-[15px] w-[90%] h-full bg-yellow-300 rounded-[5px] flex items-center cursor-pointer hover:bg-yellow-200 justify-between px-[20px]"
+          className="ml-[15px] w-[90%] h-full bg-yellow-300 rounded-[5px] flex items-center cursor-pointer hover:bg-yellow-200 justify-between px-[20px] disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={() => handleStatus("InProgress")}
-          disabled={isDisiable}
+          disabled={isDisiable || ListDisable("InProgress")}
         >
           <h1 className="ml-[15px] text-slate-800 font-semibold">InProgress</h1>
           {status.InProgress ? (
@@ -138,9 +158,9 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
           ) : null}
         </button>
         <button
-          className="ml-[15px] w-[90%] h-full bg-orange-400 rounded-[5px] flex items-center cursor-pointer hover:bg-orange-300 justify-between px-[20px]"
+          className="ml-[15px] w-[90%] h-full bg-orange-400 rounded-[5px] flex items-center cursor-pointer hover:bg-orange-300 justify-between px-[20px] disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={() => handleStatus("Waiting")}
-          disabled={isDisiable}
+          disabled={isDisiable || ListDisable("Waiting")}
         >
           <h1 className="ml-[15px] text-slate-800 font-semibold">Waiting</h1>
           {status.Waiting ? (
@@ -148,9 +168,9 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
           ) : null}
         </button>
         <button
-          className="ml-[15px] w-[90%] h-full bg-sky-500 rounded-[5px] flex items-center cursor-pointer hover:bg-sky-400 justify-between px-[20px]"
+          className="ml-[15px] w-[90%] h-full bg-sky-500 rounded-[5px] flex items-center cursor-pointer hover:bg-sky-400 justify-between px-[20px] disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={() => handleStatus("Finished")}
-          disabled={isDisiable}
+          disabled={isDisiable || ListDisable("Finished")}
         >
           <h1 className="ml-[15px] text-slate-800 font-semibold">Finished</h1>
           {status.Finished ? (
@@ -158,9 +178,9 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
           ) : null}
         </button>
         <button
-          className="ml-[15px] w-[90%] h-full bg-slate-400 rounded-[5px] flex items-center cursor-pointer hover:bg-slate-300 justify-between px-[20px]"
+          className="ml-[15px] w-[90%] h-full bg-slate-400 rounded-[5px] flex items-center cursor-pointer hover:bg-slate-300 justify-between px-[20px] disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={() => handleStatus("Archived")}
-          disabled={isDisiable}
+          disabled={isDisiable || ListDisable("Archived")}
         >
           <h1 className="ml-[15px] text-slate-800 font-semibold">Archived</h1>
           {status.Archived ? (

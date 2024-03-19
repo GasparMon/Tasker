@@ -6,10 +6,13 @@ import { getNotifications } from "../../assets/controller/controller";
 import { useModalNotification } from "../../assets/store/store";
 import { useUpdate } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
+import { useNavigate } from "react-router-dom";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 const NavHome: React.FC = () => {
-  const { getItem } = useLocalStorage("value");
+  const { getItem, setItem } = useLocalStorage("value");
   const user = getItem();
+  const navigate = useNavigate();
 
   const {update} = useUpdate((state) => ({
     ...state,
@@ -36,14 +39,30 @@ const NavHome: React.FC = () => {
     (notification) => !notification.view
   ).length;
 
+  const handleNavigate = () => {
+    navigate("/home")
+  }
+
+  const handleLogOut = () => {
+    setItem({
+      id: "",
+      email: "",
+    });
+    navigate("/")
+  }
+
   return (
-    <div className="w-full h-[50px] flex fixed items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50">
-      <div className="h-full w-[250px] flex items-center px-[10px] ml-[70px]">
+    <div className="w-full h-[50px] flex fixed items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50"
+    
+    >
+      <div className="h-full w-[250px] flex items-center px-[10px] ml-[70px] cursor-pointer"
+      onClick={() => handleNavigate()}
+      >
         <GrTasks className="text-[40px] text-teal-700" />
         <h1 className="text-[40px] ml-[20px] font-bold">Tasker</h1>
       </div>
 
-      <div className="h-full w-[120px] mr-[50px] grid grid-cols-2">
+      <div className="h-full w-[180px] mr-[60px] grid grid-cols-3">
         <div className="relative w-full h-full flex items-center justify-center"
         onClick={()=> setModalNotification()}
         >
@@ -61,6 +80,12 @@ const NavHome: React.FC = () => {
           >
             {`${user.email[0].toUpperCase() + user.email[1].toUpperCase()}`}
           </div>
+        </div>
+        <div className="w-full h-full flex items-center justify-center">
+        
+        <RiLogoutBoxRLine className="text-[40px] text-slate-700 cursor-pointer hover:text-red-700 ml-[20px]" 
+        onClick={()=> handleLogOut()}
+        />
         </div>
       </div>
     </div>

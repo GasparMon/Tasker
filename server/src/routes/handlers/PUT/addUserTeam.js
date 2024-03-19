@@ -17,7 +17,6 @@ const User_1 = __importDefault(require("../../../database/models/User"));
 const addUserTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, table_id } = req.body;
-        console.log(email);
         let user = yield User_1.default.findOne({ email });
         if (!user) {
             user = new User_1.default({ email });

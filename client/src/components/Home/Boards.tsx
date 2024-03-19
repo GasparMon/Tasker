@@ -20,7 +20,6 @@ const Boards: React.FC = () => {
     update: state.update
   }), shallow)
 
-  console.log(update)
   
   const { getItem } = useLocalStorage("value");
   const [boards, setBoards] = useState<any[]>([]);
@@ -54,7 +53,7 @@ const Boards: React.FC = () => {
           <h1 className="text-[25px] text-white">Create Board</h1>{" "}
         </div>
       </div>
-      <div className="w-full mt-[30px] h-[450px] grid grid-rows-3 grid-cols-5 gap-x-[15px] gap-y-[10px]">
+      <div className="w-full mt-[30px] h-[60%] grid grid-rows-3 grid-cols-5 gap-x-[15px] gap-y-[10px]">
         {boards &&
           boards.map((element) => (
             <BoardCard

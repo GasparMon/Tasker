@@ -25,6 +25,12 @@ interface CreateUser {
   setModalUser: (id: string) => void;
 }
 
+interface DeleteList {
+  deleteList: boolean;
+  listId: string;
+  setModalList: (listId: string) => void;
+}
+
 interface Notification {
   notification: boolean;
   setModalNotification: () => void;
@@ -122,6 +128,18 @@ export const useModalUser = create<CreateUser>((set) => ({
       createUser: !state.createUser,
     })),
 }));
+
+export const useModalList = create<DeleteList>((set) => ({
+  deleteList: false,
+  listId: "",
+  setModalList: (listId) =>
+    set((state) => ({
+      ...state,
+      listId: listId,
+      deleteList: !state.deleteList,
+    })),
+}));
+
 
 
 export const useCheckBox = create <CheckBox>((set) => ({

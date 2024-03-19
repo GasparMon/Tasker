@@ -3,7 +3,6 @@ import Landing from "./components/Landing";
 import NavBar from "./components/navBar";
 import NavHome from "./components/Home/NavHome";
 import Home from "./components/Home/Home";
-import Sidebar from "./components/Home/SideBar";
 import ModalBoard from "./components/Home/ModalBoard";
 import { useModalBoard, useModalNotification } from "./assets/store/store";
 import Board from "./components/Board/Board";
@@ -13,6 +12,9 @@ import ModalCard from "./components/Home/ModalCard";
 import { useModalUser } from "./assets/store/store";
 import ModalUser from "./components/Home/ModalUser";
 import ModalNotification from "./components/Home/ModalNotification";
+import { useModalList } from "./assets/store/store";
+import ModalList from "./components/Home/ModalList";
+import ModalDeleteBoard from "./components/Home/ModalDeleteBoard";
 
 function App() {
   const location = useLocation();
@@ -33,6 +35,11 @@ function App() {
     notification: state.notification
   }), shallow)
 
+  const {deleteList} = useModalList((state) => ({
+    ...state,
+    deleteList: state.deleteList
+  }), shallow)
+
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center overflow-hidden">
@@ -48,6 +55,8 @@ function App() {
       {createCard ? <ModalCard/> : null}
       {createUser ? <ModalUser/> : null}
       {notification ? <ModalNotification/> : null}
+      {deleteList ? <ModalList/> : null}
+      {/* {deleteList? <ModalDeleteBoard/> : null} */}
     </div>
   );
 }

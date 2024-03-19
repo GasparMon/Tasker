@@ -40,7 +40,7 @@ const ModalBoard: React.FC = () => {
   };
 
   const isDiseable = () => {
-    if (board.name.length < 3 || board.image.length < 1) {
+    if (board.name.length < 3 || board.image.length < 1 || board.name.length > 29) {
       return true;
     }
 
@@ -70,14 +70,14 @@ const ModalBoard: React.FC = () => {
         })
         setTimeout(() => {
           setModal();
-        }, 2000);
+        }, 1700);
       });
   };
 
   return (
     <div className="absolute w-full h-full bg-black/70 flex items-center justify-center ease-in duration-200 z-50">
       <ToastContainer 
-      autoClose={2000}
+      autoClose={1500}
       />
       <div className="relative w-[600px] h-[700px] bg-white rounded-[10px] flex flex-col items-center">
         <div

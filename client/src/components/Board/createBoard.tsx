@@ -16,6 +16,7 @@ interface List {
 
 const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
   const [option, setOption] = useState(true);
+  const [buttonDisable, setbuttonDisable] = useState(false);
   const [listOption, setListOptions] = useState<any[]>([]);
   const [list, setList] = useState<List>({
     name: "",
@@ -55,6 +56,7 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
   };
 
   const handleList = async () => {
+    setbuttonDisable(true);
     const data = await createList({
       name: list.name,
       table_id: list.table_id,
@@ -63,7 +65,10 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
     if (data) {
       handleFetch();
       handleOption();
+      setbuttonDisable(false);
     }
+
+    setbuttonDisable(false);
   };
 
   useEffect(() => {
@@ -125,7 +130,7 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
             <button
               className="w-[120px] h-[35px] bg-blue-600 hover:bg-blue-700 rounded-[5px] text-white disabled:opacity-30 disabled:cursor-not-allowed"
               disabled={isDiseable()}
-              onClick={() => handleList()}
+              onClick={() => handleList() || buttonDisable}
             >
               Create List
             </button>

@@ -27,7 +27,6 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
     }));
   }, [CardChecklist]);
 
-  console.log(card_id)
 
   const [checklist, setChecklist] = useState<Checklist>({
     checklist: "",
