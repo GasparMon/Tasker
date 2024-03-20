@@ -1,6 +1,6 @@
 import { CgClose } from "react-icons/cg";
 import { useLocalStorage } from "../../assets/localStorage";
-import { useModalNotification } from "../../assets/store/store";
+import { useModalChat, useModalNotification } from "../../assets/store/store";
 import { useEffect, useState } from "react";
 import {
   addNewUserBoard,
@@ -13,12 +13,18 @@ import CardNotification from "../settings/CardNotification";
 import { useUpdate } from "../../assets/store/store";
 import { TbMessageCircleExclamation } from "react-icons/tb";
 import { TbMessage } from "react-icons/tb";
+import { shallow } from "zustand/shallow";
 
 const ModalNotification: React.FC = () => {
   const { setUpdate } = useUpdate();
 
   const { getItem } = useLocalStorage("value");
   const user = getItem();
+
+  const { socket} = useModalChat((state) => ({
+    ...state,
+    socket: state.socket,
+  }),shallow);
 
   const { setModalNotification } = useModalNotification();
 
@@ -72,6 +78,7 @@ const ModalNotification: React.FC = () => {
         });
 
         if (finaldata) {
+          await socket.emit("alertTwo", sender_id);
           fetchData();
           setUpdate();
         }
@@ -84,6 +91,7 @@ const ModalNotification: React.FC = () => {
       });
 
       if (finaldata) {
+        await socket.emit("alertTwo", sender_id);
         fetchData();
       }
     }

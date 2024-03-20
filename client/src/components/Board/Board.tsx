@@ -148,7 +148,7 @@ const Board: React.FC = () => {
         });
       }
     };
-console.log(socket)
+
     if (!chatRoom && Object.keys(socket).length > 0) {
       socket.on('message', receivedMessage);
 
@@ -157,6 +157,62 @@ console.log(socket)
       };
     }
   }, [chatRoom, user.email]);
+
+  const { setUpdate } = useUpdate();
+
+  useEffect(() => {
+    const receivedMessage = (mail: any) => {
+      if (mail === user.email) {
+        toast(`📬  You have a new message`, {
+          position: 'bottom-right',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: 'dark',
+          transition: Slide,
+        });
+
+        setUpdate();
+      }
+    };
+
+    if (Object.keys(socket).length > 0) {
+      socket.on('alert', receivedMessage);
+
+      return () => {
+        socket.off('alert', receivedMessage);
+      };
+    }
+  }, [socket, user.email]);
+
+  useEffect(() => {
+    const receivedMessage = (mail: any) => {
+      if (mail === user.id) {
+        toast(`📬  You have a new message`, {
+          position: 'bottom-right',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: 'dark',
+          transition: Slide,
+        });
+
+        setUpdate();
+      }
+    };
+
+    if (Object.keys(socket).length > 0) {
+      socket.on('alertTwo', receivedMessage);
+
+      return () => {
+        socket.off('alertTwo', receivedMessage);
+      };
+    }
+  }, [socket, user.email]);
   
   // enviar informacion a la sala de Chat
 

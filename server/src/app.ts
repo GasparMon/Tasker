@@ -59,6 +59,16 @@ io.on("connection", (socket) => {
     io.to(data.room).emit("message", data);
   });
 
+  socket.on("alert", (data) => {
+    // Emitir la alerta a todos los usuarios conectados
+    io.emit("alert", data);
+  });
+
+  socket.on("alertTwo", (data) => {
+    // Emitir la alerta a todos los usuarios conectados
+    io.emit("alertTwo", data);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
   });

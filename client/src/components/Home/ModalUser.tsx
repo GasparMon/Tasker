@@ -1,5 +1,5 @@
 import { CgClose } from "react-icons/cg";
-import { useModalUser } from "../../assets/store/store";
+import { useModalChat, useModalUser } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 // import { useLocalStorage } from "../../assets/localStorage";
 import { useEffect, useState } from "react";
@@ -21,6 +21,11 @@ const ModalUser: React.FC = () => {
   const [userPending, setUserPending] = useState<any[]>([]);
   const [isEmail, setIsEmail] = useState(false);
   const [owner, setOwner] = useState("")
+
+  const { socket} = useModalChat((state) => ({
+    ...state,
+    socket: state.socket,
+  }),shallow);
 
   const { setModalUser, id } = useModalUser(
     (state) => ({
@@ -72,6 +77,7 @@ const ModalUser: React.FC = () => {
       });
 
       if (response) {
+        await socket.emit("alert", inputValue);
         setInputValue("");
       }
     }
@@ -95,6 +101,7 @@ const ModalUser: React.FC = () => {
 
   const isEmailAlreadyExists = userTeam.some((member) => member.email === inputValue);
   const isAllMembers = userPending.length === 7
+
 
 
   return (

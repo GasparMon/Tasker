@@ -129,7 +129,7 @@ const ModalChat: React.FC = () => {
     }
   }, [IdRoom]);
 
-  console.log(chatRoom)
+
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">

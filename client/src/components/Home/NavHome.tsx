@@ -6,18 +6,19 @@ import {
   addConnection,
   getNotifications,
 } from "../../assets/controller/controller";
-import { useModalNotification } from "../../assets/store/store";
+import {useModalNotification } from "../../assets/store/store";
 import { useUpdate } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+
 
 const NavHome: React.FC = () => {
   const { getItem, setItem } = useLocalStorage("value");
   const user = getItem();
   const navigate = useNavigate();
 
-  const { update } = useUpdate(
+  const { update} = useUpdate(
     (state) => ({
       ...state,
       update: state.update,
@@ -52,7 +53,7 @@ const NavHome: React.FC = () => {
       table_id: "",
     });
     if (data) {
-      console.log(data)
+
       navigate("/home");
     }
   };
@@ -74,6 +75,7 @@ const NavHome: React.FC = () => {
 
   return (
     <div className="w-full min-w-[100px] min-h-[70px] flex absolue items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50">
+      
       <div
         className="h-full w-[250px] flex items-center px-[10px] ml-[70px] cursor-pointer"
         onClick={() => handleNavigate()}
