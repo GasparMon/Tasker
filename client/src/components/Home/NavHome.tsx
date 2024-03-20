@@ -40,6 +40,7 @@ const NavHome: React.FC = () => {
   ).length;
 
   const handleNavigate = () => {
+ 
     navigate("/home")
   }
 

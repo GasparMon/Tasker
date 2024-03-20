@@ -35,7 +35,7 @@ const Home: React.FC = () => {
     if (user.email) {
       notify();
     }
-  }, []);
+  }, [user.email]);
 
   return (
     <div className=" mt-[50px] w-[95%] h-[90%]  items-center overflow-x-hidden ">

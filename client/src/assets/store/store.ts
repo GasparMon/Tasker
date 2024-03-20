@@ -47,9 +47,9 @@ interface SetBoard {
   setBoardFunction: (id: string) => void;
 }
 
-interface List{
-  list_id: string,
-  setList: (list_id: string) => void
+interface List {
+  list_id: string;
+  setList: (list_id: string) => void;
 }
 
 interface CardSetting {
@@ -79,16 +79,39 @@ interface CardSetting {
   addModal: (id: string) => void;
 }
 
-interface CheckBox{
+interface CheckBox {
   status: boolean;
-  setBox: () => void
+  setBox: () => void;
 }
 
-interface update{
+interface update {
   update: boolean;
-  setUpdate: () => void
+  setUpdate: () => void;
 }
 
+interface ChatRoom {
+  chatRoom: boolean;
+  userId: string;
+  IdRoom: string;
+  email: string;
+  socket: any;
+  setRoom: ({
+    socket,
+    userId,
+    IdRoom,
+    email,
+  }: {
+    socket: any;
+    userId: string;
+    IdRoom: string;
+    email: string;
+  }) => void;
+}
+
+interface Message {
+  message: any;
+  setMessage: (data: any) => void;
+}
 
 export const useOptionsHome = create<OptionsState>((set) => ({
   board: true,
@@ -135,6 +158,28 @@ export const useModalUser = create<CreateUser>((set) => ({
     })),
 }));
 
+export const useModalChat = create<ChatRoom>((set) => ({
+  chatRoom: false,
+  userId: "",
+  IdRoom: "",
+  email: "",
+  socket: {},
+  setRoom: ({ socket, userId, IdRoom, email }) =>
+    set((state) => ({
+      ...state,
+      socket: socket,
+      userId: userId,
+      IdRoom: IdRoom,
+      email: email,
+      chatRoom: !state.chatRoom,
+    })),
+}));
+
+export const useMessage = create<Message>((set) => ({
+  message: {},
+  setMessage: (message) => set((state) => ({ ...state, message })),
+}));
+
 export const useModalList = create<DeleteList>((set) => ({
   deleteList: false,
   listId: "",
@@ -145,7 +190,6 @@ export const useModalList = create<DeleteList>((set) => ({
       deleteList: !state.deleteList,
     })),
 }));
-
 
 export const useModalDeleteBoard = create<DeleteBoard>((set) => ({
   deleteBoard: false,
@@ -158,22 +202,23 @@ export const useModalDeleteBoard = create<DeleteBoard>((set) => ({
     })),
 }));
 
-
-export const useCheckBox = create <CheckBox>((set) => ({
+export const useCheckBox = create<CheckBox>((set) => ({
   status: true,
-  setBox: () => set((state) => ({
-    ...state,
-    status: !state.status
-  }))
-}))
+  setBox: () =>
+    set((state) => ({
+      ...state,
+      status: !state.status,
+    })),
+}));
 
-export const useUpdate= create <update>((set) => ({
+export const useUpdate = create<update>((set) => ({
   update: true,
-  setUpdate: () => set((state) => ({
-    ...state,
-    update: !state.update
-  }))
-}))
+  setUpdate: () =>
+    set((state) => ({
+      ...state,
+      update: !state.update,
+    })),
+}));
 
 export const useModalCard = create<CreateCard>((set) => ({
   createCard: false,
@@ -186,13 +231,14 @@ export const useModalCard = create<CreateCard>((set) => ({
     })),
 }));
 
-export const ListCard = create <List> ((set) => ({
+export const ListCard = create<List>((set) => ({
   list_id: "",
-  setList:(id) => set((state) =>({
-    ...state,
-    list_id: id
-  })),
-}))
+  setList: (id) =>
+    set((state) => ({
+      ...state,
+      list_id: id,
+    })),
+}));
 
 export const useBoardState = create<SetBoard>((set) => ({
   id: "",
@@ -250,5 +296,3 @@ export const useSettingCard = create<CardSetting>((set) => ({
       };
     }),
 }));
-
-

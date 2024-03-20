@@ -9,7 +9,17 @@ import { useModalUser } from "../../assets/store/store";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { useUpdate } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
+import { BsChatDotsFill } from "react-icons/bs";
+import { io } from "socket.io-client";
+import { useLocalStorage } from "../../assets/localStorage";
+import { useModalChat } from "../../assets/store/store";
+import { useMessage } from "../../assets/store/store";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+const URL = import.meta.env.VITE_URL_HOST;
+
+const socket = io(URL);
 interface Board {
   id: string;
   name: string;
@@ -19,13 +29,19 @@ interface Board {
 }
 
 const Board: React.FC = () => {
+  const { getItem } = useLocalStorage("value");
+  const user = getItem();
+
   const { setBoardFunction } = useBoardState();
   const { setModalUser } = useModalUser();
   const { id } = useParams();
-  const {update} = useUpdate((state) => ({
-    ...state,
-    update: state.update
-  }), shallow)
+  const { update } = useUpdate(
+    (state) => ({
+      ...state,
+      update: state.update,
+    }),
+    shallow
+  );
   const [board, setBoard] = useState<Board>({
     id: "",
     name: "",
@@ -62,26 +78,104 @@ const Board: React.FC = () => {
     fetchBoard();
   };
 
+  //Chat con Socket IO
+
+  const notify = (message: string) =>
+    toast(message, {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Slide,
+    });
+
+  const [isConnected, setIsConnected] = useState(false);
+  const [users, setUsers] = useState([])
+  const [notification, setNotification] = useState("");
+
+  const { setRoom, chatRoom } = useModalChat(
+    (state) => ({
+      ...state,
+      chatRoom: state.chatRoom,
+      setRoom: state.setRoom,
+    }),
+    shallow
+  );
+
+  const { setMessage } = useMessage();
+
+  const handleChat = () => {
+    if (id) {
+      setRoom({
+        socket: socket,
+        userId: user.id,
+        IdRoom: id,
+        email: user.email,
+      });
+    }
+  };
+
+ 
+
+  useEffect(() => {
+    socket.emit("join_room", id);
+  }, [isConnected]);
+
+  useEffect(() => {
+  
+    const messageHandle = (data: any) => {
+      setMessage(data);
+      setNotification(`${data.author}: ${data.message}`);
+    };
+
+    socket.on("receive_message", messageHandle);
+  }, [socket]);
+
+  useEffect(() => {
+
+    const handleUsers = (data:any) => {
+      setUsers(data)
+    }
+
+    socket.emit("recieve_message", handleUsers)
+  },[socket])
+
+  useEffect(() => {
+    if (!chatRoom && notification.length > 0) {
+      notify(notification);
+      setNotification("");
+    }
+  }, [notification]);
+
   return (
     <div
       className="w-full h-full flex flex-col"
       style={{ background: `var(--${board.image})` }}
     >
+      <ToastContainer />
       <div className="w-full p-[5px] h-[70px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
-      <div className="w-[600px] h-full flex items-center  ml-[70px]">
-      <MdOutlineSpaceDashboard className="text-[50px] text-white mr-[20px]" />
-       <h1 className="text-white text-[30px] font-light ">
-          {board.name}
-        </h1>
+        <div className="w-[600px] h-full flex items-center  ml-[70px]">
+          <MdOutlineSpaceDashboard className="text-[50px] text-white mr-[20px]" />
+          <h1 className="text-white text-[30px] font-light ">{board.name}</h1>
         </div>
         <div className="w-[270px] h-full mr-[50px] grid grid-cols-3 gap-[10px]">
           <div className="w-full h-full items-center justify-center flex">
-            <RiUserSearchLine className="text-[35px] text-white cursor-pointer hover:text-[37px]" 
-            onClick={() => setModalUser(board.id)}
+            <RiUserSearchLine
+              className="text-[35px] text-white cursor-pointer hover:text-[37px]"
+              onClick={() => setModalUser(board.id)}
             />
           </div>
-          <div className="w-full h-full bg-yellow-100"></div>
-          <div className="w-full h-full bg-yellow-100"></div>
+          <div className="w-full h-full items-center justify-center flex">
+            <BsChatDotsFill
+              className="text-[35px] text-white cursor-pointer hover:text-[37px]"
+              onClick={() => handleChat()}
+            />
+          </div>
+          <div className="w-full h-full"></div>
         </div>
       </div>
       <div className="w-full h-[85%] grid grid-cols-5 grid-rows-1 px-[10px]">

@@ -16,6 +16,8 @@ import { useModalList } from "./assets/store/store";
 import ModalList from "./components/Home/ModalList";
 import { useModalDeleteBoard } from "./assets/store/store";
 import ModalDeleteBoard from "./components/Home/ModalDeleteBoard";
+import { useModalChat } from "./assets/store/store";
+import ModalChat from "./components/Home/ModalChat";
 
 function App() {
   const location = useLocation();
@@ -46,6 +48,11 @@ function App() {
     deleteBoard: state.deleteBoard
   }), shallow)
 
+  const {chatRoom} = useModalChat((state) => ({
+    ...state,
+    chatRoom: state.chatRoom
+  }), shallow)
+
 
   return (
     <div className="relative w-screen h-screen min-w-[1150px] min-h-[600px] flex flex-col items-center overflow-hidden">
@@ -63,6 +70,7 @@ function App() {
       {notification ? <ModalNotification/> : null}
       {deleteList ? <ModalList/> : null}
       {deleteBoard? <ModalDeleteBoard/> : null}
+      {chatRoom? <ModalChat/> : null}
     </div>
   );
 }
