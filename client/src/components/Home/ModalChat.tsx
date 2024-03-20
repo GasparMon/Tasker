@@ -27,10 +27,9 @@ const ModalChat: React.FC = () => {
   const [storageMessages, setStorageMessages] = useState<any[]>([]);
   const [fistTime, setFirsTime] = useState(false)
 
-  const { socket, userId, IdRoom, email, setOpenRoom, chatRoom } = useModalChat((state) => ({
+  const { socket, userId, IdRoom, email, setOpenRoom} = useModalChat((state) => ({
     ...state,
     socket: state.socket,
-    chatRoom: state.chatRoom,
   }),shallow);
 
   const { message } = useMessage(
