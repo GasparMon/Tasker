@@ -95,6 +95,7 @@ interface ChatRoom {
   IdRoom: string;
   email: string;
   socket: any;
+  setOpenRoom: () => void,
   setRoom: ({
     socket,
     userId,
@@ -111,6 +112,13 @@ interface ChatRoom {
 interface Message {
   message: any;
   setMessage: (data: any) => void;
+}
+
+interface ChatConnection {
+  connection: boolean;
+  users: any[];
+  setUserIn:(id:string, room:string) => void;
+  setUserOut:(id:string) => void;
 }
 
 export const useOptionsHome = create<OptionsState>((set) => ({
@@ -156,28 +164,6 @@ export const useModalUser = create<CreateUser>((set) => ({
       id: id,
       createUser: !state.createUser,
     })),
-}));
-
-export const useModalChat = create<ChatRoom>((set) => ({
-  chatRoom: false,
-  userId: "",
-  IdRoom: "",
-  email: "",
-  socket: {},
-  setRoom: ({ socket, userId, IdRoom, email }) =>
-    set((state) => ({
-      ...state,
-      socket: socket,
-      userId: userId,
-      IdRoom: IdRoom,
-      email: email,
-      chatRoom: !state.chatRoom,
-    })),
-}));
-
-export const useMessage = create<Message>((set) => ({
-  message: {},
-  setMessage: (message) => set((state) => ({ ...state, message })),
 }));
 
 export const useModalList = create<DeleteList>((set) => ({
@@ -295,4 +281,48 @@ export const useSettingCard = create<CardSetting>((set) => ({
         workers: [...state.workers],
       };
     }),
+}));
+
+///chat Room
+
+export const useModalChat = create<ChatRoom>((set) => ({
+  chatRoom: false,
+  userId: "",
+  IdRoom: "",
+  email: "",
+  socket: {},
+  setOpenRoom: () =>
+  set((state) => ({
+    ...state,
+    chatRoom: !state.chatRoom,
+  })),
+  setRoom: ({ socket, userId, IdRoom, email }) =>
+    set((state) => ({
+      ...state,
+      socket: socket,
+      userId: userId,
+      IdRoom: IdRoom,
+      email: email,
+    })),
+}));
+
+export const useMessage = create<Message>((set) => ({
+  message: {},
+  setMessage: (message) => set((state) => ({ ...state, message })),
+}));
+
+export const useChatConnection = create<ChatConnection>((set) => ({
+  connection: false,
+  users: [],
+  setUserIn: (id, room) => set((state) => ({
+    ...state,
+    users: [...state.users, {id, room}],
+    connection: true,
+  })),
+  setUserOut: (id) => set((state) => ({
+    ...state,
+    users: state.users.filter((element) => element.id !== id),
+    connection: false,
+  }))
+  
 }));

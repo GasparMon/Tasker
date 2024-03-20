@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { BsArrowUpRightSquare } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useBoardState } from "../../assets/store/store";
+import { useBoardState} from "../../assets/store/store";
 import { PiUsersThreeBold } from "react-icons/pi";
 import { TbUserStar } from "react-icons/tb";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useModalDeleteBoard } from "../../assets/store/store";
 import { useLocalStorage } from "../../assets/localStorage";
+import { addConnection } from "../../assets/controller/controller";
+
+
+
 
 interface BoardCardProps {
   id: string;
@@ -25,12 +29,10 @@ const BoardCard: React.FC<BoardCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const [cardHover, setCardHover] = useState(false);
-
   const { setBoardFunction } = useBoardState();
   const { setModalBoard } = useModalDeleteBoard();
   const { getItem } = useLocalStorage("value");
   const user = getItem();
-
 
   const handleHoverIn = () => {
     setCardHover(true);
@@ -40,9 +42,13 @@ const BoardCard: React.FC<BoardCardProps> = ({
     setCardHover(false);
   };
 
-  const handleBoard = () => {
+
+
+  const handleBoard = async () => {
     setBoardFunction(id);
     navigate(`/board/${id}`);
+
+    await addConnection({ user_id: user.id, connection: true, table_id: id });
   };
 
   return (

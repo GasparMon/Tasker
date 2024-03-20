@@ -33,6 +33,18 @@ const UserSchema = new Schema(
       unique: false,
       required: false,
     },
+
+    connection: {
+      type: Boolean,
+      require: true,
+      default: true,
+    },
+
+    chatRoom: {
+      type: String,
+      required: false,
+    },
+
     user_Tables: [
       {
         type: Schema.Types.ObjectId,

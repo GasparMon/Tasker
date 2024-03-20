@@ -502,14 +502,10 @@ export const removeList = async ({
   }
 };
 
-export const removeTable = async ({
-  table_id
-}: {
-  table_id: string;
-}) => {
+export const removeTable = async ({ table_id }: { table_id: string }) => {
   try {
     const response = await axios.delete(`${URL}/removeTable`, {
-      data: { table_id},
+      data: { table_id },
     });
 
     return response.data;
@@ -518,3 +514,53 @@ export const removeTable = async ({
   }
 };
 
+// chat controllers //
+
+export const addConnection = async ({
+  user_id,
+  connection,
+  table_id,
+}: {
+  user_id: string;
+  connection: boolean;
+  table_id: string;
+}) => {
+  try {
+    const response = await axios.put(`${URL}/addConnection`, {
+      user_id,
+      connection,
+      table_id,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+
+export const createMessage = async ({
+  body, date, table_id, user_id 
+}: {
+  body: string, date: string, table_id: string, user_id: string 
+}) => {
+  try {
+    const response = await axios.post(`${URL}/createMessage`, {
+      body, date, table_id, user_id 
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getMessage = async (id: string) => {
+  try {
+    const response = await axios.get(`${URL}/getMessages/${id}`);
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

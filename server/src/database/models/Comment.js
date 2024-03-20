@@ -4,8 +4,16 @@ const mongoose_1 = require("mongoose");
 const CommentSchema = new mongoose_1.Schema({
     body: {
         type: String,
-        minlength: 5,
-        maxlength: 50,
+        required: true,
+    },
+    date: {
+        type: String,
+        required: true,
+        unique: false,
+    },
+    chatRoom: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "Table",
         required: true,
     },
     comment_user: {

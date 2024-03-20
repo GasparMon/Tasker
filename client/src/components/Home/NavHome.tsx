@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { GrTasks } from "react-icons/gr";
 import { useLocalStorage } from "../../assets/localStorage";
 import { IoNotifications } from "react-icons/io5";
-import { getNotifications } from "../../assets/controller/controller";
+import {
+  addConnection,
+  getNotifications,
+} from "../../assets/controller/controller";
 import { useModalNotification } from "../../assets/store/store";
 import { useUpdate } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
@@ -14,12 +17,15 @@ const NavHome: React.FC = () => {
   const user = getItem();
   const navigate = useNavigate();
 
-  const {update} = useUpdate((state) => ({
-    ...state,
-    update: state.update
-  }), shallow)
+  const { update } = useUpdate(
+    (state) => ({
+      ...state,
+      update: state.update,
+    }),
+    shallow
+  );
 
-  const {setModalNotification} = useModalNotification();
+  const { setModalNotification } = useModalNotification();
 
   const [notifications, setNotifications] = useState<any[]>([]);
 
@@ -39,33 +45,49 @@ const NavHome: React.FC = () => {
     (notification) => !notification.view
   ).length;
 
-  const handleNavigate = () => {
- 
-    navigate("/home")
-  }
+  const handleNavigate = async () => {
+    const data = await addConnection({
+      user_id: user.id,
+      connection: false,
+      table_id: "",
+    });
+    if (data) {
+      console.log(data)
+      navigate("/home");
+    }
+  };
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     setItem({
       id: "",
       email: "",
     });
-    navigate("/")
-  }
+    const data = await addConnection({
+      user_id: user.id,
+      connection: false,
+      table_id: "",
+    });
+    if (data) {
+      navigate("/");
+    }
+  };
 
   return (
-    <div className="w-full min-w-[100px] min-h-[70px] flex absolue items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50"
-    
-    >
-      <div className="h-full w-[250px] flex items-center px-[10px] ml-[70px] cursor-pointer"
-      onClick={() => handleNavigate()}
+    <div className="w-full min-w-[100px] min-h-[70px] flex absolue items-center justify-between bg-white backdrop-blur-sm border-b-[1px] border-slate-300 z-50">
+      <div
+        className="h-full w-[250px] flex items-center px-[10px] ml-[70px] cursor-pointer"
+        onClick={() => handleNavigate()}
       >
         <GrTasks className="text-[40px] text-teal-700 cursor-pointer" />
-        <h1 className="text-[40px] ml-[20px] font-bold cursor-pointer">Tasker</h1>
+        <h1 className="text-[40px] ml-[20px] font-bold cursor-pointer">
+          Tasker
+        </h1>
       </div>
 
       <div className="h-full w-[180px] mr-[60px] grid grid-cols-3">
-        <div className="relative w-full h-full flex items-center justify-center"
-        onClick={()=> setModalNotification()}
+        <div
+          className="relative w-full h-full flex items-center justify-center"
+          onClick={() => setModalNotification()}
         >
           <IoNotifications className="text-[40px] text-slate-700 cursor-pointer" />
           {total > 0 ? (
@@ -83,10 +105,10 @@ const NavHome: React.FC = () => {
           </div>
         </div>
         <div className="w-full h-full flex items-center justify-center">
-        
-        <RiLogoutBoxRLine className="text-[40px] text-slate-700 cursor-pointer hover:text-red-600 ml-[20px]" 
-        onClick={()=> handleLogOut()}
-        />
+          <RiLogoutBoxRLine
+            className="text-[40px] text-slate-700 cursor-pointer hover:text-red-600 ml-[20px]"
+            onClick={() => handleLogOut()}
+          />
         </div>
       </div>
     </div>

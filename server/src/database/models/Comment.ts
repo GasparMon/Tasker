@@ -4,8 +4,16 @@ const CommentSchema = new Schema(
   {
     body: {
       type: String,
-      minlength: 5,
-      maxlength: 50,
+      required: true,
+    },
+    date:{
+      type: String,
+      required: true,
+      unique:false,
+    },
+    chatRoom:{
+      type: Schema.Types.ObjectId,
+      ref: "Table",
       required: true,
     },
     comment_user: {

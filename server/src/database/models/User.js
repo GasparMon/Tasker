@@ -33,6 +33,15 @@ const UserSchema = new mongoose_1.Schema({
         unique: false,
         required: false,
     },
+    connection: {
+        type: Boolean,
+        require: true,
+        default: true,
+    },
+    chatRoom: {
+        type: String,
+        required: false,
+    },
     user_Tables: [
         {
             type: mongoose_1.Schema.Types.ObjectId,

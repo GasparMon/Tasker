@@ -3,23 +3,19 @@ import { GetIdBoard } from "../../assets/controller/controller";
 import { useParams } from "react-router-dom";
 import CreateBoard from "./createBoard";
 import List from "./List";
-import { useBoardState } from "../../assets/store/store";
+import { useBoardState, useModalChat } from "../../assets/store/store";
 import { RiUserSearchLine } from "react-icons/ri";
 import { useModalUser } from "../../assets/store/store";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { useUpdate } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 import { BsChatDotsFill } from "react-icons/bs";
+import "react-toastify/dist/ReactToastify.css";
 import { io } from "socket.io-client";
 import { useLocalStorage } from "../../assets/localStorage";
-import { useModalChat } from "../../assets/store/store";
-import { useMessage } from "../../assets/store/store";
 import { Slide, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 const URL = import.meta.env.VITE_URL_HOST;
 
-const socket = io(URL);
 interface Board {
   id: string;
   name: string;
@@ -29,9 +25,6 @@ interface Board {
 }
 
 const Board: React.FC = () => {
-  const { getItem } = useLocalStorage("value");
-  const user = getItem();
-
   const { setBoardFunction } = useBoardState();
   const { setModalUser } = useModalUser();
   const { id } = useParams();
@@ -80,83 +73,100 @@ const Board: React.FC = () => {
 
   //Chat con Socket IO
 
-  const notify = (message: string) =>
-    toast(message, {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      transition: Slide,
-    });
+ 
 
-  const [isConnected, setIsConnected] = useState(false);
-  const [users, setUsers] = useState([])
-  const [notification, setNotification] = useState("");
+  const { socket, setOpenRoom } = useModalChat((state) => ({
+    ...state,
+    socket: state.socket
+  }), shallow);
 
-  const { setRoom, chatRoom } = useModalChat(
-    (state) => ({
-      ...state,
-      chatRoom: state.chatRoom,
-      setRoom: state.setRoom,
-    }),
-    shallow
-  );
+  const { chatRoom, setRoom} = useModalChat((state) => ({
+    ...state,
+    chatRoom: state.chatRoom
+  }), shallow);
 
-  const { setMessage } = useMessage();
+  const { getItem } = useLocalStorage("value");
+  const user = getItem();
 
-  const handleChat = () => {
+  useEffect(() => {
     if (id) {
+      const socket = io(URL);
       setRoom({
         socket: socket,
         userId: user.id,
         IdRoom: id,
         email: user.email,
       });
+
+      socket.emit('join_room', id);
+
+      return () => {
+        socket.disconnect(); // Asegúrate de desconectar el socket cuando el componente se desmonte
+      };
     }
-  };
+  }, [id, setRoom, user.id, user.email]);
 
- 
-
-  useEffect(() => {
-    socket.emit("join_room", id);
-  }, [isConnected]);
-
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (socket) {
+  //     const receivedMessage = (message: any) => {
+  //       if (!chatRoom && message.author !== user.email) {
+  //         toast(`💬 ${message.author} : ${message.message}`, {
+  //           position: "bottom-right",
+  //           autoClose: 2000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: true,
+  //           theme: "dark",
+  //           progress: undefined,
+  //           transition: Slide,
+  //         });
+  //       }
+  //     };
   
-    const messageHandle = (data: any) => {
-      setMessage(data);
-      setNotification(`${data.author}: ${data.message}`);
+  //     socket.on("message", receivedMessage);
+  
+  //     return () => {
+  //       socket.off("message", receivedMessage);
+  //     };
+  //   }
+  // }, [socket, chatRoom, user.email]);
+
+
+  useEffect(() => {
+    const receivedMessage = (message: any) => {
+      if (!chatRoom && message.author !== user.email) {
+        toast(`💬 ${message.author} : ${message.message}`, {
+          position: 'bottom-right',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: 'dark',
+          transition: Slide,
+        });
+      }
     };
+console.log(socket)
+    if (!chatRoom && Object.keys(socket).length > 0) {
+      socket.on('message', receivedMessage);
 
-    socket.on("receive_message", messageHandle);
-  }, [socket]);
-
-  useEffect(() => {
-
-    const handleUsers = (data:any) => {
-      setUsers(data)
+      return () => {
+        socket.off('message', receivedMessage);
+      };
     }
-
-    socket.emit("recieve_message", handleUsers)
-  },[socket])
-
-  useEffect(() => {
-    if (!chatRoom && notification.length > 0) {
-      notify(notification);
-      setNotification("");
-    }
-  }, [notification]);
+  }, [chatRoom, user.email]);
+  
+  // enviar informacion a la sala de Chat
 
   return (
     <div
       className="w-full h-full flex flex-col"
       style={{ background: `var(--${board.image})` }}
     >
-      <ToastContainer />
+      {chatRoom ? null : (<ToastContainer />) }
+      
       <div className="w-full p-[5px] h-[70px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
         <div className="w-[600px] h-full flex items-center  ml-[70px]">
           <MdOutlineSpaceDashboard className="text-[50px] text-white mr-[20px]" />
@@ -172,7 +182,7 @@ const Board: React.FC = () => {
           <div className="w-full h-full items-center justify-center flex">
             <BsChatDotsFill
               className="text-[35px] text-white cursor-pointer hover:text-[37px]"
-              onClick={() => handleChat()}
+              onClick={() => setOpenRoom()}
             />
           </div>
           <div className="w-full h-full"></div>

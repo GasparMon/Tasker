@@ -40,6 +40,9 @@ import addNewUserBoard from './handlers/ADD/addNewUserBoard';
 import putUserTeamResponse from './handlers/PUT/putUserTeamResponse';
 import updateNotifications from './handlers/PUT/updateNotification';
 import removeList from './handlers/DELETE/removeList';
+import addConnection from './handlers/PUT/addConnetion';
+import createMessage from './handlers/POST/createMessage';
+import getMessages from './handlers/GET/getMessages';
 
 
 
@@ -92,5 +95,11 @@ routes.delete("/removeCard", removeCard)
 routes.delete("/removeUserTeam", removeUserTeam)
 routes.delete("/removeList", removeList)
 routes.delete("/removeTable", removeTable)
+
+//chatLogic
+
+routes.put("/addConnection", addConnection);
+routes.post("/createMessage", createMessage);
+routes.get("/getMessages/:id", getMessages);
 
 export default routes
