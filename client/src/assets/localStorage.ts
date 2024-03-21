@@ -3,8 +3,8 @@ interface User {
   email: string;
 }
 
-interface Location {
-  pathname: string;
+interface Location{
+  pathname: string
 }
 
 export const useLocalStorage = (key: string) => {
@@ -12,12 +12,17 @@ export const useLocalStorage = (key: string) => {
     window.localStorage.setItem(key, JSON.stringify(value));
   };
 
-  const getItem = (): User | null => {
+  const getItem = () => {
     const user = window.localStorage.getItem(key);
-    return user ? JSON.parse(user) : null;
+
+    if (user) {
+      return JSON.parse(user);
+    }
+
+    return null;
   };
 
-  const removeItem = () => {
+  const revomeItem = () => {
     window.localStorage.removeItem(key);
   };
 
@@ -25,10 +30,15 @@ export const useLocalStorage = (key: string) => {
     window.localStorage.setItem(key, JSON.stringify(value));
   };
 
-  const getLocation = (): Location | null => {
+  const getLocation = () => {
     const location = window.localStorage.getItem(key);
-    return location ? JSON.parse(location) : null;
+
+    if (location) {
+      return JSON.parse(location);
+    }
+
+    return null;
   };
 
-  return { setItem, removeItem, getItem, setLocation, getLocation };
+  return { setItem, revomeItem, getItem, getLocation, setLocation };
 };
