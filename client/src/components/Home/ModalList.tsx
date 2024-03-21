@@ -1,14 +1,24 @@
 import { CgClose } from "react-icons/cg";
-import { useModalList } from "../../assets/store/store";
+import { useModalChat, useModalList } from "../../assets/store/store";
 import { FcDeleteDatabase } from "react-icons/fc";
 import { removeList } from "../../assets/controller/controller";
 import { useBoardState } from "../../assets/store/store";
 import { useUpdate } from "../../assets/store/store";
+import { shallow } from "zustand/shallow";
+
+
 
 const ModalList: React.FC = () => {
   const { listId, setModalList } = useModalList();
   const {id, setBoardFunction} = useBoardState();
   const {setUpdate} = useUpdate();
+
+  //actualizacion room//
+
+const { socket, IdRoom} = useModalChat((state) => ({
+  ...state,
+  socket: state.socket,
+}),shallow);
 
 
   const handleRemove = async () => {
@@ -18,6 +28,7 @@ const ModalList: React.FC = () => {
     if(data){
       setModalList(listId)
       setBoardFunction(id)
+      await socket.emit("change", IdRoom);
       setUpdate();
     }
   }

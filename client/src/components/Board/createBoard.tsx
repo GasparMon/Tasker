@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { MdPlaylistAdd } from "react-icons/md";
 import { CgClose } from "react-icons/cg";
 import { createList } from "../../assets/controller/controller";
+import { useModalChat } from "../../assets/store/store";
+import { shallow } from "zustand/shallow";
 
 interface Board {
   id: string;
@@ -63,6 +65,7 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
     });
 
     if (data) {
+      await socket.emit("change", IdRoom);
       handleFetch();
       handleOption();
       setbuttonDisable(false);
@@ -78,6 +81,13 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
       setListOptions(namesArray);
     }
   }, [table_list]);
+
+  //actualizacion room//
+
+  const { socket, IdRoom} = useModalChat((state) => ({
+    ...state,
+    socket: state.socket,
+  }),shallow);
 
   return (
     <>

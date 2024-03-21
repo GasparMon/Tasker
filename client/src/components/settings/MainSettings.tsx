@@ -10,9 +10,10 @@ import CardDate from "./CardDate";
 import { MdOutlineCheckBox } from "react-icons/md";
 import CardChecklist from "./CardChecklist";
 import { TbUserShare } from "react-icons/tb";
-import { ListCard } from "../../assets/store/store";
+import { ListCard, useModalChat } from "../../assets/store/store";
 import { removeCard } from "../../assets/controller/controller";
 import CardUserTeam from "./CardTeamUser";
+import { shallow } from "zustand/shallow";
 
 interface Setting {
   status: boolean;
@@ -30,6 +31,14 @@ interface MainProps{
 }
 
 const MainSettings: React.FC <MainProps> = ({card_id, handleSave, handleCloseModal}) => {
+
+    //actualizacion room//
+
+    const { socket, IdRoom} = useModalChat((state) => ({
+      ...state,
+      socket: state.socket,
+    }),shallow);
+
   const [settings, setSettings] = useState<Setting>({
     status: false,
     type: false,
@@ -68,6 +77,7 @@ const MainSettings: React.FC <MainProps> = ({card_id, handleSave, handleCloseMod
 
     if(data){
       handleCloseModal()
+      await socket.emit("change", IdRoom);
     }
 
   }

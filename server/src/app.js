@@ -39,20 +39,20 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 io.on("connection", (socket) => {
     console.log(socket.id);
     socket.on("join_room", (room) => {
-        socket.join(room); // El cliente se une a la sala especificada
+        socket.join(room);
         console.log(`User ${socket.id} has joined room ${room}`);
     });
     socket.on("message", (data) => {
-        // Envío de mensaje solo a los clientes en la misma sala
         io.to(data.room).emit("message", data);
     });
     socket.on("alert", (data) => {
-        // Emitir la alerta a todos los usuarios conectados
         io.emit("alert", data);
     });
     socket.on("alertTwo", (data) => {
-        // Emitir la alerta a todos los usuarios conectados
         io.emit("alertTwo", data);
+    });
+    socket.on("change", (data) => {
+        io.to(data).emit("change", data);
     });
     socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);

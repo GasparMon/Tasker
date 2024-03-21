@@ -1,5 +1,5 @@
 import { shallow } from "zustand/shallow";
-import { useModalCard } from "../../assets/store/store";
+import { useModalCard, useModalChat } from "../../assets/store/store";
 import { CgClose } from "react-icons/cg";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getCard, putCard } from "../../assets/controller/controller";
@@ -10,8 +10,7 @@ import { TbTextPlus } from "react-icons/tb";
 import MainSettings from "../settings/MainSettings";
 import { useSettingCard } from "../../assets/store/store";
 import Checklist from "../settings/Checklist";
-import { ToastContainer, toast } from "react-toastify";
-import { useCheckBox } from "../../assets/store/store";
+import { toast } from "react-toastify";
 import { TbUserStar } from "react-icons/tb";
 import CardWorkingOn from "../settings/CardWorkinOn";
 
@@ -35,6 +34,16 @@ interface Header {
 }
 
 const ModalCard: React.FC = () => {
+
+      //actualizacion room//
+
+      const { socket, IdRoom} = useModalChat((state) => ({
+        ...state,
+        socket: state.socket,
+      }),shallow);
+
+      
+
   const [addDescription, setAddDescription] = useState(false);
   const [cardHeader, setHeader] = useState<Header>({
     id: "",
@@ -155,11 +164,15 @@ const ModalCard: React.FC = () => {
     resetModal();
   };
 
-  const { setBox } = useCheckBox();
+  const handleSocket = async () => {
+
+    await socket.emit("change", IdRoom);
+  }
+
 
   const handleSave = async () => {
-    toast
-      .promise(
+    try {
+      await Promise.all([
         putCard({
           card_id: cardHeader.id,
           title: cardHeader.title,
@@ -170,23 +183,26 @@ const ModalCard: React.FC = () => {
           status: cardInfo.status,
           workers: workers,
         }),
-        {
-          pending: "Saving your Card",
-          success: "Card has been Updated 👍",
-          error: "Error creating your Board",
-        }
-      )
-      .then(() => {
-        setBox();
+        handleSocket()
+      ]);
+  
+      toast.success("Card has been Updated 👍", {
+        theme: "dark",
+        autoClose: 1500
       });
+    } catch (error) {
+      toast.error("Error creating your Board");
+      console.error("Error:", error);
+    }
   };
+  
 
 
   return (
     <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
-      <ToastContainer autoClose={1000}
+      {/* <ToastContainer autoClose={1000}
       theme="dark"
-      />
+      /> */}
       <div className="relative w-[920px] min-h-[87vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"

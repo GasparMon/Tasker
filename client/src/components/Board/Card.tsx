@@ -1,5 +1,5 @@
 import { HiDotsHorizontal } from "react-icons/hi";
-import { useModalCard } from "../../assets/store/store";
+import { useModalCard, useModalChat } from "../../assets/store/store";
 import { ListCard } from "../../assets/store/store";
 import { useEffect, useState } from "react";
 import { getCard } from "../../assets/controller/controller";
@@ -36,6 +36,17 @@ interface CardInfo {
 }
 
 const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
+
+
+      //actualizacion room//
+
+      const { socket} = useModalChat((state) => ({
+        ...state,
+        socket: state.socket,
+      }),shallow);
+
+
+
   const [cardInfo, setCardInfo] = useState<CardInfo>({
     card_checklist: [],
     card_comment: [],
@@ -74,15 +85,16 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
     }
   }, []);
 
+  const fetchData = async () => {
+    const data = await getCard(id);
+
+    if (data) {
+      setCardInfo(data);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getCard(id);
-
-      if (data) {
-        setCardInfo(data);
-      }
-    };
-
+    
     fetchData();
   }, [status]);
 
@@ -93,6 +105,12 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
 
     setDone(count);
   }, [cardInfo]);
+
+  useEffect(() => {
+    if (Object.keys(socket).length > 0) {
+      socket.on("change", fetchData);
+    }
+  }, [socket]);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">

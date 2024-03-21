@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FaCheck } from "react-icons/fa";
-import { useModalCard, useSettingCard } from "../../assets/store/store";
+import { useModalCard, useModalChat, useSettingCard } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 import { useBoardState } from "../../assets/store/store";
 import {
@@ -23,6 +23,15 @@ interface Status {
 }
 
 const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
+
+  //actualizacion room//
+
+  const { socket, IdRoom} = useModalChat((state) => ({
+    ...state,
+    socket: state.socket,
+  }),shallow);
+
+
   const { setModal } = useSettingCard();
   const { Cardstatus } = useSettingCard(
     (state) => ({ Cardstatus: state.status }),
@@ -121,6 +130,7 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
     } catch (error) {
     } finally {
       setIsDisiable(false);
+      await socket.emit("change", IdRoom);
     }
   };
 

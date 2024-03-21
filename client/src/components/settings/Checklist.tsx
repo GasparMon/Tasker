@@ -10,7 +10,8 @@ import { useLocalStorage } from "../../assets/localStorage";
 import { CgClose } from "react-icons/cg";
 import { MdOutlineAddTask } from "react-icons/md";
 import Checkbox from "./CheckBox";
-import { useCheckBox } from "../../assets/store/store";
+import { useCheckBox, useModalChat } from "../../assets/store/store";
+import { shallow } from "zustand/shallow";
 // import { useSettingCard } from "../../assets/store/store";
 // import { shallow } from "zustand/shallow";
 
@@ -27,12 +28,13 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
   const { getItem } = useLocalStorage("value");
   const { id } = getItem();
 
-  // const { checkedList } = useSettingCard(
-  //   (state) => ({
-  //     checkedList: state.checklist,
-  //   }),
-  //   shallow
-  // );
+  //actualizacion room//
+
+  const { socket, IdRoom} = useModalChat((state) => ({
+    ...state,
+    socket: state.socket,
+  }),shallow);
+
 
   const [checklist, setChecklist] = useState<any[]>([]);
   const [check, setCheck] = useState(true);
@@ -90,11 +92,13 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
     if (data) {
       fetchData();
       handleTask();
+      await socket.emit("change", IdRoom);
     }
   };
 
-  const updateSetting = () => {
+  const updateSetting = async () => {
     fetchData();
+    await socket.emit("change", IdRoom);
   };
 
   useEffect(() => {
@@ -114,6 +118,7 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
 
     if (data) {
       fetchData();
+      await socket.emit("change", IdRoom);
     }
   };
 

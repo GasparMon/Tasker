@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { CgClose } from "react-icons/cg";
-import { useModalUser } from "../../assets/store/store";
-import { shallow } from "zustand/shallow";
+import { useModalChat} from "../../assets/store/store";
 import { getTeamBoard } from "../../assets/controller/controller";
 import Team from "./Team";
 
@@ -13,18 +12,16 @@ const CardUserTeam: React.FC<PropsStatus> = ({ handleClose }) => {
   const [userTeam, setUserTeam] = useState<any[]>([]);
   //   const [newTeam, setnewTeam] = useState<any[]>([]);
 
-  const { id } = useModalUser(
-    (state) => ({
-      id: state.id,
-    }),
-    shallow
-  );
+//actualizacion room//
+
+const {IdRoom} = useModalChat()
+  console.log(IdRoom)
 
   useEffect(() => {
-    if (id) {
+    if (IdRoom) {
       const fetchBoard = async () => {
         try {
-          const data = await getTeamBoard(id);
+          const data = await getTeamBoard(IdRoom);
 
           if (data) {
             setUserTeam(data.table_Team);
@@ -36,7 +33,7 @@ const CardUserTeam: React.FC<PropsStatus> = ({ handleClose }) => {
 
       fetchBoard();
     }
-  }, [id]);
+  }, [IdRoom]);
 
   return (
     <div className="absolute w-[370px] bg-white bottom-[180px] right-[-160px] border-gray-100 rounded-[10px] border-[1px] shadow-sm shadow-black/10">

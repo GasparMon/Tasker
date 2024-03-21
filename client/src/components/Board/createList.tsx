@@ -3,6 +3,8 @@ import { LuListPlus } from "react-icons/lu";
 import { CgClose } from "react-icons/cg";
 import { createCard } from "../../assets/controller/controller";
 import { useLocalStorage } from "../../assets/localStorage";
+import { useModalChat } from "../../assets/store/store";
+import { shallow } from "zustand/shallow";
 
 interface PropsList {
   id: string;
@@ -17,6 +19,14 @@ interface PropsCard {
 }
 
 const CreateList: React.FC<PropsList> = ({ id, name, handleFetch }) => {
+   //actualizacion room//
+
+   const { socket, IdRoom} = useModalChat((state) => ({
+    ...state,
+    socket: state.socket,
+  }),shallow);
+
+
   const { getItem } = useLocalStorage("value");
   const user = getItem();
   const [list, setList] = useState(true);
@@ -68,6 +78,7 @@ const CreateList: React.FC<PropsList> = ({ id, name, handleFetch }) => {
     });
 
     if (data) {
+      await socket.emit("change", IdRoom);
       handleFetch();
       handleList();
     }

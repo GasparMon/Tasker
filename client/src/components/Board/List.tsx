@@ -6,6 +6,7 @@ import { useSettingCard } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useModalList } from "../../assets/store/store";
+import { useModalChat } from "../../assets/store/store";
 
 interface ListProps {
   id: string;
@@ -13,6 +14,15 @@ interface ListProps {
 }
 
 const List: React.FC<ListProps> = ({ id, name }) => {
+
+    //actualizacion room//
+
+    const { socket} = useModalChat((state) => ({
+      ...state,
+      socket: state.socket,
+    }),shallow);
+
+ 
   const [listCard, setListCard] = useState([] as any[]);
 
   const {cardStatus} = useSettingCard((state) => ({
@@ -22,10 +32,12 @@ const List: React.FC<ListProps> = ({ id, name }) => {
   const {setModalList} = useModalList();
 
   const fetchData = async () => {
+    
     const data = await getListCard(id);
-
+    
     if (data) {
       setListCard(data);
+      
     }
   };
 
@@ -37,6 +49,12 @@ const List: React.FC<ListProps> = ({ id, name }) => {
 
     fetchData();
   }
+
+  useEffect(() => {
+    if (Object.keys(socket).length > 0) {
+      socket.on("change", fetchData);
+    }
+  }, [socket]);
 
   return (
     <div className="w-full h-full pt-[10px]">

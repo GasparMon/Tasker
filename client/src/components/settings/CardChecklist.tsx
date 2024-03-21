@@ -14,6 +14,7 @@ interface Checklist {
 }
 
 const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
+
   const { setModal } = useSettingCard();
   const { CardChecklist } = useSettingCard(
     (state) => ({ CardChecklist: state.checklist }),
@@ -44,8 +45,10 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
     });
 
     if (data) {
+
       setModal("checklist", checklist.checklist);
       handleClose("checklist");
+      
     }
   };
 

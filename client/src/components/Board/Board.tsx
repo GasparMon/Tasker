@@ -70,6 +70,8 @@ const Board: React.FC = () => {
     }
   }, [id, update]);
 
+
+
   const handleFetch = () => {
     fetchBoard();
   };
@@ -220,7 +222,15 @@ const Board: React.FC = () => {
     }
   }, [socket, user.email]);
 
-  // enviar informacion a la sala de Chat
+
+  ///
+
+  useEffect(() => {
+    if (Object.keys(socket).length > 0) {
+      socket.on("change", fetchBoard);
+    }
+  }, [socket]);
+
 
   return (
     <div
