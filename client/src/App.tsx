@@ -19,7 +19,7 @@ import ModalDeleteBoard from "./components/Home/ModalDeleteBoard";
 import { useModalChat } from "./assets/store/store";
 import ModalChat from "./components/Home/ModalChat";
 import { useLocalStorage } from "./assets/localStorage";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 
 
 function App() {
