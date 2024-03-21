@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetIdBoard } from "../../assets/controller/controller";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CreateBoard from "./createBoard";
 import List from "./List";
 import { useBoardState, useModalChat } from "../../assets/store/store";
@@ -43,11 +43,14 @@ const Board: React.FC = () => {
     table_Team: [],
   });
 
+  const navigate = useNavigate();
+
   const fetchBoard = async () => {
     if (id) {
       const data = await GetIdBoard(id);
-
-      if (data) {
+      if (data?.response?.status && data?.response?.status === 500) {
+        navigate("/home");
+      } else if (data) {
         setBoard({
           id: data._id,
           name: data.name,
@@ -73,17 +76,21 @@ const Board: React.FC = () => {
 
   //Chat con Socket IO
 
- 
+  const { socket, setOpenRoom } = useModalChat(
+    (state) => ({
+      ...state,
+      socket: state.socket,
+    }),
+    shallow
+  );
 
-  const { socket, setOpenRoom } = useModalChat((state) => ({
-    ...state,
-    socket: state.socket
-  }), shallow);
-
-  const { chatRoom, setRoom} = useModalChat((state) => ({
-    ...state,
-    chatRoom: state.chatRoom
-  }), shallow);
+  const { chatRoom, setRoom } = useModalChat(
+    (state) => ({
+      ...state,
+      chatRoom: state.chatRoom,
+    }),
+    shallow
+  );
 
   const { getItem } = useLocalStorage("value");
   const user = getItem();
@@ -98,7 +105,7 @@ const Board: React.FC = () => {
         email: user.email,
       });
 
-      socket.emit('join_room', id);
+      socket.emit("join_room", id);
 
       return () => {
         socket.disconnect(); // Asegúrate de desconectar el socket cuando el componente se desmonte
@@ -123,37 +130,36 @@ const Board: React.FC = () => {
   //         });
   //       }
   //     };
-  
+
   //     socket.on("message", receivedMessage);
-  
+
   //     return () => {
   //       socket.off("message", receivedMessage);
   //     };
   //   }
   // }, [socket, chatRoom, user.email]);
 
-
   useEffect(() => {
     const receivedMessage = (message: any) => {
       if (!chatRoom && message.author !== user.email) {
         toast(`💬 ${message.author} : ${message.message}`, {
-          position: 'bottom-right',
+          position: "bottom-right",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
-          theme: 'dark',
+          theme: "dark",
           transition: Slide,
         });
       }
     };
 
     if (!chatRoom && Object.keys(socket).length > 0) {
-      socket.on('message', receivedMessage);
+      socket.on("message", receivedMessage);
 
       return () => {
-        socket.off('message', receivedMessage);
+        socket.off("message", receivedMessage);
       };
     }
   }, [chatRoom, user.email]);
@@ -164,13 +170,13 @@ const Board: React.FC = () => {
     const receivedMessage = (mail: any) => {
       if (mail === user.email) {
         toast(`📬  You have a new message`, {
-          position: 'bottom-right',
+          position: "bottom-right",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
-          theme: 'dark',
+          theme: "dark",
           transition: Slide,
         });
 
@@ -179,10 +185,10 @@ const Board: React.FC = () => {
     };
 
     if (Object.keys(socket).length > 0) {
-      socket.on('alert', receivedMessage);
+      socket.on("alert", receivedMessage);
 
       return () => {
-        socket.off('alert', receivedMessage);
+        socket.off("alert", receivedMessage);
       };
     }
   }, [socket, user.email]);
@@ -191,13 +197,13 @@ const Board: React.FC = () => {
     const receivedMessage = (mail: any) => {
       if (mail === user.id) {
         toast(`📬  You have a new message`, {
-          position: 'bottom-right',
+          position: "bottom-right",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
-          theme: 'dark',
+          theme: "dark",
           transition: Slide,
         });
 
@@ -206,14 +212,14 @@ const Board: React.FC = () => {
     };
 
     if (Object.keys(socket).length > 0) {
-      socket.on('alertTwo', receivedMessage);
+      socket.on("alertTwo", receivedMessage);
 
       return () => {
-        socket.off('alertTwo', receivedMessage);
+        socket.off("alertTwo", receivedMessage);
       };
     }
   }, [socket, user.email]);
-  
+
   // enviar informacion a la sala de Chat
 
   return (
@@ -221,8 +227,8 @@ const Board: React.FC = () => {
       className="w-full h-full flex flex-col"
       style={{ background: `var(--${board.image})` }}
     >
-      {chatRoom ? null : (<ToastContainer />) }
-      
+      {chatRoom ? null : <ToastContainer />}
+
       <div className="w-full p-[5px] h-[70px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
         <div className="w-[600px] h-full flex items-center  ml-[70px]">
           <MdOutlineSpaceDashboard className="text-[50px] text-white mr-[20px]" />
