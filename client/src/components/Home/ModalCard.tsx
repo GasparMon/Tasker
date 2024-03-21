@@ -203,7 +203,7 @@ const ModalCard: React.FC = () => {
       {/* <ToastContainer autoClose={1000}
       theme="dark"
       /> */}
-      <div className="relative w-[920px] min-h-[87vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
+      <div className="relative w-[920px] min-h-[650px] h-[87vh] bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"
           onClick={() => handleClose()}

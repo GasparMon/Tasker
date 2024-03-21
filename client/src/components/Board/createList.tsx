@@ -96,6 +96,8 @@ const CreateList: React.FC<PropsList> = ({ id, name, handleFetch }) => {
     return false;
   };
 
+  
+
   return (
     <>
       {list ? (

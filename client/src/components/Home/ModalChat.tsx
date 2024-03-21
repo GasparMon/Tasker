@@ -1,7 +1,7 @@
 import { CgClose } from "react-icons/cg";
 import { useModalChat } from "../../assets/store/store";
 import { IoMdSend } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMessage } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 import Message from "../Chat/Message";
@@ -26,6 +26,7 @@ const ModalChat: React.FC = () => {
   const [roomUsers, setRoomUsers] = useState<User[]>([]);
   const [storageMessages, setStorageMessages] = useState<any[]>([]);
   const [fistTime, setFirsTime] = useState(false)
+  const scrollBottom = useRef<HTMLDivElement>(null);
 
   const { socket, userId, IdRoom, email, setOpenRoom} = useModalChat((state) => ({
     ...state,
@@ -97,6 +98,9 @@ const ModalChat: React.FC = () => {
          if(data){
           setStorageMessages(data)
           setFirsTime(true);
+          if(scrollBottom.current){
+            scrollBottom.current.scrollIntoView()
+          }
          }
       }
 
@@ -128,6 +132,13 @@ const ModalChat: React.FC = () => {
     }
   }, [IdRoom]);
 
+  useEffect(() => {
+
+    if(scrollBottom.current){
+      scrollBottom.current.scrollIntoView()
+    }
+
+  },[list])
 
 
   return (
@@ -165,6 +176,7 @@ const ModalChat: React.FC = () => {
                   room={element.room}
                 />
               ))}
+              <div ref={scrollBottom}></div>
           </div>
           <div className=" w-[25%] min-h-[450px] ml-[20px] mr-[30px] rounded-[15px] border-[2px] bg- border-blue-700 shadow-md shadow-black/10">
             <div className="w-full h-[60px] flex items-center justify-center">
