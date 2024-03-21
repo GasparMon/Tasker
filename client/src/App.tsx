@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Landing from "./components/Landing";
 import NavBar from "./components/navBar";
 import NavHome from "./components/Home/NavHome";
@@ -18,6 +18,9 @@ import { useModalDeleteBoard } from "./assets/store/store";
 import ModalDeleteBoard from "./components/Home/ModalDeleteBoard";
 import { useModalChat } from "./assets/store/store";
 import ModalChat from "./components/Home/ModalChat";
+import { useLocalStorage } from "./assets/localStorage";
+import { useEffect, useState } from "react";
+
 
 function App() {
   const location = useLocation();
@@ -54,11 +57,62 @@ function App() {
   }), shallow)
 
 
+  //reload//
+
+  const navigate = useNavigate();
+
+  const { getLocation, setLocation } = useLocalStorage('location');
+ 
+
+  useEffect(() => {
+    const currentLocation = location.pathname;
+    setLocation({ pathname: currentLocation });
+   
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const savedLocation = getLocation();
+    if (savedLocation) {
+      navigate(savedLocation.pathname)
+    }else {
+      navigate("/")
+    }
+  }, []);
+
+  // useEffect(() => {
+  
+    
+  //     const lastLocation = localStorage.getItem("lastLocation");
+
+  //     if (lastLocation) {
+       
+  //       if (lastLocation === "/login") {
+  //         navigate(data.profile === "admin" ? "/admindashboard" : "/user/home");
+  //       } else if (lastLocation === "/") {
+  //         navigate(data.profile === "admin" ? "/admindashboard" : "/user/home");
+  //       } else{
+  //         navigate(lastLocation)
+  //       }
+  //     } else {
+      
+  //       navigate(data.profile === "admin" ? "/admindashboard" : "/user/home");
+  //     }
+  //   }
+
+  //   if(userData.email && userData.email.length > 0 && userData.password && userData.password.length > 0 && !userData.isAuthenticated){
+  //     setUserData({});
+  //   }
+  //   // if (data.email && !data.profile) {
+  //   //   setUserData({});
+  //   //   navigate("/");
+  //   // }
+  // }, [data]);
+
   return (
     <div className="relative w-screen h-screen min-w-[1150px] min-h-[600px] flex flex-col items-center overflow-hidden">
       {location.pathname === "/" ? <NavBar /> : <NavHome />}
       {/* {location.pathname === "/home" ? <Sidebar /> : null} */}
-      <Routes>
+      <Routes >
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
         <Route path="/board/:id" element={<Board/>}/>
