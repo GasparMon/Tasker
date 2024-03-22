@@ -14,17 +14,22 @@ import { useUpdate } from "../../assets/store/store";
 import { TbMessageCircleExclamation } from "react-icons/tb";
 import { TbMessage } from "react-icons/tb";
 import { shallow } from "zustand/shallow";
+import Loader from "../Loader";
 
 const ModalNotification: React.FC = () => {
   const { setUpdate } = useUpdate();
+  const [isLoading, setIsloading] = useState(false);
 
   const { getItem } = useLocalStorage("value");
   const user = getItem();
 
-  const { socket} = useModalChat((state) => ({
-    ...state,
-    socket: state.socket,
-  }),shallow);
+  const { socket } = useModalChat(
+    (state) => ({
+      ...state,
+      socket: state.socket,
+    }),
+    shallow
+  );
 
   const { setModalNotification } = useModalNotification();
 
@@ -39,6 +44,7 @@ const ModalNotification: React.FC = () => {
 
       if (newdata) {
         setUpdate();
+        setIsloading(true);
       }
     }
   };
@@ -109,38 +115,48 @@ const ModalNotification: React.FC = () => {
         <div className=" relative w-full h-[70px] flex items-center justify-center">
           <h1 className="text-[30px] text-gray-700">Notification Center</h1>
         </div>
-        {notifications && notifications.length > 0 ? (
-          <div className="w-full h-[40px] flex items-center">
-            <TbMessage className="ml-[100px] text-[25px] text-slate-500" />
-            <h1 className="ml-[10px] text-[15px] text-slate-500">
-              {`${notifications.length}`} Messages
-            </h1>
-          </div>
-        ) : null}
-        {notifications && notifications.length === 0 ? (
-          <div className="w-full h-[400px] flex flex-col items-center justify-center">
-            <TbMessageCircleExclamation className="text-[200px] mb-[25px] text-slate-500" />
-            <h1 className="text-[30px] text-slate-500">Your inbox is empty.</h1>
+        {!isLoading ? (
+          <div className="h-full w-full flex items-center justify-center mt-[100px]">
+            <Loader />
           </div>
         ) : (
-          <div className="w-full">
-            {notifications &&
-              notifications.map((element) => (
-                <CardNotification
-                  key={element._id}
-                  id={element._id}
-                  status={element.status}
-                  board={element.board?.name}
-                  sender={element.sender.email}
-                  senderid={element.sender._id}
-                  reciever={element.reciever}
-                  handleNotification={handleNotification}
-                  type={element.type}
-                  response={element.response}
-                  created={element.createdAt}
-                />
-              ))}
-          </div>
+          <>
+            {notifications && notifications.length > 0 ? (
+              <div className="w-full h-[40px] flex items-center">
+                <TbMessage className="ml-[100px] text-[25px] text-slate-500" />
+                <h1 className="ml-[10px] text-[15px] text-slate-500">
+                  {`${notifications.length}`} Messages
+                </h1>
+              </div>
+            ) : null}
+            {notifications && notifications.length === 0 ? (
+              <div className="w-full h-[400px] flex flex-col items-center justify-center">
+                <TbMessageCircleExclamation className="text-[200px] mb-[25px] text-slate-500" />
+                <h1 className="text-[30px] text-slate-500">
+                  Your inbox is empty.
+                </h1>
+              </div>
+            ) : (
+              <div className="w-full">
+                {notifications &&
+                  notifications.map((element) => (
+                    <CardNotification
+                      key={element._id}
+                      id={element._id}
+                      status={element.status}
+                      board={element.board?.name}
+                      sender={element.sender.email}
+                      senderid={element.sender._id}
+                      reciever={element.reciever}
+                      handleNotification={handleNotification}
+                      type={element.type}
+                      response={element.response}
+                      created={element.createdAt}
+                    />
+                  ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -15,7 +15,7 @@ const CardUserTeam: React.FC<PropsStatus> = ({ handleClose }) => {
 //actualizacion room//
 
 const {IdRoom} = useModalChat()
-  console.log(IdRoom)
+
 
   useEffect(() => {
     if (IdRoom) {

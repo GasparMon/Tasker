@@ -13,6 +13,11 @@ interface CreateBoard {
   setModal: () => void;
 }
 
+interface ModalAbout {
+  about: boolean;
+  setModalAbout: () => void;
+}
+
 interface CreateCard {
   createCard: boolean;
   id: string;
@@ -153,6 +158,17 @@ export const useModalBoard = create<CreateBoard>((set) => ({
       createBoard: !state.createBoard,
     })),
 }));
+
+
+export const useModalAbout = create<ModalAbout>((set) => ({
+  about: false,
+  setModalAbout: () =>
+    set((state) => ({
+      ...state,
+      about: !state.about,
+    })),
+}));
+
 
 export const useModalNotification = create<Notification>((set) => ({
   notification: false,

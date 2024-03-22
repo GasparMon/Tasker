@@ -60,10 +60,10 @@ interface Info {
     {toDo.length === 0 && inProgress.length === 0 && waiting.length === 0 && finished.length === 0 && archived.length === 0 ? (
       <div className="w-full h-[520px] flex flex-col items-center justify-center">
         <PiChartDonutDuotone className="text-[300px] text-slate-500" />
-        <h1 className="text-[30px] text-slate-500">You Don't have Task to Complete</h1>
+        <h1 className="text-[30px] text-slate-500">You Don't have Task</h1>
       </div>
     ) : (
-      <div className="w-full h-[520px] flex items-center justify-center">
+      <div className="w-full h-[620px] flex items-center justify-center">
         <Doughnut data={data} options={options} />
       </div>
     )}

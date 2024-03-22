@@ -4,6 +4,9 @@ import { RiSendBackward } from "react-icons/ri";
 import { getUser } from "../assets/controller/controller";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../assets/localStorage";
+import { FcAbout } from "react-icons/fc";
+import { useModalAbout } from "../assets/store/store";
+
 
 const NavBar: React.FC = () => {
   const { setItem } = useLocalStorage("value");
@@ -31,14 +34,18 @@ const NavBar: React.FC = () => {
     }
   };
 
+  const { setModalAbout } = useModalAbout()
+
   return (
     <div className="w-full h-[70px] flex absolute items-center justify-between bg-white backdrop-blur-sm">
-      <div className="h-full w-[250px] flex items-center px-[10px] ml-[70px] ">
-        <GrTasks className="text-[40px] text-teal-700" />
-        <h1 className="text-[40px] ml-[20px] font-bold">Tasker</h1>
+      <div className="h-full w-[250px] flex items-center px-[10px] ml-[70px] cursor-pointer"
+      onClick={() => (navigate("/"))}
+      >
+        <GrTasks className="text-[40px] text-teal-700 " />
+        <h1 className="text-[40px] ml-[20px] font-bold cursor-pointer">Tasker</h1>
       </div>
       <form
-        className="h-full w-[550px] flex items-center px-[10px] ml-[70px]"
+        className="h-full w-[570px] flex items-center px-[10px] ml-[70px]"
         onSubmit={handleSubmit}
       >
         <input
@@ -55,7 +62,13 @@ const NavBar: React.FC = () => {
         >
           <RiSendBackward className="text-[25px]" /> Try it
         </button>
+        <div className="h-full w-[100px] mx-[20px] flex items-center justify-center">
+        <FcAbout className="text-[50px] hover:text-[55px] ease-in duration-100 cursor-pointer"
+        onClick={() => setModalAbout()}
+        />
+      </div>
       </form>
+      
     </div>
   );
 };

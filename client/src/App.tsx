@@ -23,6 +23,9 @@ import { useEffect } from "react";
 import { useLocalStorage } from "./assets/localStorage";
 import { useModalGraph } from "./assets/store/store";
 import ModalGraph from "./components/Home/ModalGraph";
+import Loader from "./components/Loader";
+import About from "./components/About";
+import { useModalAbout } from "./assets/store/store";
 
 function App() {
   const location = useLocation();
@@ -84,6 +87,14 @@ function App() {
     shallow
   );
 
+  const { about } = useModalAbout(
+    (state) => ({
+      ...state,
+      about: state.about,
+    }),
+    shallow
+  );
+
   //location
 
   const { setLocation } = useLocalStorage("location");
@@ -101,12 +112,13 @@ function App() {
 
   return (
     <div className="relative w-screen h-screen min-w-[1150px] min-h-[600px] flex flex-col items-center overflow-hidden">
-      {location.pathname === "/" ? <NavBar /> : <NavHome />}
+      {location.pathname === "/"? <NavBar /> : <NavHome />}
       {/* {location.pathname === "/home" ? <Sidebar /> : null} */}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
         <Route path="/board/:id" element={<Board />} />
+        <Route path="/loader" element={<Loader />} />
         <Route path="*" element={<Unknow />} />
       </Routes>
 
@@ -118,6 +130,7 @@ function App() {
       {deleteBoard ? <ModalDeleteBoard /> : null}
       {chatRoom ? <ModalChat /> : null}
       {setGraph ? <ModalGraph/> : null}
+      {about ? <About/> : null}
     </div>
   );
 }
