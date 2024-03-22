@@ -10,8 +10,7 @@ import { useLocalStorage } from "../../assets/localStorage";
 import { CgClose } from "react-icons/cg";
 import { MdOutlineAddTask } from "react-icons/md";
 import Checkbox from "./CheckBox";
-import { useCheckBox, useModalChat } from "../../assets/store/store";
-import { shallow } from "zustand/shallow";
+import { useCheckBox} from "../../assets/store/store";
 // import { useSettingCard } from "../../assets/store/store";
 // import { shallow } from "zustand/shallow";
 
