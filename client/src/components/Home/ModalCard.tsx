@@ -180,7 +180,6 @@ const ModalCard: React.FC = () => {
           label: cardInfo.label,
           dueDate: cardInfo.dueDate,
           type: cardInfo.type,
-          // status: cardInfo.status,
           workers: workers,
         }),
         handleSocket()
