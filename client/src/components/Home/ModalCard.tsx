@@ -18,7 +18,7 @@ interface CardInfo {
   label: string;
   dueDate: string;
   type: string;
-  status: string;
+  status?: string;
   checklist: string;
   card_user: any;
   card_worker: any[];

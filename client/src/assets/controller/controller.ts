@@ -321,7 +321,6 @@ export const putCard = async ({
   label,
   dueDate,
   type,
-  status,
   workers,
 }: {
   card_id: string;
@@ -330,7 +329,6 @@ export const putCard = async ({
   label: string;
   dueDate: string;
   type: string;
-  status: string;
   workers: any[];
 }) => {
   try {
@@ -341,7 +339,6 @@ export const putCard = async ({
       label,
       dueDate,
       type,
-      status,
       workers,
     });
 
