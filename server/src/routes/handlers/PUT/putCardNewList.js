@@ -1,4 +1,8 @@
 "use strict";
+// import { Request, Response } from "express";
+// import List from "../../../database/models/List";
+// import mongoose from "mongoose";
+// import Card from "../../../database/models/Card";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,30 +17,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const List_1 = __importDefault(require("../../../database/models/List"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const Card_1 = __importDefault(require("../../../database/models/Card"));
+const Table_1 = __importDefault(require("../../../database/models/Table"));
 const putCardNewList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { card_id, current_List, new_List } = req.body;
-        const newList = yield List_1.default.findById(new_List);
-        const currentList = yield List_1.default.findById(current_List);
-        if (!newList || !currentList) {
-            return res.status(404).send("One or both lists not found");
+        const board = yield Table_1.default.findById(current_List).populate("table_Lists");
+        if (!board) {
+            return res.status(404).send("Board not found");
         }
-        if (newList.list_Cards.includes(card_id)) {
-            return res.status(400).send("Card already exists in the new list");
-        }
-        newList.list_Cards.push(card_id);
-        yield newList.save();
-        const userIdObjectId = new mongoose_1.default.Types.ObjectId(card_id);
-        currentList.list_Cards = currentList.list_Cards.filter((id) => !id.equals(userIdObjectId));
-        yield currentList.save();
-        const newCard = yield Card_1.default.findById(card_id);
-        if (newCard) {
-            newCard.status = newList.name;
-            newCard.save();
-        }
-        return res.status(200).json(newCard);
+        const promises = board.table_Lists.map((element) => __awaiter(void 0, void 0, void 0, function* () {
+            if (element._id.toString() === new_List) {
+                const newlist = yield List_1.default.findById(new_List);
+                if (!newlist) {
+                    throw new Error("New list not found");
+                }
+                newlist.list_Cards.push(card_id);
+                yield newlist.save();
+                const newCard = yield Card_1.default.findById(card_id);
+                if (!newCard) {
+                    throw new Error("Card not found");
+                }
+                newCard.status = newlist.name;
+                yield newCard.save();
+                return newCard;
+            }
+            else {
+                const newlist = yield List_1.default.findById(element._id);
+                if (!newlist) {
+                    throw new Error("List not found");
+                }
+                newlist.list_Cards = newlist.list_Cards.filter((id) => id.toString() !== card_id);
+                yield newlist.save();
+                return null;
+            }
+        }));
+        const newCards = yield Promise.all(promises);
+        return res.status(200).json(newCards.filter((card) => card !== null));
     }
     catch (error) {
         console.error(error);

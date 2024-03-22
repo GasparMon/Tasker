@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FaCheck } from "react-icons/fa";
-import { useModalCard, useSettingCard } from "../../assets/store/store";
+import { useModalCard, useModalChat, useSettingCard } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 import { useBoardState } from "../../assets/store/store";
 import {
@@ -26,10 +26,7 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
 
   //actualizacion room//
 
-  // const { socket, IdRoom} = useModalChat((state) => ({
-  //   ...state,
-  //   socket: state.socket,
-  // }),shallow);
+  const { IdRoom} = useModalChat()
 
 
   const { setModal } = useSettingCard();
@@ -104,7 +101,7 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
     setIsDisiable(true);
 
     const id = table_id;
-    const current_List = list_id;
+    // const current_List = list_id;
 
     try {
       const tabledata = await getTableList(id);
@@ -117,7 +114,7 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
 
           const data = await putCardNewList({
             card_id,
-            current_List,
+            current_List: IdRoom,
             new_List,
           });
 

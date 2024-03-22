@@ -16,7 +16,9 @@ const List_1 = __importDefault(require("../../../database/models/List"));
 const getCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const card_List = yield List_1.default.findById(id).populate("list_Cards");
+        const card_List = yield List_1.default.findById(id).populate({ path: "list_Cards", populate: {
+                path: "card_checklist"
+            } });
         return res.status(200).json(card_List === null || card_List === void 0 ? void 0 : card_List.list_Cards);
     }
     catch (error) {

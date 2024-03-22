@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CreateList from "./createList";
 import { getListCard } from "../../assets/controller/controller";
 import Card from "./Card";
-import { useSettingCard } from "../../assets/store/store";
+// import { useSettingCard } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useModalList } from "../../assets/store/store";
@@ -26,12 +26,12 @@ const List: React.FC<ListProps> = ({ id, name }) => {
 
   const [listCard, setListCard] = useState([] as any[]);
 
-  const { cardStatus } = useSettingCard(
-    (state) => ({
-      cardStatus: state.status,
-    }),
-    shallow
-  );
+  // const { cardStatus } = useSettingCard(
+  //   (state) => ({
+  //     cardStatus: state.status,
+  //   }),
+  //   shallow
+  // );
 
   const { setModalList } = useModalList();
 
@@ -45,7 +45,7 @@ const List: React.FC<ListProps> = ({ id, name }) => {
 
   useEffect(() => {
     fetchData();
-  }, [id, cardStatus]);
+  }, []);
 
   const handleFetch = () => {
     fetchData();
@@ -83,6 +83,11 @@ const List: React.FC<ListProps> = ({ id, name }) => {
                 key={element._id}
                 id={element._id}
                 title={element.title}
+                status={element.status}
+                card_worker={element.card_worker}
+                card_checklist={element.card_checklist}
+                dueDate={element.dueDate}
+                label={element.label}
                 list_id={id}
               />
             ))}
