@@ -30,11 +30,13 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
 
   //actualizacion room//
 
-  const { socket, IdRoom} = useModalChat((state) => ({
-    ...state,
-    socket: state.socket,
-  }),shallow);
-
+  // const { socket, IdRoom } = useModalChat(
+  //   (state) => ({
+  //     ...state,
+  //     socket: state.socket,
+  //   }),
+  //   shallow
+  // );
 
   const [checklist, setChecklist] = useState<any[]>([]);
   const [check, setCheck] = useState(true);
@@ -92,13 +94,13 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
     if (data) {
       fetchData();
       handleTask();
-      await socket.emit("change", IdRoom);
+     
     }
   };
 
   const updateSetting = async () => {
     fetchData();
-    await socket.emit("change", IdRoom);
+    
   };
 
   useEffect(() => {
@@ -118,7 +120,7 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
 
     if (data) {
       fetchData();
-      await socket.emit("change", IdRoom);
+      
     }
   };
 
@@ -141,7 +143,7 @@ const Checklist: React.FC<Propschecklist> = ({ title, card_id }) => {
               </h1>
             </div>
           ) : (
-            <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center">
+            <div className="w-full h-[30px] pl-[100px] mb-[10px] flex items-center ">
               <LuCheckSquare className="text-[15px] text-slate-700 " />
               <h1 className="text-[15px] text-slate-700 ml-[5px]">Progress</h1>
               <h1 className="text-[15px] text-slate-700 ml-[5px]">

@@ -25,6 +25,7 @@ interface CreateUser {
   setModalUser: (id: string) => void;
 }
 
+
 interface DeleteList {
   deleteList: boolean;
   listId: string;
@@ -45,6 +46,13 @@ interface Notification {
 interface SetBoard {
   id: string;
   setBoardFunction: (id: string) => void;
+}
+
+
+interface CreateGraph {
+  setGraph: boolean;
+  id: string;
+  setModalGraph: (id: string) => void;
 }
 
 interface List {
@@ -163,6 +171,18 @@ export const useModalUser = create<CreateUser>((set) => ({
       ...state,
       id: id,
       createUser: !state.createUser,
+    })),
+}));
+
+
+export const useModalGraph = create<CreateGraph>((set) => ({
+  setGraph: false,
+  id: "",
+  setModalGraph: (id) =>
+    set((state) => ({
+      ...state,
+      id: id,
+      setGraph: !state.setGraph,
     })),
 }));
 

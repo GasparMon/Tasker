@@ -180,7 +180,7 @@ const ModalCard: React.FC = () => {
           label: cardInfo.label,
           dueDate: cardInfo.dueDate,
           type: cardInfo.type,
-          status: cardInfo.status,
+          // status: cardInfo.status,
           workers: workers,
         }),
         handleSocket()
@@ -199,11 +199,11 @@ const ModalCard: React.FC = () => {
 
 
   return (
-    <div className="absolute w-full max-h-full min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
+    <div className="absolute w-full max-h-full h-[auto] min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
       {/* <ToastContainer autoClose={1000}
       theme="dark"
       /> */}
-      <div className="relative w-[920px] min-h-[650px] h-[87vh] bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
+       <div className="relative w-[920px] min-h-[87vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"
           onClick={() => handleClose()}
@@ -295,7 +295,7 @@ const ModalCard: React.FC = () => {
           ) : null}
         </div>
         {workers.length > 0 ? (
-          <div className="w-full h-[50px] mb-[15px] flex flex-col mt-[10px]">
+          <div className="w-full min-h-[50px] mb-[15px] flex flex-col mt-[10px]">
             <div className="w-full h-[50px] pl-[40px] flex items-center">
               <TbUserStar className="text-slate-800 text-[30px] mr-[20px] " />
               <h1 className="ml-[10px] text-[18px] text-slate-800 font-semibold">
@@ -365,7 +365,7 @@ const ModalCard: React.FC = () => {
           />
         </div>
         {cardInfo.checklist && (
-          <div className="mb-[25px]">
+          <div className="mb-[25px] min-h-[200px]">
             <Checklist title={cardInfo.checklist} card_id={cardHeader.id} />
           </div>
         )}

@@ -14,6 +14,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { io } from "socket.io-client";
 import { useLocalStorage } from "../../assets/localStorage";
 import { Slide, ToastContainer, toast } from "react-toastify";
+import { MdOutlineAutoGraph } from "react-icons/md";
+import { useModalGraph } from "../../assets/store/store";
+
 const URL = import.meta.env.VITE_URL_HOST;
 
 interface Board {
@@ -26,6 +29,7 @@ interface Board {
 
 const Board: React.FC = () => {
   const { setBoardFunction } = useBoardState();
+  const {setModalGraph} = useModalGraph();
   const { setModalUser } = useModalUser();
   const { id } = useParams();
   const { update } = useUpdate(
@@ -115,31 +119,6 @@ const Board: React.FC = () => {
     }
   }, [id, setRoom, user.id, user.email]);
 
-  // useEffect(() => {
-  //   if (socket) {
-  //     const receivedMessage = (message: any) => {
-  //       if (!chatRoom && message.author !== user.email) {
-  //         toast(`💬 ${message.author} : ${message.message}`, {
-  //           position: "bottom-right",
-  //           autoClose: 2000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: true,
-  //           theme: "dark",
-  //           progress: undefined,
-  //           transition: Slide,
-  //         });
-  //       }
-  //     };
-
-  //     socket.on("message", receivedMessage);
-
-  //     return () => {
-  //       socket.off("message", receivedMessage);
-  //     };
-  //   }
-  // }, [socket, chatRoom, user.email]);
 
   useEffect(() => {
     const receivedMessage = (message: any) => {
@@ -257,7 +236,12 @@ const Board: React.FC = () => {
               onClick={() => setOpenRoom()}
             />
           </div>
-          <div className="w-full h-full"></div>
+          <div className="w-full h-full items-center justify-center flex">
+          <MdOutlineAutoGraph
+          className="text-[35px] text-white cursor-pointer hover:text-[37px]"
+          onClick={() => setModalGraph(board.id)}
+          />
+          </div>
         </div>
       </div>
       <div className="w-full h-[85%] grid grid-cols-5 grid-rows-1 px-[10px]">

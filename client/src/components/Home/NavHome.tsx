@@ -93,7 +93,7 @@ const NavHome: React.FC = () => {
         >
           <IoNotifications className="text-[40px] text-slate-700 cursor-pointer" />
           {total > 0 ? (
-            <div className="absolute h-[22px] w-[22px] bg-red-600 rounded-[20px] top-[3px] right-2 items-center justify-center flex">
+            <div className="absolute h-[22px] w-[22px] bg-red-600 rounded-[20px] top-[12px] right-1 items-center justify-center flex">
               <h1 className="text-white font-semibold text-[14px]">{total}</h1>
             </div>
           ) : null}

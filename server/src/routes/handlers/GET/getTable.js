@@ -17,7 +17,9 @@ const getIdTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { id } = req.params;
         const table = yield Table_1.default.findById(id)
-            .populate("table_Lists")
+            .populate({ path: "table_Lists", populate: {
+                path: 'list_Cards'
+            } })
             .populate("table_Team");
         return res.status(200).json(table);
     }

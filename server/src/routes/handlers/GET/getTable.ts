@@ -6,7 +6,9 @@ const getIdTable = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const table = await Table.findById(id)
-      .populate("table_Lists")
+      .populate({path: "table_Lists", populate: {
+        path: 'list_Cards'
+      }})
       .populate("table_Team");
 
     return res.status(200).json(table);

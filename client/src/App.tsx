@@ -21,6 +21,8 @@ import ModalChat from "./components/Home/ModalChat";
 import Unknow from "./components/404";
 import { useEffect } from "react";
 import { useLocalStorage } from "./assets/localStorage";
+import { useModalGraph } from "./assets/store/store";
+import ModalGraph from "./components/Home/ModalGraph";
 
 function App() {
   const location = useLocation();
@@ -69,6 +71,11 @@ function App() {
     shallow
   );
 
+  const {setGraph} = useModalGraph((state) => ({
+    ...state,
+    setGraph: state.setGraph
+  }))
+
   const { chatRoom } = useModalChat(
     (state) => ({
       ...state,
@@ -110,6 +117,7 @@ function App() {
       {deleteList ? <ModalList /> : null}
       {deleteBoard ? <ModalDeleteBoard /> : null}
       {chatRoom ? <ModalChat /> : null}
+      {setGraph ? <ModalGraph/> : null}
     </div>
   );
 }

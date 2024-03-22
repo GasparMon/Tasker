@@ -93,14 +93,14 @@ const CreateBoard: React.FC<Board> = ({ id, handleFetch, table_list }) => {
     <>
       {option ? (
         <div
-          className="w-[270px] h-[60px] bg-white/30 hover:bg-white/40 rounded-[10px] cursor-pointer flex items-center justify-center"
+          className="w-full h-[60px] bg-white/30 hover:bg-white/40 rounded-[10px] cursor-pointer flex items-center justify-center"
           onClick={() => handleOption()}
         >
           <MdPlaylistAdd className="text-white text-[30px]" />
           <h1 className="ml-[10px] text-white text-[20px]">Create new List</h1>
         </div>
       ) : (
-        <div className="w-[270px] h-[120px] bg-gray-100  rounded-[10px] flex flex-col justify-center overflow-hidden">
+        <div className="w-full h-[120px] bg-gray-100  rounded-[10px] flex flex-col justify-center overflow-hidden">
           <div className="w-full h-[70px] flex items-center justify-center">
             <select
               className="w-[80%] h-[40px] rounded-[10px] pl-[15px] border-2"

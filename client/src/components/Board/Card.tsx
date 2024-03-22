@@ -6,7 +6,6 @@ import { getCard } from "../../assets/controller/controller";
 import { TbAlertSquareFilled } from "react-icons/tb";
 import { LuCalendarClock } from "react-icons/lu";
 import { LuCheckSquare } from "react-icons/lu";
-import { useCheckBox } from "../../assets/store/store";
 import { TbUserShare } from "react-icons/tb";
 import { shallow } from "zustand/shallow";
 
@@ -66,12 +65,12 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
     updatedAt: "",
   });
 
-  const { status } = useCheckBox(
-    (state) => ({
-      status: state.status,
-    }),
-    shallow
-  );
+  // const { status } = useCheckBox(
+  //   (state) => ({
+  //     status: state.status,
+  //   }),
+  //   shallow
+  // );
 
   const [done, setDone] = useState(0);
 
@@ -85,18 +84,12 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
     }
   }, []);
 
-  const fetchData = async () => {
-    const data = await getCard(id);
+  
 
-    if (data) {
-      setCardInfo(data);
-    }
-  };
-
-  useEffect(() => {
+  // useEffect(() => {
     
-    fetchData();
-  }, [status]);
+  //   fetchData();
+  // }, [status]);
 
   useEffect(() => {
     const count = cardInfo.card_checklist.filter(
@@ -107,6 +100,14 @@ const Card: React.FC<PropsCard> = ({ id, title, list_id }) => {
   }, [cardInfo]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const data = await getCard(id);
+  
+      if (data) {
+        setCardInfo(data);
+      }
+    };
+
     if (Object.keys(socket).length > 0) {
       socket.on("change", fetchData);
     }

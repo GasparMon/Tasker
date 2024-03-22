@@ -14,30 +14,32 @@ interface ListProps {
 }
 
 const List: React.FC<ListProps> = ({ id, name }) => {
+  //actualizacion room//
 
-    //actualizacion room//
-
-    const { socket} = useModalChat((state) => ({
+  const { socket } = useModalChat(
+    (state) => ({
       ...state,
       socket: state.socket,
-    }),shallow);
+    }),
+    shallow
+  );
 
- 
   const [listCard, setListCard] = useState([] as any[]);
 
-  const {cardStatus} = useSettingCard((state) => ({
-    cardStatus: state.status
-  }), shallow)
+  const { cardStatus } = useSettingCard(
+    (state) => ({
+      cardStatus: state.status,
+    }),
+    shallow
+  );
 
-  const {setModalList} = useModalList();
+  const { setModalList } = useModalList();
 
   const fetchData = async () => {
-    
     const data = await getListCard(id);
-    
+
     if (data) {
       setListCard(data);
-      
     }
   };
 
@@ -46,9 +48,8 @@ const List: React.FC<ListProps> = ({ id, name }) => {
   }, [id, cardStatus]);
 
   const handleFetch = () => {
-
     fetchData();
-  }
+  };
 
   useEffect(() => {
     if (Object.keys(socket).length > 0) {
@@ -59,29 +60,34 @@ const List: React.FC<ListProps> = ({ id, name }) => {
   return (
     <div className="w-full h-full pt-[10px]">
       <div className=" relative w-[95%] h-[auto] bg-gray-200  rounded-[10px] flex flex-col overflow-hidden">
-      <HiDotsHorizontal
+        <HiDotsHorizontal
           className="absolute top-2 right-2 cursor-pointer text-slate-600 hover:text-black w-[20px] h-[20px] rounded-[20px] hover:bg-gray-300"
           onClick={() => setModalList(id)}
         />
         <div className=" w-full h-[50px] pl-[20px] flex flex-col justify-center text-[18px] font-normal text-slate-900">
-        {name}
-        <div className={`w-[120px] mt-[3px] h-[10px] rounded-[10px]
+          {name}
+          <div
+            className={`w-[120px] mt-[3px] h-[10px] rounded-[10px]
        ${name === "ToDo" && "bg-emerald-500"}
        ${name === "InProgress" && "bg-yellow-400"}
        ${name === "Waiting" && "bg-orange-400"}
        ${name === "Finished" && "bg-sky-500 "}
        ${name === "Archived" && "bg-slate-400"}
-      `}>
-     
-        </div>
+      `}
+          ></div>
         </div>
         <div className="overflow-auto max-h-[60vh] ">
-        {listCard &&
-          listCard.map((element) => (
-            <Card key={element._id} id={element._id} title={element.title} list_id={id} />
-          ))}
-          </div>
-        <CreateList id={id} handleFetch={handleFetch} name={name}/>
+          {listCard &&
+            listCard.map((element) => (
+              <Card
+                key={element._id}
+                id={element._id}
+                title={element.title}
+                list_id={id}
+              />
+            ))}
+        </div>
+        <CreateList id={id} handleFetch={handleFetch} name={name} />
       </div>
     </div>
   );
