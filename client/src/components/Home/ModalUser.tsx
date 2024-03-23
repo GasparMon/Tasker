@@ -101,7 +101,7 @@ const ModalUser: React.FC = () => {
   };
 
   const isEmailAlreadyExists = userTeam.some((member) => member.email === inputValue);
-  const isAllMembers = userPending.length === 7
+  const isAllMembers = userPending.length + userTeam.length === 7
 
 
 
@@ -142,7 +142,7 @@ const ModalUser: React.FC = () => {
               Current Team{" "}
             </h1>
             <h1 className="text-slate-400 font-normal ml-[5px]">
-            {`${userPending.length + 1}/8`}
+            {`${userPending.length + userTeam.length + 1}/8`}
             </h1>
           </div>
 
@@ -159,7 +159,7 @@ const ModalUser: React.FC = () => {
                 owner= {owner}
               />
             ))}
-          {userPending &&
+          {userPending.length > 0 &&
             userPending.map((element, index) => (
               <CardUser
                 key={element._id}
