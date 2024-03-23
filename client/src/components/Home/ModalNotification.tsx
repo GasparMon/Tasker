@@ -85,7 +85,7 @@ const ModalNotification: React.FC = () => {
 
         if (finaldata) {
           if (Object.keys(socket).length > 0) {
-            console.log(socket)
+        
             await socket.emit("alertTwo", sender_id);
           }
 
