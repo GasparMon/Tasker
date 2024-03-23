@@ -34,15 +34,15 @@ interface Header {
 }
 
 const ModalCard: React.FC = () => {
+  //actualizacion room//
 
-      //actualizacion room//
-
-      const { socket, IdRoom} = useModalChat((state) => ({
-        ...state,
-        socket: state.socket,
-      }),shallow);
-
-      
+  const { socket, IdRoom } = useModalChat(
+    (state) => ({
+      ...state,
+      socket: state.socket,
+    }),
+    shallow
+  );
 
   const [addDescription, setAddDescription] = useState(false);
   const [cardHeader, setHeader] = useState<Header>({
@@ -165,13 +165,8 @@ const ModalCard: React.FC = () => {
   };
 
   const handleSocket = async () => {
-
     await socket.emit("change", IdRoom);
-
-    setModal(id);
-    resetModal();
-  }
-
+  };
 
   const handleSave = async () => {
     try {
@@ -185,28 +180,25 @@ const ModalCard: React.FC = () => {
           type: cardInfo.type,
           workers: workers,
         }),
-        handleSocket()
-        
+        handleSocket(),
       ]);
-  
+
       toast.success("Card has been Updated 👍", {
         theme: "dark",
-        autoClose: 1500
+        autoClose: 1500,
       });
     } catch (error) {
       toast.error("Error creating your Board");
       console.error("Error:", error);
     }
   };
-  
-
 
   return (
     <div className="absolute w-full max-h-full h-[auto] min-h-full  bg-black/70 flex justify-center ease-in duration-200 z-50 overflow-auto">
       {/* <ToastContainer autoClose={1000}
       theme="dark"
       /> */}
-       <div className="relative w-[920px] min-h-[700px] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
+      <div className="relative w-[920px] min-h-[700px] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"
           onClick={() => handleClose()}
