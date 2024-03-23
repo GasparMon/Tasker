@@ -101,7 +101,8 @@ const CardStatus: React.FC<PropsStatus> = ({ handleClose }) => {
     setIsDisiable(true);
 
     const id = table_id;
-    // const current_List = list_id;
+    const current = list_id;
+    current
 
     try {
       const tabledata = await getTableList(id);
