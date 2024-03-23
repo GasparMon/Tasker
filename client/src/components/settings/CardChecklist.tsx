@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { useSettingCard } from "../../assets/store/store";
 import { shallow } from "zustand/shallow";
@@ -14,6 +14,7 @@ interface Checklist {
 }
 
 const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { setModal } = useSettingCard();
   const { CardChecklist } = useSettingCard(
@@ -28,7 +29,6 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
     }));
   }, [CardChecklist]);
 
-
   const [checklist, setChecklist] = useState<Checklist>({
     checklist: "",
   });
@@ -39,28 +39,25 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
   };
 
   const handleChecklist = async () => {
+    const inputValue = inputRef.current?.value || "";
     const data = await putCardChecklist({
-      checklist: checklist.checklist,
+      checklist: inputValue,
       card_id: card_id,
     });
 
     if (data) {
-
-      setModal("checklist", checklist.checklist);
+      setModal("checklist", inputValue);
       handleClose("checklist");
-      
     }
   };
 
   const isDisable = () => {
-
-    if(checklist.checklist?.length < 3 || checklist.checklist === undefined) {
-
-      return true
+    if (checklist.checklist?.length < 3 || checklist.checklist === undefined) {
+      return true;
     }
 
-    return false
-  }
+    return false;
+  };
 
   return (
     <div className="absolute w-[300px] h-[150px] bg-white top-[298px] right-[-92px] border-gray-100 rounded-[10px] border-[1px] shadow-sm shadow-black/10">
@@ -75,6 +72,7 @@ const CardChecklist: React.FC<PropsStatus> = ({ handleClose, card_id }) => {
       </div>
       <div className="w-full h-[230px] grid grid-rows-5 gap-[4px] py-[8px] mt-[5px] items-center justify-center">
         <input
+          ref={inputRef}
           className="text-[16px] w-[250px] bg-gray-100 h-[40px] border-[2px] border-sky-500 rounded-[10px] font-normal pl-[10px] focus:border-blue-700 focus:bg-white"
           value={checklist.checklist}
           placeholder="Checklist Title"

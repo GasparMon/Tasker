@@ -328,10 +328,10 @@ export const useModalChat = create<ChatRoom>((set) => ({
   email: "",
   socket: {},
   setOpenRoom: () =>
-  set((state) => ({
-    ...state,
-    chatRoom: !state.chatRoom,
-  })),
+    set((state) => ({
+      ...state,
+      chatRoom: !state.chatRoom,
+    })),
   setRoom: ({ socket, userId, IdRoom, email }) =>
     set((state) => ({
       ...state,

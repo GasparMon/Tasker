@@ -25,11 +25,15 @@ interface Board {
   image: string;
   table_List: any[];
   table_Team: any[];
+  owner: {
+    email: string;
+    _id: string;
+  };
 }
 
 const Board: React.FC = () => {
   const { setBoardFunction } = useBoardState();
-  const {setModalGraph} = useModalGraph();
+  const { setModalGraph } = useModalGraph();
   const { setModalUser } = useModalUser();
   const { id } = useParams();
   const { update } = useUpdate(
@@ -45,6 +49,10 @@ const Board: React.FC = () => {
     image: "",
     table_List: [],
     table_Team: [],
+    owner: {
+      email: "",
+      _id: "",
+    },
   });
 
   const navigate = useNavigate();
@@ -61,6 +69,7 @@ const Board: React.FC = () => {
           image: data.image,
           table_List: data.table_Lists,
           table_Team: data.table_Team,
+          owner: data.owner,
         });
       }
     }
@@ -74,35 +83,28 @@ const Board: React.FC = () => {
     }
   }, [id, update]);
 
-
-
   const handleFetch = () => {
     fetchBoard();
   };
 
   //Chat con Socket IO
 
-  const { socket, setOpenRoom } = useModalChat(
+  const { chatRoom, setRoom, socket, setOpenRoom } = useModalChat(
     (state) => ({
       ...state,
+      chatRoom: state.chatRoom,
       socket: state.socket,
     }),
     shallow
   );
 
-  const { chatRoom, setRoom } = useModalChat(
-    (state) => ({
-      ...state,
-      chatRoom: state.chatRoom,
-    }),
-    shallow
-  );
+  const [chatss, setChatss] = useState(false);
 
   const { getItem } = useLocalStorage("value");
   const user = getItem();
 
   useEffect(() => {
-    if (id) {
+    if (id && user.id && user.email) {
       const socket = io(URL);
       setRoom({
         socket: socket,
@@ -117,12 +119,17 @@ const Board: React.FC = () => {
         socket.disconnect(); // Asegúrate de desconectar el socket cuando el componente se desmonte
       };
     }
-  }, [id, setRoom, user.id, user.email]);
-
+  }, [id, user.id, user.email]);
 
   useEffect(() => {
-    const receivedMessage = (message: any) => {
-      if (!chatRoom && message.author !== user.email) {
+    setChatss(!chatss);
+  }, [chatRoom]);
+
+  useEffect(() => {
+    
+    const chatMessage = (message: any) => {
+     
+      if (message.author !== user.email ) {
         toast(`💬 ${message.author} : ${message.message}`, {
           position: "bottom-right",
           autoClose: 2000,
@@ -136,87 +143,68 @@ const Board: React.FC = () => {
       }
     };
 
-    if (!chatRoom && Object.keys(socket).length > 0) {
-      socket.on("message", receivedMessage);
-
-      return () => {
-        socket.off("message", receivedMessage);
-      };
+    if (Object.keys(socket).length > 0) {
+      socket.on("message", chatMessage);
     }
-  }, [chatRoom, user.email]);
+
+  }, [socket]);
 
   const { setUpdate } = useUpdate();
 
-  useEffect(() => {
-    const receivedMessage = (mail: any) => {
-      if (mail === user.email) {
-        toast(`📬  You have a new message`, {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          theme: "dark",
-          transition: Slide,
-        });
+  const responseMessage = (id: any) => {
+    if (id === user.id) {
+      toast(`📬  You have a new message`, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
+        transition: Slide,
+      });
 
-        setUpdate();
-      }
-    };
-
-    if (Object.keys(socket).length > 0) {
-      socket.on("alert", receivedMessage);
-
-      return () => {
-        socket.off("alert", receivedMessage);
-      };
+      setUpdate();
     }
-  }, [socket, user.email]);
+  };
 
-  useEffect(() => {
-    const receivedMessage = (mail: any) => {
-      if (mail === user.id) {
-        toast(`📬  You have a new message`, {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          theme: "dark",
-          transition: Slide,
-        });
+  const receivedMessage = (mail: any) => {
 
-        setUpdate();
-      }
-    };
+    if (mail === user.email) {
+      toast(`📬  You have a new message`, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
+        transition: Slide,
+      });
 
-    if (Object.keys(socket).length > 0) {
-      socket.on("alertTwo", receivedMessage);
-
-      return () => {
-        socket.off("alertTwo", receivedMessage);
-      };
+      setUpdate();
     }
-  }, [socket, user.email]);
-
+  };
 
   ///
 
   useEffect(() => {
+
     if (Object.keys(socket).length > 0) {
       socket.on("change", fetchBoard);
+      socket.on("alert", receivedMessage);
+      socket.on("alertTwo", responseMessage);
     }
   }, [socket]);
-
 
   return (
     <div
       className="w-full h-full flex flex-col"
       style={{ background: `var(--${board.image})` }}
     >
-      {chatRoom ? null : <ToastContainer />}
+      {!chatRoom ? (<ToastContainer />) :null}
+      
+      
 
       <div className="w-full p-[5px] h-[70px] flex items-center justify-between backdrop-filter backdrop-blur-sm bg-black bg-opacity-10">
         <div className="w-[600px] h-full flex items-center  ml-[70px]">
@@ -237,10 +225,10 @@ const Board: React.FC = () => {
             />
           </div>
           <div className="w-full h-full items-center justify-center flex">
-          <MdOutlineAutoGraph
-          className="text-[35px] text-white cursor-pointer hover:text-[37px]"
-          onClick={() => setModalGraph(board.id)}
-          />
+            <MdOutlineAutoGraph
+              className="text-[35px] text-white cursor-pointer hover:text-[37px]"
+              onClick={() => setModalGraph(board.id)}
+            />
           </div>
         </div>
       </div>

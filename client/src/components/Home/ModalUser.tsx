@@ -77,6 +77,7 @@ const ModalUser: React.FC = () => {
       });
 
       if (response) {
+
         await socket.emit("alert", inputValue);
         setInputValue("");
       }

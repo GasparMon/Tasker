@@ -9,7 +9,7 @@ const getIdTable = async (req: Request, res: Response) => {
       .populate({path: "table_Lists", populate: {
         path: 'list_Cards'
       }})
-      .populate("table_Team");
+      .populate("table_Team").populate("owner");
 
     return res.status(200).json(table);
   } catch (error) {

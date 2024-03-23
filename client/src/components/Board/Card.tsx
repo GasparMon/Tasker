@@ -40,7 +40,7 @@ const Card: React.FC<PropsCard> = ({
   }, []);
 
   useEffect(() => {
-    console.log(card_checklist);
+
     const count = card_checklist.filter(
       (item) => item.status === "Done"
     ).length;

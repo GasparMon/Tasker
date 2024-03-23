@@ -45,6 +45,13 @@
 
 // export default putCardNewList;
 
+import { Request, Response } from "express";
+import List from "../../../database/models/List";
+import mongoose from "mongoose";
+import Card from "../../../database/models/Card";
+import addNewUserBoard from "../ADD/addNewUserBoard";
+import Table from "../../../database/models/Table";
+
 const putCardNewList = async (req: Request, res: Response) => {
   try {
     const { card_id, current_List, new_List } = req.body;
@@ -55,26 +62,14 @@ const putCardNewList = async (req: Request, res: Response) => {
       return res.status(404).send("Board not found");
     }
 
-    const newListIndex = board.table_Lists.findIndex(
-      (element) => element._id.toString() === new_List
-    );
-
-    if (newListIndex === -1) {
-      return res.status(404).send("New list not found");
-    }
-
-    const newlist = await List.findById(new_List);
-
-    if (!newlist) {
-      return res.status(404).send("New list not found");
-    }
-
-    if (newlist.list_Cards.includes(card_id)) {
-      return res.status(400).send("Card already exists in the new list");
-    }
-
     const promises = board.table_Lists.map(async (element) => {
       if (element._id.toString() === new_List) {
+        const newlist = await List.findById(new_List);
+
+        if (!newlist) {
+          throw new Error("New list not found");
+        }
+
         newlist.list_Cards.push(card_id);
         await newlist.save();
 
@@ -89,16 +84,16 @@ const putCardNewList = async (req: Request, res: Response) => {
 
         return newCard;
       } else {
-        const list = await List.findById(element._id);
+        const newlist = await List.findById(element._id);
 
-        if (!list) {
+        if (!newlist) {
           throw new Error("List not found");
         }
 
-        list.list_Cards = list.list_Cards.filter(
+        newlist.list_Cards = newlist.list_Cards.filter(
           (id) => id.toString() !== card_id
         );
-        await list.save();
+        await newlist.save();
 
         return null;
       }

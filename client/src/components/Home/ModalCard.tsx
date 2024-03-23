@@ -167,6 +167,9 @@ const ModalCard: React.FC = () => {
   const handleSocket = async () => {
 
     await socket.emit("change", IdRoom);
+
+    setModal(id);
+    resetModal();
   }
 
 
@@ -183,6 +186,7 @@ const ModalCard: React.FC = () => {
           workers: workers,
         }),
         handleSocket()
+        
       ]);
   
       toast.success("Card has been Updated 👍", {
@@ -202,7 +206,7 @@ const ModalCard: React.FC = () => {
       {/* <ToastContainer autoClose={1000}
       theme="dark"
       /> */}
-       <div className="relative w-[920px] min-h-[87vh] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
+       <div className="relative w-[920px] min-h-[700px] h-full bg-white rounded-[10px] flex flex-col mt-[40px] mb-[50px] ">
         <div
           className="absolute top-[10px] right-[20px] rounded-[5px] group hover:bg-gray-100 w-[35px] h-[35px] flex items-center justify-center z-20"
           onClick={() => handleClose()}

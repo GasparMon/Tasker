@@ -84,7 +84,11 @@ const ModalNotification: React.FC = () => {
         });
 
         if (finaldata) {
-          await socket.emit("alertTwo", sender_id);
+          if (Object.keys(socket).length > 0) {
+            console.log(socket)
+            await socket.emit("alertTwo", sender_id);
+          }
+
           fetchData();
           setUpdate();
         }
@@ -97,8 +101,10 @@ const ModalNotification: React.FC = () => {
       });
 
       if (finaldata) {
-        await socket.emit("alertTwo", sender_id);
         fetchData();
+        if (Object.keys(socket).length > 0) {
+          await socket.emit("alertTwo", sender_id);
+        }
       }
     }
   };
