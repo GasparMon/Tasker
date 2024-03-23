@@ -58,10 +58,10 @@ const Board: React.FC = () => {
   const navigate = useNavigate();
 
   const fetchBoard = async () => {
-    console.log(id)
+  
     if (id) {
       const data = await GetIdBoard(id);
-      console.log(data)
+    
       if (data?.response?.status && data?.response?.status === 500) {
         navigate("/home");
       } else if (data) {
@@ -193,7 +193,7 @@ const Board: React.FC = () => {
   useEffect(() => {
 
     if (Object.keys(socket).length > 0) {
-      console.log("Holaaa")
+   
       socket.on("change", fetchBoard);
       socket.on("alert", receivedMessage);
       socket.on("alertTwo", responseMessage);

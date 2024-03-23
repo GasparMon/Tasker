@@ -8,7 +8,7 @@ interface UrgentCard {
 }
 const WorkingCard: React.FC<UrgentCard> = ({ title, status, dueDate}) => {
   return (
-    <div className="relative w-full h-[50px] flex justify-center items-center px-[20px]">
+    <div className="relative w-full h-[50px] flex justify-center items-center px-[20px] ">
     <div className="w-[170px] h-[30px] rounded-[5px] flex items-center justify-center shadow-sm bg-gray-400 shadow-black/20  mr-[20px] px-[10px]">
       <div className="h-full w-[30px] flex items-center justify-center">
         <PiCardsBold className="text-[20px] mr-[10px] text-slate-800" />

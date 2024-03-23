@@ -95,7 +95,7 @@ const Graph: React.FC<Info> = ({ tableInfo }) => {
             </div>
           ) : null}
           {working && working.length > 0 ? (
-            <div className="w-full min-h-[50px] bg-gray-200  border-[1px] border-gray-100 rounded-[10px] shadow-lg shadow-black/20">
+            <div className="w-full min-h-[50px] bg-gray-200  border-[1px] border-gray-100 rounded-[10px] shadow-lg shadow-black/20 mb-[20px]" >
               <div className="w-full h-[45px] flex items-center justify-center">
                 <RiTimerFlashLine className="text-[35px] text-slate-700 mr-[15px]" />
                 <h1 className="text-[25px] text-slate-700">Timed Tasks</h1>
